@@ -10,11 +10,6 @@ class UserCreate extends Command
     protected $signature = 'user:create {email} {password?}';
     protected $description = 'create user quickly';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function handle()
     {
         $auth = new AuthController();

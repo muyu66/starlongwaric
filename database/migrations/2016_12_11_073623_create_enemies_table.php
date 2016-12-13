@@ -21,6 +21,7 @@ class CreateEnemiesTable extends Migration
             $table->integer('plenet_id');
             $table->integer('gold');
             $table->integer('fuel');
+            $table->integer('power');
             $table->timestamps();
         });
     }

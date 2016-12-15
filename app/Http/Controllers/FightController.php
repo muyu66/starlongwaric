@@ -2,27 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Enemy;
 
 class FightController extends Controller
 {
-    public function getEnemy($power)
+    private function randomEnemy($power)
     {
-        
+        return Enemy::whereBetween('power', [$power * 0.5, $power * 1.5])
+            ->get()
+            ->random();
     }
 
     public function postEnemy($enemy_id)
     {
-        
+
     }
 
     private function booty()
     {
-        
+
     }
 
     private function calc()
     {
-        
+
     }
 }

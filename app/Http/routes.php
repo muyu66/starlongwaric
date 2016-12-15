@@ -2,4 +2,6 @@
 
 Route::controller('auth', 'AuthController');
 
-Route::controller('fleet', 'FleetController');
+Route::resource('fleet', 'FleetController');
+Route::controller('fleet_power', 'FleetPowerController');
+Route::controller('fight', 'FightController');

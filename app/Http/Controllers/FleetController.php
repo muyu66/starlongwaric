@@ -13,6 +13,37 @@ use Exception;
 
 class FleetController extends Controller
 {
+    public function index()
+    {
+        $power = new FleetPowerController();
+
+        $models = Fleet::getByUserId($this->user_id);
+        foreach ($models as $model) {
+            $model->power = $power->power($model->id);
+        }
+        return $models;
+    }
+
+    public function show($id)
+    {
+        $power = new FleetPowerController();
+
+        $model = Fleet::findOrFailByUserId($id, $this->user_id);
+        $model->power = $power->power($model->id);
+        return $model;
+    }
+
+    public function store(Request $request)
+    {
+        $name = $request->input('name');
+
+        $this->valid($request);
+
+        $fleet = $this->createFleet($name);
+        $this->createFleetBody($fleet->id);
+        $this->createFleetTech($fleet->id);
+    }
+
     private function valid(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -22,17 +53,6 @@ class FleetController extends Controller
         if ($validator->fails()) {
             throw new Exception($validator->messages());
         }
-    }
-
-    public function postAdd(Request $request)
-    {
-        $name = $request->input('name');
-
-        $this->valid($request);
-
-        $fleet = $this->createFleet($name);
-        $this->createFleetBody($fleet->id);
-        $this->createFleetTech($fleet->id);
     }
 
     private function createFleet($name)
@@ -72,16 +92,5 @@ class FleetController extends Controller
             $body->level = 0;
             $body->save();
         }
-    }
-
-    public function getInfo()
-    {
-        $fleets = Fleet::get();
-        return $fleets->merge($this->getPower());
-    }
-
-    private function getPower()
-    {
-        return ['power' => 1111];
     }
 }

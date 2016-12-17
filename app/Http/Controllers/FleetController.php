@@ -24,13 +24,13 @@ class FleetController extends Controller
         return $models;
     }
 
-    public function show($id)
+    public function show($fleet_id)
     {
         $power = new FleetPowerController();
 
-        $model = Fleet::findOrFailByUserId($id, $this->user_id);
+        $model = Fleet::findOrFailByUserId($fleet_id, $this->user_id);
         $model->power = $power->power($model->id);
-        return $model;
+        return $model->first();
     }
 
     public function store(Request $request)

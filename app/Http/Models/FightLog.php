@@ -7,4 +7,7 @@ use \Eloquent;
 class FightLog extends Eloquent
 {
     protected $table = 'fight_logs';
+    protected $casts = [
+        'booty' => 'Array',
+    ];
 }

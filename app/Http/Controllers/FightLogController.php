@@ -7,8 +7,24 @@ use Illuminate\Http\Request;
 
 class FightLogController extends Controller
 {
-    public function getLog($fleet_id)
+    public function index()
     {
-        return FightLog::where('fleet_id', $fleet_id)->get();
+        return FightLog::get();
+    }
+
+    public function show($id)
+    {
+        return FightLog::where('id', $id)->get();
+    }
+
+    public function record($my, $enemy, $result, Array $booty)
+    {
+        $model = new FightLog();
+        $model->my_id = $my->id;
+        $model->enemy_id = $enemy->id;
+        $model->my_power = $my->power;
+        $model->enemy_power = $enemy->power;
+        $model->result = $result;
+        $model->booty = $booty;
     }
 }

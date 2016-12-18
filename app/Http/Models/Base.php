@@ -10,4 +10,9 @@ class Base extends Eloquent
     {
         return static::where('fleet_id', $fleet_id)->with($with)->get();
     }
+
+    public static function self($fleet_id)
+    {
+        return static::where('fleet_id', $fleet_id);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Schedules;
 
+use App\Models\Config;
 use App\Models\Enemy;
 use Faker\Factory;
 use Illuminate\Console\Command;
@@ -15,7 +16,7 @@ class EnemyGenerate extends Command
     {
         $faker = Factory::create('zh_CN');
 
-        $amount = $this->argument('amount') ? : g_loadDbConfig('enemy_generate_amount');
+        $amount = $this->argument('amount') ? : Config::getDb('enemy_generate_amount');
         for ($i = 0; $i < $amount; $i++) {
             $model = new Enemy();
             $model->rank_id = rand(1, 10);

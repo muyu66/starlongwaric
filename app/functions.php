@@ -15,11 +15,6 @@ function g_isDebug()
     return env('APP_DEBUG');
 }
 
-function g_loadDbConfig($key)
-{
-    return \App\Models\Config::where('key', $key)->first()->value;
-}
-
 /**
  * @description 数组生成器
  * @param $count

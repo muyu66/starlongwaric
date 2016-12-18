@@ -1,8 +1,11 @@
 <?php
 
 return [
+    // 配置区
     'enemy_generate_amount' => 100,
+    'tech_limit' => 10,
 
+    // 数据区
     'fleetBodyWidget' => [
         [
             'name' => '舰体',

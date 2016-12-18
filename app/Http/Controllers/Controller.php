@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fleet;
 use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -14,9 +15,12 @@ abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    protected $except;
+
     protected $user;
     protected $user_id;
-    protected $except;
+    protected $fleet;
+    protected $fleet_id;
 
     public function __construct()
     {
@@ -29,6 +33,9 @@ abstract class Controller extends BaseController
 
         if ($this->user) {
             $this->user_id = $this->user->id;
+            $this->fleet = Fleet::where('user_id', $this->user_id)
+                ->find(Request::input('fleet_id'));
+            $this->fleet_id = $this->fleet ? $this->fleet->id : '';
         }
     }
 }

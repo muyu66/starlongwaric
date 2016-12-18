@@ -33,20 +33,20 @@ class FleetController extends Controller
         return $model->first();
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $name = null)
     {
-        $name = $request->input('name');
+        $name = $request->input('name') ? : $name;
 
-        $this->valid($request);
+        $this->valid($request->all() ? : ['name' => $name]);
 
         $fleet = $this->createFleet($name);
         $this->createFleetBody($fleet->id);
         $this->createFleetTech($fleet->id);
     }
 
-    private function valid(Request $request)
+    private function valid($array)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($array, [
             'name' => 'required',
         ]);
 

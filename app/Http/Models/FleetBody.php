@@ -17,4 +17,9 @@ class FleetBody extends Base
     {
         return $this->hasOne(FleetBodyWidget::class, 'id', 'widget_id');
     }
+
+    public static function self($fleet_id)
+    {
+        return static::where('fleet_id', $fleet_id);
+    }
 }

@@ -34,9 +34,14 @@ class AuthController extends Controller
         }
     }
 
-    public function getTest()
+    public function getUser()
     {
         return Auth::user();
+    }
+
+    public function getLogout()
+    {
+        Auth::logout();
     }
 
     public function create(array $data)

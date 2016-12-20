@@ -2,7 +2,10 @@
 
 function g_getDate()
 {
-
+    $base = 1482246351;
+    $now = (time() - $base) * 100 + $base;
+    $carbon = \Carbon\Carbon::createFromTimestamp($now);
+    return $carbon->addYears(88);
 }
 
 function g_loadImport($name, $method)

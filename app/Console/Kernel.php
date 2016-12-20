@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
         Commands\DataFix::class,
         Commands\DatabseCreate::class,
         Schedules\EnemyGenerate::class,
+
+        Commands\Test::class,
     ];
 
     protected function schedule(Schedule $schedule)

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class Fleet extends Eloquent
+class Fleet extends Base
 {
     protected $table = 'fleets';
     protected $hidden = ['created_at', 'updated_at'];

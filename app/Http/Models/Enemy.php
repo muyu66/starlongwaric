@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class Enemy extends Eloquent
+class Enemy extends Base
 {
     protected $table = 'enemies';
 }

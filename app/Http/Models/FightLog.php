@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class FightLog extends Eloquent
+class FightLog extends Base
 {
     protected $table = 'fight_logs';
     protected $casts = [

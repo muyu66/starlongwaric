@@ -5,9 +5,9 @@ function g_getDate()
 
 }
 
-function g_loadData($method)
+function g_loadImport($name, $method)
 {
-    return config("data.$method");
+    return config("import_$name.$method");
 }
 
 function g_isDebug()

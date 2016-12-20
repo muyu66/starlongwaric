@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class FleetTechTech extends Eloquent
+class FleetTechTech extends Base
 {
     protected $table = 'fleet_tech_teches';
     protected $fillable = ['name'];

@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class Config extends Eloquent
+class Config extends Base
 {
     protected $table = 'configs';
     protected $fillable = ['key'];

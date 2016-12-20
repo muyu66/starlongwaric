@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class FightReport extends Eloquent
+class FightReport extends Base
 {
     protected $table = 'fight_reports';
 }

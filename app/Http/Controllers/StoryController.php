@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Models\Story;
 
 class StoryController extends Controller
 {
-    public function getChapter($chapter)
+    public function index()
     {
+        return Story::get();
+    }
 
+    public function show($id)
+    {
+        return Story::where('id', $id)->first();
     }
 }

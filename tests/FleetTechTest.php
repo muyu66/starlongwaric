@@ -5,7 +5,7 @@ class FleetTechTest extends TestCase
     public function testIndex()
     {
         $this->login();
-        $this->get('fleet_tech/1', ['fleet_id' => '1']);
+        $this->get('fleet_tech', ['fleet_id' => '1']);
         $this->see('level');
         $this->seeJson();
         $this->assertResponseOk();
@@ -14,7 +14,7 @@ class FleetTechTest extends TestCase
     public function testShow()
     {
         $this->login();
-        $this->get('fleet_tech', ['fleet_id' => '1']);
+        $this->get('fleet_tech/1', ['fleet_id' => '1']);
         $this->see('level');
         $this->seeJson();
         $this->assertResponseOk();

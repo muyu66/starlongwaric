@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\AuthController;
 use App\Models\Config;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
+use App\Models\Story;
 use Illuminate\Console\Command;
 
 class DataInit extends Command
@@ -21,15 +21,28 @@ class DataInit extends Command
 
     private function all()
     {
-        $this->config();
+        $this->initConfig();
+        $this->initStory();
 
         $this->fleetBodyWidget();
         $this->fleetTechTech();
     }
 
-    private function config()
+    private function initStory()
     {
-        foreach (g_loadData('globalConfig') as $key => $value) {
+        foreach (g_loadImport('story', 'main') as $story) {
+            $model = Story::firstOrNew([
+                'chapter' => $story['chapter'],
+            ]);
+            $model->content = $story['content'];
+            $model->timeline = $story['timeline'];
+            $model->save();
+        }
+    }
+
+    private function initConfig()
+    {
+        foreach (g_loadImport('data', 'globalConfig') as $key => $value) {
             $model = Config::firstOrNew([
                 'key' => $key,
             ]);
@@ -40,7 +53,7 @@ class DataInit extends Command
 
     private function fleetBodyWidget()
     {
-        foreach (g_loadData(__FUNCTION__) as $item) {
+        foreach (g_loadImport('data', __FUNCTION__) as $item) {
             $model = FleetBodyWidget::firstOrNew([
                 'name' => $item['name'],
             ]);
@@ -53,7 +66,7 @@ class DataInit extends Command
 
     private function fleetTechTech()
     {
-        foreach (g_loadData(__FUNCTION__) as $item) {
+        foreach (g_loadImport('data', __FUNCTION__) as $item) {
             $model = FleetTechTech::firstOrNew([
                 'name' => $item['name'],
             ]);

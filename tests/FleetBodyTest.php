@@ -5,7 +5,7 @@ class FleetBodyTest extends TestCase
     public function testIndex()
     {
         $this->login();
-        $this->get('fleet_body/1', ['fleet_id' => '1']);
+        $this->get('fleet_body', ['fleet_id' => '1']);
         $this->see('health');
         $this->seeJson();
         $this->assertResponseOk();
@@ -14,7 +14,7 @@ class FleetBodyTest extends TestCase
     public function testShow()
     {
         $this->login();
-        $this->get('fleet_body', ['fleet_id' => '1']);
+        $this->get('fleet_body/1', ['fleet_id' => '1']);
         $this->see('health');
         $this->seeJson();
         $this->assertResponseOk();

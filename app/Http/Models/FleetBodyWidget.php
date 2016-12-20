@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
-
-class FleetBodyWidget extends Eloquent
+class FleetBodyWidget extends Base
 {
     protected $table = 'fleet_body_widgets';
     protected $fillable = ['name'];

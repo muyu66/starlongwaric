@@ -29,11 +29,13 @@ class DataInit extends Command
 
     private function config()
     {
-        $model = Config::firstOrNew([
-            'key' => 'enemy_generate_amount',
-        ]);
-        $model->value = g_loadData('enemy_generate_amount');
-        $model->save();
+        foreach (g_loadData('globalConfig') as $key => $value) {
+            $model = Config::firstOrNew([
+                'key' => $key,
+            ]);
+            $model->value = $value;
+            $model->save();
+        }
     }
 
     private function fleetBodyWidget()

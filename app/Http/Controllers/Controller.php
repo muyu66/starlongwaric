@@ -25,7 +25,7 @@ abstract class Controller extends BaseController
     public function __construct()
     {
         if (g_isDebug() && Request::header('x_user_id')) {
-            $this->user = User::findOrFail(Request::header('x_user_id'));
+            $this->user = User::findXidOrFail(Request::header('x_user_id'));
         } else {
             $this->middleware('auth', ['except' => $this->except]);
             $this->user = Auth::user();

@@ -10,6 +10,9 @@ Route::post('fleet_tech/all', 'FleetTechController@postStoreAll');
 Route::resource('story', 'StoryController');
 Route::resource('user', 'UserController');
 
+Route::resource('fleet_config', 'FleetConfigController');
+Route::post('fleet_config/play_time', 'FleetConfigController@postUpdatePlayTime');
+
 Route::controller('fleet_power', 'FleetPowerController');
 Route::controller('fight', 'FightController');
 Route::resource('fleet_log', 'FleetLogController');

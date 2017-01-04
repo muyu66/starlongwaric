@@ -21,6 +21,8 @@ class CreateFleetsTable extends Migration
             $table->integer('union_id');
             $table->integer('plenet_id');
 
+            $table->boolean('alive');
+
             $table->integer('gold');
             $table->integer('fuel');
             $table->timestamps();

@@ -2,29 +2,20 @@
 
 class AuthTest extends TestCase
 {
-    public function testPostLogin()
+    public function testPostRegister()
     {
-        $this->post('auth/login', [
-            'email' => parent::UNIT_EMAIL,
-            'password' => parent::UNIT_PASSWORD,
+        $this->post('auth/register', [
+            'email' => 'aaa@aaa.com',
+            'password' => '111111',
         ]);
-        $this->seeJson(['status' => '1']);
+        $this->seeInDatabase('users', ['email' => 'aaa@aaa.com']);
         $this->assertResponseOk();
     }
 
     public function testGetUser()
     {
-        $this->login();
-        $this->get('auth/user');
-        $this->seeJson(['email' => parent::UNIT_EMAIL]);
-        $this->assertResponseOk();
-    }
-
-    public function testGetLogout()
-    {
-        $this->login();
-        $this->get('auth/logout');
-        $this->seeJson(['status' => '1']);
+        $this->get_with_login('auth/user');
+        $this->seeJson(['email' => self::UNIT_EMAIL]);
         $this->assertResponseOk();
     }
 }

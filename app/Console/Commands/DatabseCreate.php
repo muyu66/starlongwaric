@@ -17,15 +17,19 @@ class DatabseCreate extends Command
     {
         // 创建数据库
         Artisan::call('migrate');
+
         // 管理员账号
         Artisan::call('user:create', [
             'email' => 'muyu.zhouyu@gmail.com',
             'password' => '111111',
         ]);
+
         // 固定数据填充
         Artisan::call('data:init');
+
         // 填充单元测试账号
         $this->unit();
+
         // 随机生成敌人
         Artisan::call('enemy:generate', [
             'amount' => '100',
@@ -39,11 +43,16 @@ class DatabseCreate extends Command
             'email' => 'zhouyu@muyu.party',
             'password' => '111111',
         ]);
-        // 登录，方便继续创建它的舰队
+
+        // 创建舰队
+        Auth::loginUsingId(1);
+        $f = new FleetController();
+        $f->store(new Request(), '王老五');
+
         Auth::loginUsingId(2);
-        // 创建附属舰队
         $f = new FleetController();
         $f->store(new Request(), '胡汉三');
+
         // 填充它的数据
         Artisan::call('data:fix');
     }

@@ -24,9 +24,9 @@ class EnemyGenerate extends Command
             $model->staff = rand(1, 10);
             $model->union_id = 0;
             $model->plenet_id = 0;
-            $model->gold = rand(1, 100);
-            $model->fuel = rand(1, 100);
-            $model->power = rand(100, 1000);
+            $model->gold = rand(10, 400);
+            $model->fuel = rand(10, 100);
+            $model->power = rand(1000, 10000);
             $model->save();
         }
     }

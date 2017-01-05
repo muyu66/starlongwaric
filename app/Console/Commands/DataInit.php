@@ -30,7 +30,7 @@ class DataInit extends Command
 
     private function initStory()
     {
-        foreach (g_loadImport('story', 'main') as $story) {
+        foreach (g_load_import('story', 'main') as $story) {
             $model = Story::firstOrNew([
                 'chapter' => $story['chapter'],
             ]);
@@ -42,7 +42,7 @@ class DataInit extends Command
 
     private function initConfig()
     {
-        foreach (g_loadImport('data', 'globalConfig') as $key => $value) {
+        foreach (g_load_import('data', 'globalConfig') as $key => $value) {
             $model = Config::firstOrNew([
                 'key' => $key,
             ]);
@@ -53,7 +53,7 @@ class DataInit extends Command
 
     private function fleetBodyWidget()
     {
-        foreach (g_loadImport('data', __FUNCTION__) as $item) {
+        foreach (g_load_import('data', __FUNCTION__) as $item) {
             $model = FleetBodyWidget::firstOrNew([
                 'name' => $item['name'],
             ]);
@@ -66,7 +66,7 @@ class DataInit extends Command
 
     private function fleetTechTech()
     {
-        foreach (g_loadImport('data', __FUNCTION__) as $item) {
+        foreach (g_load_import('data', __FUNCTION__) as $item) {
             $model = FleetTechTech::firstOrNew([
                 'name' => $item['name'],
             ]);

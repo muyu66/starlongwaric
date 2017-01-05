@@ -5,32 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Auth;
 use Exception;
 
 class AuthController extends Controller
 {
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    protected $except = ['postRegister'];
 
-    protected $except = ['postLogin'];
-
-    protected function validator(array $data)
+    private function check(Request $request)
     {
-        return Validator::make($data, [
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|confirmed|min:6',
+            'password' => 'required|min:6',
         ]);
-    }
 
-    public function postLogin(Request $request)
-    {
-        $email = $request->input('email');
-        $password = $request->input('password');
-
-        if (!Auth::attempt(['email' => $email, 'password' => $password])) {
-            throw new Exception('login error');
+        if ($validator->fails()) {
+            throw new Exception($validator->errors());
         }
     }
 
@@ -39,9 +29,11 @@ class AuthController extends Controller
         return Auth::user();
     }
 
-    public function getLogout()
+    public function postRegister(Request $request)
     {
-        Auth::logout();
+        $this->check($request);
+
+        return $this->create($request->all());
     }
 
     public function create(array $data)

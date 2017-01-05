@@ -7,11 +7,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     use DatabaseMigrations, DatabaseTransactions;
 
-    protected $baseUrl = 'http://127.0.0.1:10000';
+    protected $baseUrl = 'http://www.slw.app';
 
     const UNIT_EMAIL = 'zhouyu@muyu.party';
     const UNIT_PASSWORD = '111111';
     const UNIT_ID = '2';
+    const UNIT_BASIC_AUTH = 'Basic emhvdXl1QG11eXUucGFydHk6MTExMTEx';
 
     public function createApplication()
     {
@@ -21,9 +22,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    public function login($user_id = 0)
+    public function login()
     {
-        Auth::loginUsingId($user_id ? : self::UNIT_ID);
+        Auth::loginUsingId(static::UNIT_ID);
     }
 
     public function get($uri, array $data = [], array $headers = [])
@@ -33,10 +34,22 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return parent::get($uri, $headers);
     }
 
+    public function get_with_login($uri, array $data = [], array $headers = [])
+    {
+        $headers['Authorization'] = self::UNIT_BASIC_AUTH;
+        return $this->get($uri, $data, $headers);
+    }
+
     public function post($uri, array $data = [], array $headers = [])
     {
         $headers['Accept'] = 'Application/json';
         return parent::post($uri, $data, $headers);
+    }
+
+    public function post_with_login($uri, array $data = [], array $headers = [])
+    {
+        $headers['Authorization'] = self::UNIT_BASIC_AUTH;
+        return $this->post($uri, $data, $headers);
     }
 
     public function see($texts, $negate = false)

@@ -7,14 +7,21 @@ use App\Models\FleetTech;
 
 class FleetPowerController extends Controller
 {
-    public function power($fleet_id)
+    public function power()
     {
         return array_sum([
-            $this->calc(FleetBody::getWith('widget', $fleet_id), FleetBody::class),
-            $this->calc(FleetTech::getWith('tech', $fleet_id), FleetTech::class),
+            $this->calc(FleetBody::getWith('widget', $this->getFleetId()), FleetBody::class),
+            $this->calc(FleetTech::getWith('tech', $this->getFleetId()), FleetTech::class),
         ]);
     }
 
+    /**
+     * @description 计算战斗力
+     * @param $models
+     * @param $class FleetBody|FleetTech
+     * @return int
+     * @author Zhou Yu
+     */
     private function calc($models, $class)
     {
         $num = $class::POWER_NUM;

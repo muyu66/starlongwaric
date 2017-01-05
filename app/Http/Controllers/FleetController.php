@@ -13,24 +13,38 @@ use Exception;
 
 class FleetController extends Controller
 {
+    /**
+     * @description
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @author Zhou Yu
+     */
     public function index()
     {
         $power = new FleetPowerController();
 
-        $models = Fleet::getByUserId($this->user_id);
+        $models = Fleet::getByUserId($this->getUserId());
         foreach ($models as $model) {
-            $model->power = $power->power($model->id);
+            $model->power = $power->power();
         }
         return $models;
     }
 
-    public function show($fleet_id)
+    /**
+     * @description
+     * @return Fleet
+     * @author Zhou Yu
+     */
+    public function show()
     {
-        $power = new FleetPowerController();
+        $model = Fleet::where('user_id', $this->getUserId())->first();
 
-        $model = Fleet::findOrFailByUserId($fleet_id, $this->user_id);
-        $model->power = $power->power($model->id);
-        return $model->first();
+        /**
+         * 附加 战斗力
+         */
+        $power = new FleetPowerController();
+        $model->power = $power->power();
+
+        return $model;
     }
 
     public function store(Request $request, $name = null)
@@ -58,7 +72,7 @@ class FleetController extends Controller
     private function createFleet($name)
     {
         $fleet = new Fleet();
-        $fleet->user_id = $this->user_id;
+        $fleet->user_id = $this->getUserId();
         $fleet->rank_id = 0;
         $fleet->name = $name;
         $fleet->staff = 2;
@@ -66,6 +80,7 @@ class FleetController extends Controller
         $fleet->plenet_id = 0;
         $fleet->gold = 100;
         $fleet->fuel = 10;
+        $fleet->alive = 1;
         $fleet->save();
         return $fleet;
     }

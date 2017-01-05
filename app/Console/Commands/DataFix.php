@@ -18,10 +18,10 @@ class DataFix extends Command
         $ctl = new FleetController();
         $fleet_ids = Fleet::get(['id'])->pluck('id');
         foreach ($fleet_ids as $fleet_id) {
-            if (!FleetBody::where('fleet_id', $fleet_id)->count()) {
+            if (! FleetBody::where('fleet_id', $fleet_id)->count()) {
                 $ctl->createFleetBody($fleet_id);
             }
-            if (!FleetTech::where('fleet_id', $fleet_id)->count()) {
+            if (! FleetTech::where('fleet_id', $fleet_id)->count()) {
                 $ctl->createFleetTech($fleet_id);
             }
         }

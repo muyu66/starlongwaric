@@ -8,12 +8,12 @@ function g_getDate()
     return $carbon->addYears(88);
 }
 
-function g_loadImport($name, $method)
+function g_load_import($name, $method)
 {
     return config("import_$name.$method");
 }
 
-function g_isDebug()
+function g_is_debug()
 {
     return env('APP_DEBUG');
 }

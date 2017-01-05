@@ -14,7 +14,13 @@ Route::resource('fleet_config', 'FleetConfigController');
 Route::post('fleet_config/play_time', 'FleetConfigController@postUpdatePlayTime');
 
 Route::controller('fleet_power', 'FleetPowerController');
-Route::controller('fight', 'FightController');
 Route::resource('fleet_log', 'FleetLogController');
-Route::resource('enemy', 'EnemyController');
-Route::get('enemy/random', 'EnemyController@getRandom');
+
+
+
+
+Route::get('enemies/randoms', 'EnemyController@getRandoms');
+Route::get('enemies/random', 'EnemyController@getRandom');
+Route::resource('enemies', 'EnemyController');
+
+Route::controller('fight', 'FightController');

@@ -35,14 +35,5 @@ class User extends Model implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token'];
-
-    public static function findXidOrFail($xid)
-    {
-        $model = static::find($xid);
-        if (!$model) {
-            throw new \Exception('x_user_id is incorrect');
-        }
-        return $model;
-    }
+    protected $hidden = ['password', 'remember_token', 'created_at', 'updated_at'];
 }

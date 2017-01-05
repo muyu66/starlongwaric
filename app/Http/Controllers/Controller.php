@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fleet;
-use App\Models\User;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Auth;
-use Request;
+use Exception;
 
 abstract class Controller extends BaseController
 {
@@ -24,19 +23,41 @@ abstract class Controller extends BaseController
 
     public function __construct()
     {
-        if (g_isDebug() && Request::header('x_user_id')) {
-            $this->user = User::findXidOrFail(Request::header('x_user_id'));
-        } else {
-            $this->middleware('basic.auth', ['except' => $this->except]);
-            $this->user = Auth::user();
+        $this->middleware('basic.auth', ['except' => $this->except]);
+    }
+
+    public function getUser()
+    {
+        $user = Auth::user();
+        if (! $user) {
+            throw new Exception('this user is not found');
         }
 
-        if ($this->user) {
-            $this->user_id = $this->user->id;
-            $this->fleet = Fleet::where('user_id', $this->user_id)
-                ->where('active', 1)
-                ->first();
-            $this->fleet_id = $this->fleet ? $this->fleet->id : '';
+        return $user;
+    }
+
+    public function getUserId()
+    {
+        if (! $this->getUser()) {
+            throw new Exception('this user is not found');
         }
+
+        return $this->getUser()->id;
+    }
+
+    public function getFleet()
+    {
+        return Fleet::where('user_id', $this->getUserId())
+            ->where('alive', 1)
+            ->first();
+    }
+
+    public function getFleetId()
+    {
+        if (! $this->getFleet()) {
+            throw new Exception('this fleet is not found');
+        }
+
+        return $this->getFleet()->id;
     }
 }

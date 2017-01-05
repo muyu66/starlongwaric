@@ -12,6 +12,7 @@ class FleetBody extends Base
     const POWER_NUM = 'health';
     const POWER_ITEM = 'widget';
     const POWER_PER = 'per_power';
+    const STANDARD = 'widget';
 
     public function widget()
     {

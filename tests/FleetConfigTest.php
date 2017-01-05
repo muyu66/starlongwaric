@@ -2,38 +2,28 @@
 
 class FleetConfigTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        $this->testPostPlayTime();
+    }
+
     public function testIndex()
     {
-        $this->testPostUpdatePlayTime();
-        $this->login();
-        $this->get('fleet_config', ['fleet_id' => '1']);
-        $this->see('play_time');
-        $this->seeJson();
-        $this->assertResponseOk();
+        $this->get_with_login('fleet_configs');
+        $this->seeJsonContains(["fleet_id" => 2]);
     }
 
     public function testShow()
     {
-        $this->testPostUpdatePlayTime();
-        $this->login();
-        $this->get('fleet_config/play_time', ['fleet_id' => '1']);
-        $this->see('14');
-        $this->seeJson();
-        $this->assertResponseOk();
+        $this->get_with_login('fleet_configs/play_time');
+        $this->seeJsonContains(['play_time' => 14]);
     }
 
-    public function testPostUpdatePlayTime()
+    public function testPostPlayTime()
     {
-        $this->login();
-        $this->post('fleet_config/play_time', ['minute' => '14', 'fleet_id' => '1']);
-        $this->see('status');
-        $this->seeJson();
-        $this->assertResponseOk();
-    }
-
-    public function testPostUpdatePlayTimeFail()
-    {
-        $this->post('fleet_config/play_time', ['minute' => '14', 'fleet_id' => '32']);
-        $this->assertResponseStatus(400);
+        $this->post_with_login('fleet_configs/play_time', ['minute' => 14]);
+        $this->seeJsonContains(["play_time" => 14]);
+        $this->seeInDatabase('fleet_configs', ['fleet_id' => parent::UNIT_ID]);
     }
 }

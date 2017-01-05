@@ -10,8 +10,12 @@ class FleetPowerController extends Controller
     public function power()
     {
         return array_sum([
-            $this->calc(FleetBody::getWith('widget', $this->getFleetId()), FleetBody::class),
-            $this->calc(FleetTech::getWith('tech', $this->getFleetId()), FleetTech::class),
+            $this->calc(
+                FleetBody::getWith(FleetBody::STANDARD, $this->getFleetId()), FleetBody::class
+            ),
+            $this->calc(
+                FleetTech::getWith(FleetTech::STANDARD, $this->getFleetId()), FleetTech::class
+            ),
         ]);
     }
 

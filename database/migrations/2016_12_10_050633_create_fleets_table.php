@@ -25,6 +25,8 @@ class CreateFleetsTable extends Migration
 
             $table->integer('gold');
             $table->integer('fuel');
+            $table->integer('power');
+
             $table->timestamps();
         });
     }

@@ -26,5 +26,6 @@ class FightLogController extends Controller
         $model->enemy_power = $enemy->power;
         $model->result = $result;
         $model->booty = $booty;
+        $model->save();
     }
 }

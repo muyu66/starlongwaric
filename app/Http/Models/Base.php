@@ -15,4 +15,9 @@ class Base extends Eloquent
     {
         return static::where('fleet_id', $fleet_id);
     }
+
+    public static function belong($fleet_id)
+    {
+        return static::where('fleet_id', $fleet_id);
+    }
 }

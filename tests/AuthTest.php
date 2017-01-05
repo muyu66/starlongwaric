@@ -15,7 +15,7 @@ class AuthTest extends TestCase
     public function testGetUser()
     {
         $this->get_with_login('auth/user');
-        $this->seeJson(['email' => self::UNIT_EMAIL]);
+        $this->seeJsonContains(['email' => self::UNIT_EMAIL]);
         $this->assertResponseOk();
     }
 }

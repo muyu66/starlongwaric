@@ -14,59 +14,51 @@ use Exception;
 class FleetController extends Controller
 {
     /**
-     * @description
+     * 返回所有(包括阵亡)的舰队
+     *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * @author Zhou Yu
      */
     public function index()
     {
-        $power = new FleetPowerController();
-
-        $models = Fleet::getByUserId($this->getUserId());
-        foreach ($models as $model) {
-            $model->power = $power->power();
-        }
+        $models = Fleet::where('user_id', $this->getUserId())->get();
         return $models;
     }
 
     /**
-     * @description
-     * @return Fleet
+     * 仅返回当前存活的舰队
+     *
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
      * @author Zhou Yu
      */
-    public function show()
+    public function show($id)
     {
-        $model = Fleet::where('user_id', $this->getUserId())->first();
-
-        /**
-         * 附加 战斗力
-         */
-        $power = new FleetPowerController();
-        $model->power = $power->power();
-
+        $model = Fleet::isAlive()->where('user_id', $this->getUserId())->findOrFail($id);
         return $model;
     }
 
-    public function store(Request $request, $name = null)
-    {
-        $name = $request->input('name') ? : $name;
-
-        $this->valid($request->all() ? : ['name' => $name]);
-
-        $fleet = $this->createFleet($name);
-        $this->createFleetBody($fleet->id);
-        $this->createFleetTech($fleet->id);
-    }
-
-    private function valid($array)
+    public function valid(Array $array)
     {
         $validator = Validator::make($array, [
             'name' => 'required',
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->messages());
+            throw new Exception($validator->messages(), 422);
         }
+    }
+
+    public function store(Request $request, $name = null)
+    {
+        $name = $request->input('name') ? : $name;
+
+        $this->valid(['name' => $name]);
+
+        $fleet = $this->createFleet($name);
+        $this->createFleetBody($fleet);
+        $this->createFleetTech($fleet);
+        $this->createFleetPower($fleet);
     }
 
     private function createFleet($name)
@@ -81,31 +73,45 @@ class FleetController extends Controller
         $fleet->gold = 100;
         $fleet->fuel = 10;
         $fleet->alive = 1;
+        $fleet->power = 0;
         $fleet->save();
         return $fleet;
     }
 
-    public function createFleetBody($fleet_id)
+    public function createFleetBody($fleet)
     {
         $copies = FleetBodyWidget::get();
         foreach ($copies as $copy) {
             $body = new FleetBody();
-            $body->fleet_id = $fleet_id;
+            $body->fleet_id = $fleet->id;
             $body->widget_id = $copy->id;
             $body->health = 100;
             $body->save();
         }
     }
 
-    public function createFleetTech($fleet_id)
+    public function createFleetTech($fleet)
     {
         $copies = FleetTechTech::get();
         foreach ($copies as $copy) {
             $body = new FleetTech();
-            $body->fleet_id = $fleet_id;
+            $body->fleet_id = $fleet->id;
             $body->tech_id = $copy->id;
             $body->level = 0;
             $body->save();
         }
+    }
+
+    /**
+     * 刷新战斗力
+     *
+     * @param Fleet $fleet
+     * @author Zhou Yu
+     */
+    public function createFleetPower(Fleet $fleet)
+    {
+        $power = new FleetPowerController();
+        $fleet->power = $power->power();
+        $fleet->save();
     }
 }

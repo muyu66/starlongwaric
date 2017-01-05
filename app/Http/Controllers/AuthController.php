@@ -12,15 +12,15 @@ class AuthController extends Controller
 {
     protected $except = ['postRegister'];
 
-    private function check(Request $request)
+    private function check(Array $array)
     {
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make($array, [
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:6',
         ]);
 
         if ($validator->fails()) {
-            throw new Exception($validator->errors());
+            throw new Exception($validator->messages(), 422);
         }
     }
 
@@ -31,9 +31,11 @@ class AuthController extends Controller
 
     public function postRegister(Request $request)
     {
-        $this->check($request);
+        $array = $request->all();
 
-        return $this->create($request->all());
+        $this->check($array);
+
+        return $this->create($array);
     }
 
     public function create(array $data)

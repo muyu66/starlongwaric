@@ -12,6 +12,7 @@ class FleetTech extends Base
     const POWER_NUM = 'level';
     const POWER_ITEM = 'tech';
     const POWER_PER = 'per_power';
+    const STANDARD = 'tech';
 
     public function tech()
     {

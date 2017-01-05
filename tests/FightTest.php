@@ -6,36 +6,42 @@ use App\Http\Controllers\EnemyController;
 
 class FightTest extends TestCase
 {
-//    public function testPostEnemy()
-//    {
-//        $this->post_with_login('fight/enemy');
-//        $this->seeJson();
-//        $this->assertResponseOk();
-//    }
+    private $my;
+    private $enemy;
 
-//    public function testLog()
-//    {
-//        $this->login();
-//
-//        $my = new FleetController();
-//        $enemy = new EnemyController();
-//        $my = $my->show();
-//        $enemy = $enemy->getRandom();
-//
-//        $ctl = new FightController();
-//        $ctl->log($my, $enemy, 1);
-//    }
+    public function setUp()
+    {
+        parent::setUp();
+        $my = new FleetController();
+        $enemy = new EnemyController();
+        $this->my = $my->show(static::UNIT_FLEET_ID);
+        $this->enemy = $enemy->getRandom();
+    }
+
+    public function testCalc()
+    {
+        $this->login();
+
+        $ctl = new FightController();
+        $result = $ctl->calc($this->my, $this->enemy);
+        $this->assertTrue(in_array($result, [-1, 0, 1]));
+    }
 
     public function testBooty()
     {
         $this->login();
 
-        $my = new FleetController();
-        $enemy = new EnemyController();
-        $my = $my->show();
-        $enemy = $enemy->getRandom();
-
         $ctl = new FightController();
-        dump($ctl->booty(1, $my, $enemy));
+        $result = $ctl->booty(1, $this->my, $this->enemy);
+
+        $this->assertTrue(is_array($result));
+        $this->assertArrayHasKey('gold', $result);
+    }
+
+    public function testPostEnemy()
+    {
+        $this->post_with_login('fight/enemy');
+        $this->assertResponseOk();
+        $this->seeInDatabase('fight_logs', ['id' => 1]);
     }
 }

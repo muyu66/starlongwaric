@@ -13,6 +13,6 @@ class StoryController extends Controller
 
     public function show($id)
     {
-        return Story::where('id', $id)->first();
+        return Story::where('id', $id)->firstOrFail();
     }
 }

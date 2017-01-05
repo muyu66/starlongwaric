@@ -11,12 +11,19 @@ class FleetTechController extends Controller
 {
     public function index()
     {
-        return FleetTech::self($this->fleet_id)->get();
+        return FleetTech::belong($this->getFleetId())->get();
     }
 
+    /**
+     *
+     *
+     * @param $id
+     * @return mixed
+     * @author Zhou Yu
+     */
     public function show($id)
     {
-        return FleetTech::self($this->fleet_id)->where('id', $id)->firstOrFail();
+        return FleetTech::belong($this->getFleetId())->where('id', $id)->firstOrFail();
     }
 
     /**
@@ -29,25 +36,41 @@ class FleetTechController extends Controller
      */
     public function store(Request $request, $id = null, $num = 1)
     {
-        $id = $request->input('id') ? : $id;
+        $fleet_tech_id = $request->input('id') ? : $id;
         $num = $request->input('num') ? : $num;
 
-        $ftt = FleetTechTech::where('id', $id)->firstOrFail();
-        $fleet = $this->fleet;
-        $ft = $this->show($id);
+        // 获取现数据
+        $fleet_tech = $this->show($fleet_tech_id);
 
-        if ($ft->level == Config::getDb('tech_limit')) {
-            return ['id' => $id, 'update' => 0, 'gold' => 0];
+        // 获取源数据
+        $fleet_tech_tech = FleetTechTech::where('id', $fleet_tech->tech_id)->firstOrFail();
+
+        $fleet = $this->getFleet();
+
+        if ($fleet_tech->level == Config::getDb('tech_limit')) {
+            return ['id' => $fleet_tech_id, 'update' => 0, 'gold' => 0];
         } else {
+            // 维修过的健康度数量
             $amount = 0;
+
+            // 标记 - 玩家是否资金耗尽
             $gold_is_empty = 0;
+
+            // 标记 - 科技等级是否达到上限
             $level_is_max = 0;
-            $this->update($ft, $fleet, $ftt, $amount, $gold_is_empty, $level_is_max, $num);
+
+            $this->update(
+                $fleet_tech, $fleet, $fleet_tech_tech, $amount,
+                $gold_is_empty, $level_is_max, $num
+            );
+
             $fleet->save();
-            $ft->save();
+
+            $fleet_tech->save();
+
             return [
-                'id' => $id, 'update' => $amount,
-                'gold' => $amount * $ftt->per_fee,
+                'id' => $fleet_tech_id, 'update' => $amount,
+                'gold' => $amount * $fleet_tech_tech->per_fee,
                 'gold_is_empty' => $gold_is_empty,
                 'level_is_max' => $level_is_max,
             ];
@@ -55,44 +78,47 @@ class FleetTechController extends Controller
     }
 
     /**
-     * @description 单件升级算法
-     * @param $ft
+     * 单件升级算法
+     *
+     * @param $fleet_tech
      * @param $fleet
-     * @param $ftt
+     * @param $fleet_tech_tech
      * @param $amount
      * @param $gold_is_empty
      * @param $level_is_max
      * @param $num
      * @author Zhou Yu
      */
-    private function update(&$ft, &$fleet, $ftt, &$amount, &$gold_is_empty, &$level_is_max, $num)
+    public function update(&$fleet_tech, &$fleet, $fleet_tech_tech, &$amount,
+                           &$gold_is_empty, &$level_is_max, $num)
     {
         foreach (g_yields($num) as $i) {
-            if ($fleet->gold <= $ftt->per_fee) {
+            if ($fleet->gold <= $fleet_tech_tech->per_fee) {
                 $gold_is_empty = 1;
                 continue 1;
             }
-            if ($ft->level >= Config::getDb('tech_limit')) {
+            if ($fleet_tech->level >= Config::getDb('tech_limit')) {
                 $level_is_max = 1;
                 continue 1;
             }
-            $fleet->gold -= $ftt->per_fee;
-            $ft->level += 1;
+            $fleet->gold -= $fleet_tech_tech->per_fee;
+            $fleet_tech->level += 1;
             $amount++;
         }
     }
 
     /**
-     * @description 全部升级
+     * 全部升级
+     *
      * @param Request $request
      * @return array
      * @author Zhou Yu
      */
-    public function postStoreAll(Request $request)
+    public function postAll(Request $request)
     {
         $num = $request->input('num');
         $result = [];
-        $models = FleetTech::self($this->fleet_id)->get();
+        $models = FleetTech::self($this->getFleetId())->get();
         foreach ($models as $model) {
             $result[] = $this->store(new Request(), $model->id, $num);
         }

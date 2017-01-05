@@ -10,12 +10,19 @@ class FleetBodyController extends Controller
 {
     public function index()
     {
-        return FleetBody::self($this->fleet_id)->get();
+        return FleetBody::belong($this->getFleetId())->get();
     }
 
+    /**
+     * waiting
+     *
+     * @param $id
+     * @return mixed
+     * @author Zhou Yu
+     */
     public function show($id)
     {
-        return FleetBody::self($this->fleet_id)->where('id', $id)->firstOrFail();
+        return FleetBody::belong($this->getFleetId())->where('id', $id)->firstOrFail();
     }
 
     /**
@@ -27,23 +34,39 @@ class FleetBodyController extends Controller
      */
     public function store(Request $request, $id = null)
     {
-        $id = $request->input('id') ? : $id;
+        // 组件 ID
+        $fleet_body_id = $request->input('id') ? : $id;
 
-        $fbw = FleetBodyWidget::where('id', $id)->firstOrFail();
-        $fleet = $this->fleet;
-        $fb = $this->show($id);
+        // 获取现数据
+        $fleet_body = $this->show($fleet_body_id);
 
-        if ($fb->health == 100) {
-            return ['id' => $id, 'fix' => 0, 'gold' => 0];
+        // 获取源数据
+        $fleet_body_widget = FleetBodyWidget::where('id', $fleet_body->widget_id)->firstOrFail();
+
+        $fleet = $this->getFleet();
+
+        if ($fleet_body->health == 100) {
+            return ['id' => $fleet_body_id, 'fix' => 0, 'gold' => 0];
         } else {
+            // 维修过的健康度数量
             $amount = 0;
+
+            // 标记 - 玩家是否资金耗尽
             $gold_is_empty = 0;
-            $this->fix($fb, $fleet, $fbw, $amount, $gold_is_empty);
+
+            /**
+             * 动态更改了以下的变量
+             * $fleet_body, $fleet, $amount, $gold_is_empty
+             */
+            $this->fix($fleet_body, $fleet, $fleet_body_widget, $amount, $gold_is_empty);
+
             $fleet->save();
-            $fb->save();
+
+            $fleet_body->save();
+
             return [
-                'id' => $id, 'fix' => $amount,
-                'gold' => $amount * $fbw->per_fee,
+                'id' => $fleet_body_id, 'fix' => $amount,
+                'gold' => $amount * $fleet_body_widget->per_fee,
                 'gold_is_empty' => $gold_is_empty,
             ];
         }
@@ -51,35 +74,36 @@ class FleetBodyController extends Controller
 
     /**
      * @description 单件修复算法
-     * @param $fb
+     * @param $fleet_body
      * @param $fleet
-     * @param $fbw
+     * @param $fleet_body_widget
      * @param $amount
      * @param $gold_is_empty
      * @author Zhou Yu
      */
-    private function fix(&$fb, &$fleet, $fbw, &$amount, &$gold_is_empty)
+    public function fix(&$fleet_body, &$fleet, $fleet_body_widget, &$amount, &$gold_is_empty)
     {
-        foreach (g_yields(100 - $fb->health) as $i) {
-            if ($fleet->gold <= $fbw->per_fee) {
+        foreach (g_yields(100 - $fleet_body->health) as $i) {
+            if ($fleet->gold <= $fleet_body_widget->per_fee) {
                 $gold_is_empty = 1;
                 continue 1;
             }
-            $fleet->gold -= $fbw->per_fee;
-            $fb->health += 1;
+            $fleet->gold -= $fleet_body_widget->per_fee;
+            $fleet_body->health += 1;
             $amount++;
         }
     }
 
     /**
-     * @description 全部修复
+     * 全部修复
+     *
      * @return array
      * @author Zhou Yu
      */
-    public function postStoreAll()
+    public function postAll()
     {
         $result = [];
-        $models = FleetBody::self($this->fleet_id)->get();
+        $models = FleetBody::belong($this->getFleetId())->get();
         foreach ($models as $model) {
             $result[] = $this->store(new Request(), $model->id);
         }

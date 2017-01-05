@@ -2,19 +2,11 @@
 
 Route::controller('auth', 'AuthController');
 
-Route::resource('fleet', 'FleetController');
-Route::resource('fleet_body', 'FleetBodyController');
-Route::post('fleet_body/all', 'FleetBodyController@postStoreAll');
-Route::resource('fleet_tech', 'FleetTechController');
-Route::post('fleet_tech/all', 'FleetTechController@postStoreAll');
-Route::resource('story', 'StoryController');
-Route::resource('user', 'UserController');
 
-Route::resource('fleet_config', 'FleetConfigController');
-Route::post('fleet_config/play_time', 'FleetConfigController@postUpdatePlayTime');
 
-Route::controller('fleet_power', 'FleetPowerController');
+
 Route::resource('fleet_log', 'FleetLogController');
+
 
 
 
@@ -24,3 +16,18 @@ Route::get('enemies/random', 'EnemyController@getRandom');
 Route::resource('enemies', 'EnemyController');
 
 Route::controller('fight', 'FightController');
+
+Route::post('fleet_bodies/all', 'FleetBodyController@postAll');
+Route::resource('fleet_bodies', 'FleetBodyController');
+
+Route::post('fleet_teches/all', 'FleetTechController@postAll');
+Route::resource('fleet_teches', 'FleetTechController');
+
+Route::post('fleet_configs/play_time', 'FleetConfigController@postPlayTime');
+Route::resource('fleet_configs', 'FleetConfigController');
+
+Route::resource('fleets', 'FleetController');
+
+Route::resource('stories', 'StoryController');
+
+Route::resource('users', 'UserController');

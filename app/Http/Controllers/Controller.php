@@ -16,11 +16,6 @@ abstract class Controller extends BaseController
 
     protected $except;
 
-    protected $user;
-    protected $user_id;
-    protected $fleet;
-    protected $fleet_id;
-
     public function __construct()
     {
         $this->middleware('basic.auth', ['except' => $this->except]);
@@ -45,6 +40,11 @@ abstract class Controller extends BaseController
         return $this->getUser()->id;
     }
 
+    /**
+     * @description
+     * @return Fleet
+     * @author Zhou Yu
+     */
     public function getFleet()
     {
         return Fleet::where('user_id', $this->getUserId())

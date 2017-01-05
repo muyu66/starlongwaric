@@ -38,3 +38,24 @@ function g_get_generator($count)
         yield $i;
     }
 }
+
+/**
+ * 如果原数组存在这个KEY，则更新它，否则添加
+ *
+ * @param $arrays '仅针对一维数组'
+ * @param $key
+ * @param $value
+ * @return array
+ * @author Zhou Yu
+ */
+function g_add_or_update($arrays, $key, $value)
+{
+    if (! $arrays) {
+        $arrays = [$key => $value];
+    } else {
+        foreach ($arrays as $k => $v) {
+            $arrays[$k] = $value;
+        }
+    }
+    return $arrays;
+}

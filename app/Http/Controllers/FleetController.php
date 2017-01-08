@@ -21,21 +21,18 @@ class FleetController extends Controller
      */
     public function index()
     {
-        $models = Fleet::where('user_id', $this->getUserId())->get();
-        return $models;
+        return Fleet::where('user_id', $this->getUserId())->get();
     }
 
     /**
      * 仅返回当前存活的舰队
      *
-     * @param $id
-     * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
+     * @return Fleet
      * @author Zhou Yu
      */
-    public function show($id)
+    public function show()
     {
-        $model = Fleet::isAlive()->where('user_id', $this->getUserId())->findOrFail($id);
-        return $model;
+        return Fleet::isAlive()->where('user_id', $this->getUserId())->first();
     }
 
     public function valid(Array $array)

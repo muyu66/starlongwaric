@@ -5,6 +5,7 @@ namespace App\Models;
 class FleetTech extends Base
 {
     protected $table = 'fleet_teches';
+    protected $hidden = ['fleet_id', 'created_at', 'updated_at'];
 
     /**
      * 计算战斗力公式用

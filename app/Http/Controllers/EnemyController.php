@@ -19,7 +19,7 @@ class EnemyController extends Controller
     public function getRandoms()
     {
         $ctl = new FleetController();
-        $my = $ctl->show($this->getFleetId());
+        $my = $ctl->show();
 
         /**
          * 循环搜寻匹配战斗力的敌人

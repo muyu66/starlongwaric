@@ -17,7 +17,7 @@ class FightController extends Controller
         $enemy = new EnemyController();
 
         // 得到我的数据
-        $my = $my->show($this->getFleetId());
+        $my = $my->show();
 
         // 得到敌人数据，随机遇敌
         $enemy = $enemy->getRandom();

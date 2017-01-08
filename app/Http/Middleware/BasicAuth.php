@@ -4,11 +4,16 @@ namespace App\Http\Middleware;
 
 use Auth;
 use Closure;
+use Symfony\Component\HttpFoundation\Response;
 
 class BasicAuth
 {
     public function handle($request, Closure $next)
     {
-        return Auth::onceBasic() ? : $next($request);
+        if (Auth::onceBasic()) {
+            return ['status' => 0, 'error' => 'Invalid credentials'];
+        } else {
+            return $next($request);
+        }
     }
 }

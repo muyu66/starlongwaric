@@ -10,7 +10,7 @@ class FleetBodyController extends Controller
 {
     public function index()
     {
-        return FleetBody::belong($this->getFleetId())->get();
+        return FleetBody::belong($this->getFleetId())->with('widget')->get();
     }
 
     /**

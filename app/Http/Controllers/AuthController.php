@@ -24,6 +24,11 @@ class AuthController extends Controller
         }
     }
 
+    public function getLogin()
+    {
+        return ['status' => '1'];
+    }
+
     public function getUser()
     {
         return Auth::user();

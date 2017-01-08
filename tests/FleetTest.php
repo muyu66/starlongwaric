@@ -20,11 +20,8 @@ class FleetTest extends TestCase
 
     public function testShow()
     {
-        $this->get_with_login('fleets/' . static::UNIT_FLEET_ID);
-        $this->seeJsonContains(['name' => '胡汉三']);
-
         $this->get_with_login('fleets/31');
-        $this->assertResponseStatus(404);
+        $this->seeJsonContains(['name' => '胡汉三']);
     }
 
     public function testValid()

@@ -14,7 +14,7 @@ class FightTest extends TestCase
         parent::setUp();
         $my = new FleetController();
         $enemy = new EnemyController();
-        $this->my = $my->show(static::UNIT_FLEET_ID);
+        $this->my = $my->show();
         $this->enemy = $enemy->getRandom();
     }
 

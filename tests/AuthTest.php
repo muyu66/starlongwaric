@@ -18,4 +18,11 @@ class AuthTest extends TestCase
         $this->seeJsonContains(['email' => self::UNIT_EMAIL]);
         $this->assertResponseOk();
     }
+
+    public function testGetLogin()
+    {
+        $this->get_with_login('auth/login');
+        $this->seeJsonContains(['status' => '1']);
+        $this->assertResponseOk();
+    }
 }

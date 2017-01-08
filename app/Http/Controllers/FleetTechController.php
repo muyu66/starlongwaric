@@ -11,7 +11,7 @@ class FleetTechController extends Controller
 {
     public function index()
     {
-        return FleetTech::belong($this->getFleetId())->get();
+        return FleetTech::belong($this->getFleetId())->with('tech')->get();
     }
 
     /**

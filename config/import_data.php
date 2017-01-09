@@ -4,6 +4,7 @@ return [
     // 配置区
     'globalConfig' => [
         'enemy_generate_amount' => 100,
+        'staff_generate_amount' => 20,
         'tech_limit' => 10,
     ],
 

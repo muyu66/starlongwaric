@@ -21,6 +21,7 @@ class CreateStaffTable extends Migration
             $table->string('desc');
             $table->integer('character')
                 ->comment('0粗鲁,1好战,2冷静');
+            $table->boolean('is_commander');
 
             $table->integer('job')
                 ->comment('0警卫,1工程师,2指挥家,3绝地武士');

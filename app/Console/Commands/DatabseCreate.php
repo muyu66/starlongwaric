@@ -34,6 +34,11 @@ class DatabseCreate extends Command
         Artisan::call('enemy:generate', [
             'amount' => '100',
         ]);
+
+        // 随机生成船员
+        Artisan::call('staff:generate', [
+            'amount' => '20',
+        ]);
     }
 
     private function unit()

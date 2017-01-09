@@ -12,7 +12,9 @@ class Kernel extends ConsoleKernel
         Commands\DataInit::class,
         Commands\DataFix::class,
         Commands\DatabseCreate::class,
+
         Schedules\EnemyGenerate::class,
+        Schedules\StaffGenerate::class,
 
         Commands\Test::class,
     ];

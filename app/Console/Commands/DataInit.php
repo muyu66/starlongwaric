@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Config;
+use App\Models\Event;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
 use App\Models\Staff;
@@ -25,6 +26,7 @@ class DataInit extends Command
         $this->initConfig();
         $this->initStory();
         $this->initHero();
+        $this->initEvent();
 
         $this->fleetBodyWidget();
         $this->fleetTechTech();
@@ -67,6 +69,19 @@ class DataInit extends Command
             $model->job_ability = $hero['job_ability'];
             $model->intelligence = $hero['intelligence'];
             $model->loyalty = $hero['loyalty'];
+            $model->save();
+        }
+    }
+
+    private function initEvent()
+    {
+        foreach (g_load_import('event', 'normal') as $event) {
+            $model = Event::firstOrNew([
+                'name' => $event['name'],
+                'desc' => $event['desc'],
+            ]);
+            $model->event = $event['event'];
+            $model->params = $event['params'];
             $model->save();
         }
     }

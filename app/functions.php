@@ -10,7 +10,13 @@ function g_getDate()
 
 function g_load_import($name, $method)
 {
-    return config("import_$name.$method");
+    $path = base_path('import/' . $name . '.php');
+    if (file_exists($path)) {
+        $array = require_once($path);
+        return $array[$method];
+    } else {
+        throw new Exception('can not load config');
+    }
 }
 
 function g_is_debug()

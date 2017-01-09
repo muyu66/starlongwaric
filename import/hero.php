@@ -2,7 +2,7 @@
 
 return [
     // 船员英雄数据
-    'heroes' => [
+    'initHero' => [
         [
             'name' => 'Steven Lee',
             'desc' => '著名的工程师',

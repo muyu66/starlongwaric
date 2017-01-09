@@ -2,7 +2,7 @@
 
 return [
     // 普通事件
-    'normal' => [
+    'initNormalEvent' => [
         [
             'name' => '遭遇战',
             'desc' => '遭遇战',

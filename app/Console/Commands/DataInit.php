@@ -26,7 +26,7 @@ class DataInit extends Command
         $this->initConfig();
         $this->initStory();
         $this->initHero();
-        $this->initEvent();
+        $this->initNormalEvent();
 
         $this->fleetBodyWidget();
         $this->fleetTechTech();
@@ -34,7 +34,7 @@ class DataInit extends Command
 
     private function initStory()
     {
-        foreach (g_load_import('story', 'main') as $story) {
+        foreach (g_load_import('story', __FUNCTION__) as $story) {
             $model = Story::firstOrNew([
                 'chapter' => $story['chapter'],
             ]);
@@ -46,7 +46,7 @@ class DataInit extends Command
 
     private function initConfig()
     {
-        foreach (g_load_import('data', 'globalConfig') as $key => $value) {
+        foreach (g_load_import('data', __FUNCTION__) as $key => $value) {
             $model = Config::firstOrNew([
                 'key' => $key,
             ]);
@@ -57,7 +57,7 @@ class DataInit extends Command
 
     private function initHero()
     {
-        foreach (g_load_import('hero', 'heroes') as $hero) {
+        foreach (g_load_import('hero', __FUNCTION__) as $hero) {
             $model = Staff::firstOrNew([
                 'name' => $hero['name'],
                 'desc' => $hero['desc'],
@@ -73,9 +73,9 @@ class DataInit extends Command
         }
     }
 
-    private function initEvent()
+    private function initNormalEvent()
     {
-        foreach (g_load_import('event', 'normal') as $event) {
+        foreach (g_load_import('event', __FUNCTION__) as $event) {
             $model = Event::firstOrNew([
                 'name' => $event['name'],
                 'desc' => $event['desc'],

@@ -2,7 +2,7 @@
 
 return [
     // 正传
-    'main' => [
+    'initStory' => [
         [
             'chapter' => '第一章',
             'content' => '第一章正文',

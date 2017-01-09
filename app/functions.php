@@ -12,7 +12,7 @@ function g_load_import($name, $method)
 {
     $path = base_path('import/' . $name . '.php');
     if (file_exists($path)) {
-        $array = require_once($path);
+        $array = require($path);
         return $array[$method];
     } else {
         throw new Exception('can not load config');

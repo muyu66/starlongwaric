@@ -24,3 +24,5 @@ Route::resource('stories', 'StoryController');
 Route::resource('users', 'UserController');
 
 Route::resource('fight_logs', 'FightLogController');
+
+Route::controller('staff', 'StaffController');

@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Config;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
+use App\Models\Staff;
 use App\Models\Story;
 use Illuminate\Console\Command;
 
@@ -23,6 +24,7 @@ class DataInit extends Command
     {
         $this->initConfig();
         $this->initStory();
+        $this->initHero();
 
         $this->fleetBodyWidget();
         $this->fleetTechTech();
@@ -47,6 +49,24 @@ class DataInit extends Command
                 'key' => $key,
             ]);
             $model->value = $value;
+            $model->save();
+        }
+    }
+
+    private function initHero()
+    {
+        foreach (g_load_import('hero', 'heroes') as $hero) {
+            $model = Staff::firstOrNew([
+                'name' => $hero['name'],
+                'desc' => $hero['desc'],
+            ]);
+            $model->boss_id = 0;
+            $model->is_hero = 1;
+            $model->character = $hero['character'];
+            $model->job = $hero['job'];
+            $model->job_ability = $hero['job_ability'];
+            $model->intelligence = $hero['intelligence'];
+            $model->loyalty = $hero['loyalty'];
             $model->save();
         }
     }

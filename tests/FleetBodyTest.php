@@ -6,14 +6,12 @@ class FleetBodyTest extends TestCase
 {
     public function testIndex()
     {
-        $this->login();
         $this->get_with_login('fleet_bodies');
         $this->seeJsonContains(['health' => 100]);
     }
 
     public function testShow()
     {
-        $this->login();
         $this->get_with_login('fleet_bodies/8');
         $this->seeJsonContains(['id' => 8]);
     }
@@ -45,7 +43,6 @@ class FleetBodyTest extends TestCase
 
     public function testStore()
     {
-        $this->login();
         $this->post_with_login('fleet_bodies', ['id' => 8]);
         $this->seeJsonContains(['id' => 8, 'fix' => 0]);
 
@@ -55,7 +52,6 @@ class FleetBodyTest extends TestCase
 
     public function testPostAll()
     {
-        $this->login();
         $this->post_with_login('fleet_bodies/all');
         $this->seeJson();
         $this->assertResponseOk();

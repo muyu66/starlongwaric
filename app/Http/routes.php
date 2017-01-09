@@ -2,15 +2,6 @@
 
 Route::controller('auth', 'AuthController');
 
-
-
-
-Route::resource('fleet_log', 'FleetLogController');
-
-
-
-
-
 Route::get('enemies/randoms', 'EnemyController@getRandoms');
 Route::get('enemies/random', 'EnemyController@getRandom');
 Route::resource('enemies', 'EnemyController');
@@ -31,3 +22,5 @@ Route::resource('fleets', 'FleetController');
 Route::resource('stories', 'StoryController');
 
 Route::resource('users', 'UserController');
+
+Route::resource('fight_logs', 'FightLogController');

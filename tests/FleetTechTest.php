@@ -6,14 +6,12 @@ class FleetTechTest extends TestCase
 {
     public function testIndex()
     {
-        $this->login();
         $this->get_with_login('fleet_teches');
         $this->seeJsonContains(['level' => 0]);
     }
 
     public function testShow()
     {
-        $this->login();
         $this->get_with_login('fleet_teches/12');
         $this->seeJsonContains(['id' => 12]);
     }
@@ -58,7 +56,6 @@ class FleetTechTest extends TestCase
 
     public function testPostAll()
     {
-        $this->login();
         $this->post_with_login('fleet_teches/all');
         $this->seeJson();
         $this->assertResponseOk();

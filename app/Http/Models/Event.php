@@ -6,9 +6,8 @@ class Event extends Base
 {
     protected $table = 'events';
 
-    protected $fillable = ['name', 'desc'];
-
-    protected $casts = [
-        'params' => 'Array',
-    ];
+    public function standard()
+    {
+        return $this->hasOne(EventStandard::class, 'id', 'standard_id');
+    }
 }

@@ -26,3 +26,6 @@ Route::resource('users', 'UserController');
 Route::resource('fight_logs', 'FightLogController');
 
 Route::controller('staff', 'StaffController');
+
+Route::controller('events', 'EventController');
+Route::resource('event_standards', 'EventStandardController');

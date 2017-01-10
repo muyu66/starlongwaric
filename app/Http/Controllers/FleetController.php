@@ -53,9 +53,10 @@ class FleetController extends Controller
         $this->valid(['name' => $name]);
 
         $fleet = $this->createFleet($name);
-        $this->createFleetBody($fleet);
-        $this->createFleetTech($fleet);
+        $this->createFleetBody($fleet->id);
+        $this->createFleetTech($fleet->id);
         $this->createFleetPower($fleet);
+        $this->createFleetStaff($fleet->id);
     }
 
     private function createFleet($name)
@@ -75,24 +76,24 @@ class FleetController extends Controller
         return $fleet;
     }
 
-    public function createFleetBody($fleet)
+    public function createFleetBody($fleet_id)
     {
         $copies = FleetBodyWidget::get();
         foreach ($copies as $copy) {
             $body = new FleetBody();
-            $body->fleet_id = $fleet->id;
+            $body->fleet_id = $fleet_id;
             $body->widget_id = $copy->id;
             $body->health = 100;
             $body->save();
         }
     }
 
-    public function createFleetTech($fleet)
+    public function createFleetTech($fleet_id)
     {
         $copies = FleetTechTech::get();
         foreach ($copies as $copy) {
             $body = new FleetTech();
-            $body->fleet_id = $fleet->id;
+            $body->fleet_id = $fleet_id;
             $body->tech_id = $copy->id;
             $body->level = 0;
             $body->save();
@@ -110,5 +111,18 @@ class FleetController extends Controller
         $power = new FleetPowerController();
         $fleet->power = $power->power();
         $fleet->save();
+    }
+
+    /**
+     * 随机创建初始船员
+     *
+     * @param $fleet_id
+     * @author Zhou Yu
+     */
+    public function createFleetStaff($fleet_id)
+    {
+        $ctl = new StaffController();
+        $ctl->createStaff($fleet_id, 1);
+        $ctl->createStaff($fleet_id);
     }
 }

@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Config;
-use App\Models\Event;
+use App\Models\EventStandard;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
 use App\Models\Staff;
@@ -76,7 +76,7 @@ class DataInit extends Command
     private function initNormalEvent()
     {
         foreach (g_load_import('event', __FUNCTION__) as $event) {
-            $model = Event::firstOrNew([
+            $model = EventStandard::firstOrNew([
                 'name' => $event['name'],
                 'desc' => $event['desc'],
             ]);

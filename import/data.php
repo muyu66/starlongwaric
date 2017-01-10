@@ -5,6 +5,7 @@ return [
     'initConfig' => [
         'enemy_generate_amount' => 100,
         'staff_generate_amount' => 20,
+        'event_generate_amount' => 10,
         'tech_limit' => 10,
     ],
 

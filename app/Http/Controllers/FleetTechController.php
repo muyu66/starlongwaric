@@ -118,7 +118,7 @@ class FleetTechController extends Controller
     {
         $num = $request->input('num');
         $result = [];
-        $models = FleetTech::self($this->getFleetId())->get();
+        $models = FleetTech::belong($this->getFleetId())->get();
         foreach ($models as $model) {
             $result[] = $this->store(new Request(), $model->id, $num);
         }

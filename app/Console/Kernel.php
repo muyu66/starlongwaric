@@ -12,9 +12,11 @@ class Kernel extends ConsoleKernel
         Commands\DataInit::class,
         Commands\DataFix::class,
         Commands\DatabseCreate::class,
+        Commands\DatabseDrop::class,
 
         Schedules\EnemyGenerate::class,
         Schedules\StaffGenerate::class,
+        Schedules\EventGenerate::class,
 
         Commands\Test::class,
     ];
@@ -23,5 +25,8 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command("enemy:generate")
             ->cron('*/10 * * * * *');
+
+        $schedule->command("event:generate")
+            ->cron('*/1 * * * * *');
     }
 }

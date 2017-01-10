@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEventsTable extends Migration
+class CreateEventStandardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,13 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('event_standards', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('fleet_id');
-            $table->integer('standard_id');
-            $table->boolean('status');
-            $table->integer('commander');
+            $table->string('name');
+            $table->string('desc');
+            $table->integer('event');
+            $table->json('params');
 
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateEventsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('events');
+        Schema::drop('event_standards');
     }
 }

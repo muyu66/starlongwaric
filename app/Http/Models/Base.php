@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use \Eloquent;
+use Eloquent;
 
 class Base extends Eloquent
 {
@@ -11,11 +11,13 @@ class Base extends Eloquent
         return static::where('fleet_id', $fleet_id)->with($with)->get();
     }
 
-    public static function self($fleet_id)
-    {
-        return static::where('fleet_id', $fleet_id);
-    }
-
+    /**
+     * 限定 Fleet
+     *
+     * @param $fleet_id
+     * @return static
+     * @author Zhou Yu
+     */
     public static function belong($fleet_id)
     {
         return static::where('fleet_id', $fleet_id);

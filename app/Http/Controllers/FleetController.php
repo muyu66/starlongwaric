@@ -104,6 +104,7 @@ class FleetController extends Controller
      * 刷新战斗力
      *
      * @param Fleet $fleet
+     * @return Fleet
      * @author Zhou Yu
      */
     public function createFleetPower(Fleet $fleet)
@@ -111,6 +112,7 @@ class FleetController extends Controller
         $power = new FleetPowerController();
         $fleet->power = $power->power();
         $fleet->save();
+        return $fleet;
     }
 
     /**

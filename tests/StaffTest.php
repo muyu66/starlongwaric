@@ -17,6 +17,12 @@ class StaffTest extends TestCase
         $this->seeJsonContains(['id' => 1, "boss_id" => "0"]);
     }
 
+    public function testGetMyCommander()
+    {
+        $this->get_with_login('staff/my-commander');
+        $this->seeJsonContains(['id' => 5, "boss_id" => "2"]);
+    }
+
     public function testCreateStaff()
     {
         $ctl = new StaffController();

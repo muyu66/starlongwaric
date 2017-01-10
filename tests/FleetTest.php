@@ -45,20 +45,31 @@ class FleetTest extends TestCase
 
     public function testCreateFleetBody()
     {
-        $this->getPrivate(FleetController::class, 'createFleetBody', $this->fleet);
+        $ctl = new FleetController();
+        $ctl->createFleetBody($this->fleet->id);
         $this->seeInDatabase('fleet_bodies', ['fleet_id' => '3']);
     }
 
     public function testCreateFleetTech()
     {
-        $this->getPrivate(FleetController::class, 'createFleetTech', $this->fleet);
+        $ctl = new FleetController();
+        $ctl->createFleetTech($this->fleet->id);
         $this->seeInDatabase('fleet_teches', ['fleet_id' => '3']);
     }
 
     public function testCreateFleetPower()
     {
-        $this->getPrivate(FleetController::class, 'createFleetPower', $this->fleet);
-        $this->seeInDatabase('fleets', ['id' => 3, 'name' => '德马西亚']);
+        $ctl = new FleetController();
+        $model = $ctl->createFleetPower($this->fleet);
+        $this->assertTrue($model->id == '3' && $model->power > 0);
+    }
+
+    public function testCreateFleetStaff()
+    {
+        $ctl = new FleetController();
+        $ctl->createFleetStaff($this->fleet->id);
+        $this->seeInDatabase('staff', ['id' => 27, 'is_commander' => '1']);
+        $this->seeInDatabase('staff', ['id' => 28, 'is_commander' => '0']);
     }
 
     public function testStore()

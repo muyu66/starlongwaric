@@ -18,6 +18,13 @@ class StaffController extends Controller
         return Staff::where('boss_id', 0)->get();
     }
 
+    public function getMyCommander()
+    {
+        return Staff::where('boss_id', $this->getFleetId())
+            ->where('is_commander', 1)
+            ->first();
+    }
+
     /**
      * 任命指挥官
      * 指挥官: 在用户离线的情况下，根据自身的思考，帮玩家做出选择

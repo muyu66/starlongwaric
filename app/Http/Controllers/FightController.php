@@ -53,9 +53,6 @@ class FightController extends Controller
          * @author Zhou Yu
          */
         $algorithm = function (Model $win, Model $lost) {
-
-            // TODO Model 会 穿透 闭包
-
             $gold = round($lost->gold * 0.2);
             $fuel = round($lost->fuel * 0.2);
             $lost->gold = $lost->gold - $gold;

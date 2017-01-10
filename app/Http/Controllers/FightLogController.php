@@ -16,6 +16,7 @@ class FightLogController extends Controller
     {
         return FightLog::where('my_id', $this->getFleetId())
             ->orWhere('enemy_id', $this->getFleetId())
+            ->with('enemy')
             ->get();
     }
 
@@ -29,9 +30,13 @@ class FightLogController extends Controller
     public function show($my_or_enemy = 'my')
     {
         if ($my_or_enemy == 'my') {
-            return FightLog::where('my_id', $this->getFleetId())->get();
+            return FightLog::where('my_id', $this->getFleetId())
+                ->with('enemy')
+                ->get();
         } else {
-            return FightLog::where('enemy_id', $this->getFleetId())->get();
+            return FightLog::where('enemy_id', $this->getFleetId())
+                ->with('enemy')
+                ->get();
         }
     }
 

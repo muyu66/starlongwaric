@@ -32,12 +32,12 @@ function g_is_debug()
  */
 function g_yields($count)
 {
+    // 数据小于 30000 时, range 性能最佳, 消耗最低
     if ($count <= 30000) {
         return range(0, $count - 1);
     }
     return g_get_generator($count);
 }
-
 function g_get_generator($count)
 {
     for ($i = 0; $i <= $count; $i++) {

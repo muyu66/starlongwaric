@@ -18,7 +18,7 @@ class CreateFightLogsTable extends Migration
             $table->integer('enemy_id');
             $table->integer('my_power');
             $table->integer('enemy_power');
-            $table->char('result', 1)->comment('-1战败,0平局,1胜利');
+            $table->boolean('result')->comment('-1战败,0平局,1胜利');
             $table->json('booty');
             $table->timestamps();
         });

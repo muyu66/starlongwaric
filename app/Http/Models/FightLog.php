@@ -9,4 +9,9 @@ class FightLog extends Base
         'booty' => 'Array',
     ];
     protected $hidden = ['created_at', 'updated_at'];
+
+    public function enemy()
+    {
+        return $this->hasOne(Enemy::class, 'id', 'enemy_id');
+    }
 }

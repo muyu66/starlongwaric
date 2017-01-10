@@ -10,10 +10,10 @@ return [
             'params' => ['count' => 1],
         ],
         [
-            'name' => '招募船员',
-            'desc' => '前往酒馆招募到初级船员',
+            'name' => '有船员慕名而来',
+            'desc' => '有初级船员慕名而来',
             'event' => 2,
-            'params' => ['level' => 30],
+            'params' => ['level' => 1],
         ],
     ],
 ];

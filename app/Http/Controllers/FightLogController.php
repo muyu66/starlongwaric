@@ -17,6 +17,7 @@ class FightLogController extends Controller
         return FightLog::where('my_id', $this->getFleetId())
             ->orWhere('enemy_id', $this->getFleetId())
             ->with('enemy')
+            ->orderBy('updated_at', 'desc')
             ->get();
     }
 
@@ -32,10 +33,12 @@ class FightLogController extends Controller
         if ($my_or_enemy == 'my') {
             return FightLog::where('my_id', $this->getFleetId())
                 ->with('enemy')
+                ->orderBy('updated_at', 'desc')
                 ->get();
         } else {
             return FightLog::where('enemy_id', $this->getFleetId())
                 ->with('enemy')
+                ->orderBy('updated_at', 'desc')
                 ->get();
         }
     }

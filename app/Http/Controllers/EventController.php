@@ -47,18 +47,26 @@ class EventController extends Controller
     /**
      * 随机生成随机玩家的事件
      *
+     * @param int $player_fleet_id 指定玩家，而不随机
+     * @param int $event_id 指定事件，而不随机
+     * @return Event
      * @author Zhou Yu
      */
-    public function generate()
+    public function generate($player_fleet_id = 0, $event_id = 0)
     {
+        // 事件号 取值范围
         $event_max_count = EventStandard::count();
+
+        // 获取存活玩家的 ID
         $fleet_id = Fleet::where('alive', 1)->get()->random()->id;
 
         $model = new Event();
-        $model->fleet_id = $fleet_id;
-        $model->standard_id = rand(1, $event_max_count);
+        $model->fleet_id = $player_fleet_id ? : $fleet_id;
+        $model->standard_id = $event_id ? : rand(1, $event_max_count);
         $model->status = 0;
         $model->commander = 0;
         $model->save();
+
+        return $model;
     }
 }

@@ -36,4 +36,11 @@ class StaffTest extends TestCase
         $this->seeInDatabase('staff', ['id' => 6, 'is_commander' => "1"]);
         $this->seeInDatabase('staff', ['id' => 5, 'is_commander' => "0"]);
     }
+
+    public function testCalcGold()
+    {
+        $ctl = new StaffController();
+        $result = $ctl->calcGold(3);
+        $this->assertTrue(is_numeric($result));
+    }
 }

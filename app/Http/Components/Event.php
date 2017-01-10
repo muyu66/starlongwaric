@@ -48,19 +48,22 @@ class Event
         return $this->$method();
     }
 
-    protected function event1()
+    public function event1()
     {
         $params = $this->model->standard->params;
+
         if ($params['count'] === 1 && $this->choose === 1) {
             $ctl = new FightController();
             $ctl->postEnemy();
         }
     }
 
-    protected function event2()
+    public function event2()
     {
+        $params = $this->model->standard->params;
+
         $fleet_id = $this->params['fleet_id'];
         $ctl = new StaffController();
-        $ctl->createStaff($fleet_id, 0, 1);
+        $ctl->createStaff($fleet_id, 0, $params['level']);
     }
 }

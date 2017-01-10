@@ -61,6 +61,12 @@ class StaffController extends Controller
         $old->save();
     }
 
+    public function calcGold($id)
+    {
+        $model = Staff::findOrFail($id);
+        return $model->is_hero * 10000 + $model->job_ability * $model->intelligence;
+    }
+
     /**
      *
      *

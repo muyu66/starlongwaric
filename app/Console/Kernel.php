@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         Schedules\EnemyGenerate::class,
         Schedules\StaffGenerate::class,
         Schedules\EventGenerate::class,
+        Schedules\Commander::class,
 
         Commands\Test::class,
     ];
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command("enemy:generate")
+            ->cron('*/10 * * * * *');
+
+        $schedule->command("staff:generate")
             ->cron('*/10 * * * * *');
 
         $schedule->command("event:generate")

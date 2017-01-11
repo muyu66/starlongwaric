@@ -20,9 +20,15 @@ class EventTest extends TestCase
         return $model;
     }
 
-    public function testGetIndex()
+    public function testGetUnFinish()
     {
-        $this->get_with_login('event');
+        $this->get_with_login('event/un-finish');
+        $this->assertResponseOk();
+    }
+
+    public function testGetFinish()
+    {
+        $this->get_with_login('event/finish');
         $this->assertResponseOk();
     }
 

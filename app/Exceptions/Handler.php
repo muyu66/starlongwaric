@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use DB;
@@ -21,28 +22,11 @@ class Handler extends ExceptionHandler
         ModelNotFoundException::class,
     ];
 
-    /**
-     * Report or log an exception.
-     *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception $e
-     * @return void
-     */
     public function report(Exception $e)
     {
         parent::report($e);
     }
 
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param Exception $e
-     * @return \Illuminate\Http\Response
-     * @throws Exception
-     * @author Zhou Yu
-     */
     public function render($request, Exception $e)
     {
         if ($e instanceof ModelNotFoundException) {
@@ -65,6 +49,13 @@ class Handler extends ExceptionHandler
                     'Sql: ' . implode("", $sql)
                 );
             }
+        }
+
+        if ($e instanceof CustomException && $request->wantsJson()) {
+            return Response::json([
+                'code' => $e->getCode(),
+                'msg' => $e->getMessage(),
+            ], $e->getCode());
         }
 
         return parent::render($request, $e);

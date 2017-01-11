@@ -11,27 +11,42 @@ use App\Http\Components\Event as EventFunc;
 class EventController extends Controller
 {
     /**
-     * 返回 顺序完成状态、逆序时间
+     * 返回 顺序完成状态、逆序时间 且 尚未完成
      *
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      * @author Zhou Yu
      */
-    public function getIndex()
+    public function getUnFinish()
     {
         return Event::belong($this->getFleetId())
+            ->where('status', 0)
             ->with('standard')
             ->orderByRaw('`status` asc, `updated_at` desc')
             ->get();
     }
 
-    public function postResolve(Request $request)
+    /**
+     * 返回 顺序完成状态、逆序时间 且 已经完成
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|static[]
+     * @author Zhou Yu
+     */
+    public function getFinish()
     {
-        $event_id = $request->input('id');
-        $choose = $request->input('choose');
+        return Event::belong($this->getFleetId())
+            ->where('status', 1)
+            ->with('standard')
+            ->orderByRaw('`status` asc, `updated_at` desc')
+            ->get();
+    }
+
+    public function postResolve(Request $request, $p_id = 0, $p_choose = 0)
+    {
+        $event_id = $request->input('id') ? : $p_id;
+        $choose = $request->input('choose') ? : $p_choose;
 
         $model = Event::belong($this->getFleetId())
             ->where('status', 0)
-            ->where('commander', 0)
             ->with('standard')
             ->findOrFail($event_id);
 
@@ -40,6 +55,7 @@ class EventController extends Controller
         $ctl = new EventFunc($model, $choose, $params);
         $ctl->run();
 
+        $model->commander = $p_id ? $model->commander : 0;
         $model->status = 1;
         $model->save();
     }
@@ -60,11 +76,13 @@ class EventController extends Controller
         // 获取存活玩家的 ID
         $fleet_id = Fleet::where('alive', 1)->get()->random()->id;
 
+        $ctl = new StaffController();
+
         $model = new Event();
         $model->fleet_id = $player_fleet_id ? : $fleet_id;
         $model->standard_id = $event_id ? : rand(1, $event_max_count);
         $model->status = 0;
-        $model->commander = 0;
+        $model->commander = $ctl->commander($model->fleet_id)->id; // 获取玩家的指挥官
         $model->save();
 
         return $model;

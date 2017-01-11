@@ -68,8 +68,8 @@ class FleetTest extends TestCase
     {
         $ctl = new FleetController();
         $ctl->createFleetStaff($this->fleet->id);
-        $this->seeInDatabase('staff', ['id' => 27, 'is_commander' => '1']);
-        $this->seeInDatabase('staff', ['id' => 28, 'is_commander' => '0']);
+        $this->seeInDatabase('staff', ['id' => 5, 'is_commander' => '1']);
+        $this->seeInDatabase('staff', ['id' => 6, 'is_commander' => '0']);
     }
 
     public function testStore()

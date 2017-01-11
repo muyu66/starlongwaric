@@ -16,9 +16,6 @@ class Test extends Command
 
     public function handle()
     {
-        $base = 1482246351;
-        $now = (time() - $base) * 100 + $base;
-        $carbon = Carbon::createFromTimestamp($now);
-        dump($carbon->addYears(88));
+        dump('1111');
     }
 }

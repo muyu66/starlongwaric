@@ -26,6 +26,20 @@ class StaffController extends Controller
     }
 
     /**
+     * 获取指定玩家的指挥官
+     *
+     * @param $fleet_id
+     * @return Staff
+     * @author Zhou Yu
+     */
+    public function commander($fleet_id)
+    {
+        return Staff::where('boss_id', $fleet_id)
+            ->where('is_commander', 1)
+            ->first();
+    }
+
+    /**
      * 任命指挥官
      * 指挥官: 在用户离线的情况下，根据自身的思考，帮玩家做出选择
      *

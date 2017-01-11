@@ -8,13 +8,17 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Auth;
-use Exception;
 
 abstract class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $except;
+
+    public $user;
+    public $user_id;
+    public $fleet;
+    public $fleet_id;
 
     public function __construct()
     {
@@ -23,41 +27,55 @@ abstract class Controller extends BaseController
 
     public function getUser()
     {
-        $user = Auth::user();
-        if (! $user) {
-            throw new Exception('this user is not found');
+        if (! $this->user) {
+            $this->setUser();
         }
+        return $this->user;
+    }
 
-        return $user;
+    public function setUser($user = null)
+    {
+        $this->user = $user ? : Auth::user();
     }
 
     public function getUserId()
     {
-        if (! $this->getUser()) {
-            throw new Exception('this user is not found');
+        if (! $this->user_id) {
+            $this->setUserId();
         }
-
-        return $this->getUser()->id;
+        return $this->user_id;
     }
 
-    /**
-     * @description
-     * @return Fleet
-     * @author Zhou Yu
-     */
+    public function setUserId($user_id = 0)
+    {
+        $this->user_id = $user_id ? : Auth::user()->id;
+    }
+
     public function getFleet()
     {
-        return Fleet::where('user_id', $this->getUserId())
-            ->where('alive', 1)
-            ->first();
+        if (! $this->fleet) {
+            $this->setFleet();
+        }
+        return $this->fleet;
+    }
+
+    public function setFleet($fleet = null)
+    {
+        $this->fleet = $fleet ? :
+            Fleet::alive()->where('user_id', $this->getUserId())->firstOrFail();
     }
 
     public function getFleetId()
     {
-        if (! $this->getFleet()) {
-            throw new Exception('this fleet is not found');
+        if (! $this->fleet_id) {
+            $this->setFleetId();
         }
+        return $this->fleet_id;
+    }
 
-        return $this->getFleet()->id;
+    public function setFleetId($fleet_id = 0)
+    {
+        $this->fleet_id = $fleet_id ? :
+            Fleet::alive()->where('user_id', $this->getUserId())->firstOrFail()->id;
     }
 }

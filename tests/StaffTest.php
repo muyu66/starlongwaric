@@ -20,7 +20,14 @@ class StaffTest extends TestCase
     public function testGetMyCommander()
     {
         $this->get_with_login('staff/my-commander');
-        $this->seeJsonContains(['id' => 5, "boss_id" => "2"]);
+        $this->seeJsonContains(['id' => 5, "boss_id" => parent::UNIT_FLEET_ID]);
+    }
+
+    public function testCommander()
+    {
+        $ctl = new StaffController();
+        $result = $ctl->commander(parent::UNIT_FLEET_ID);
+        $this->assertTrue(is_array($result->toArray()));
     }
 
     public function testCreateStaff()

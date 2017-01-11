@@ -26,7 +26,6 @@ class EventFuncTest extends TestCase
 
         $model = Event::belong(self::UNIT_FLEET_ID)
             ->where('status', 0)
-            ->where('commander', 0)
             ->with('standard')
             ->findOrFail($event_id);
 
@@ -45,7 +44,6 @@ class EventFuncTest extends TestCase
 
         $model = Event::belong(self::UNIT_FLEET_ID)
             ->where('status', 0)
-            ->where('commander', 0)
             ->with('standard')
             ->findOrFail($event_id);
 

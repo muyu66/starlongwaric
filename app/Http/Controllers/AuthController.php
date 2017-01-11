@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\CustomException;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Muyu\Controllers\Captcha;
@@ -15,15 +16,7 @@ class AuthController extends Controller
 {
     protected $except = ['postRegister', 'getCode', 'getCodeGenerate', 'getCodeValid', 'getCodeQuery'];
 
-    private $captcha;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->captcha = new Captcha();
-        $this->captcha->useMemcache(Cache::getMemcached());
-    }
+    public static $open_code = 1;
 
     private function check(Array $array)
     {
@@ -37,10 +30,10 @@ class AuthController extends Controller
         }
     }
 
-    public function getLogin()
+    public function postLogin()
     {
-        if (! $this->getCodeQuery() || $this->getCodeQuery() == 'error') {
-            throw new Exception('验证码不正确');
+        if (self::$open_code && ! $this->getCodeQuery()) {
+            throw new CustomException(401, '验证码错误');
         }
 
         return ['status' => '1'];
@@ -53,8 +46,8 @@ class AuthController extends Controller
 
     public function postRegister(Request $request)
     {
-        if (! $this->getCodeQuery() || $this->getCodeQuery() == 'error') {
-            throw new Exception('验证码不正确');
+        if (self::$open_code && ! $this->getCodeQuery()) {
+            throw new CustomException(401, '验证码错误');
         }
 
         $array = $request->all();
@@ -82,18 +75,25 @@ class AuthController extends Controller
         ]);
     }
 
+    public function getCaptcha()
+    {
+        $captcha = new Captcha();
+        $captcha->useMemcache(Cache::getMemcached());
+        return $captcha;
+    }
+
     public function getCodeGenerate()
     {
-        return $this->captcha->generate();
+        return $this->getCaptcha()->generate();
     }
 
     public function getCodeValid()
     {
-        return $this->captcha->valid();
+        return $this->getCaptcha()->valid();
     }
 
     public function getCodeQuery()
     {
-        return $this->captcha->query();
+        return $this->getCaptcha()->query();
     }
 }

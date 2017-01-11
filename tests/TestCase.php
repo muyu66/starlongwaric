@@ -70,7 +70,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function get($uri, array $data = [], array $headers = [])
     {
-        $headers['Accept'] = 'Application/json';
+        $headers['Accept'] = 'application/json';
         $uri .= '?' . http_build_query($data, null, '&');
         return parent::get($uri, $headers);
     }
@@ -91,7 +91,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
     public function post($uri, array $data = [], array $headers = [])
     {
-        $headers['Accept'] = 'Application/json';
+        $headers['Accept'] = 'application/json';
         return parent::post($uri, $data, $headers);
     }
 

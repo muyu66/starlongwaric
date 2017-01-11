@@ -32,7 +32,7 @@ class FleetController extends Controller
      */
     public function show()
     {
-        return Fleet::isAlive()->where('user_id', $this->getUserId())->first();
+        return Fleet::alive()->where('user_id', $this->getUserId())->first();
     }
 
     public function valid(Array $array)

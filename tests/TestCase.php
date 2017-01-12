@@ -2,6 +2,7 @@
 
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use App\Http\Commons\Redis;
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
@@ -21,7 +22,14 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $app = require __DIR__ . '/../bootstrap/app.php';
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+
+        // 清理 Redis
+        $redis = new Redis();
+        $redis->flushDb();
+
+        // 初始数据库
         Artisan::call('database:create');
+
         return $app;
     }
 

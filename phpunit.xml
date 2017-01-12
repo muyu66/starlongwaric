@@ -27,5 +27,6 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_DATABASE" value="starlongwaric_unit"/>
+        <env name="REDIS_POS" value="4"/>
     </php>
 </phpunit>

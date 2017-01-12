@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Components\Message;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,19 @@ class FriendController extends Controller
         $model = Friend::firstOrNew([
             'fleet_id' => $this->getFleetId(),
         ]);
-        $model->friends = g_array_add($model->friends, $friend_id);
-        $model->save();
+        if ($model->friends === g_array_add($model->friends, $friend_id)) {
+            throw new \Exception('好友已经存在于您的列表中');
+        } else {
+            $msg = new Message();
+            $msg->pushMessage($this->getFleetId(), $friend_id, '交朋友');
+        }
+
+
+//        $friend_id = $request->input('id');
+//        $model = Friend::firstOrNew([
+//            'fleet_id' => $this->getFleetId(),
+//        ]);
+//        $model->friends = g_array_add($model->friends, $friend_id);
+//        $model->save();
     }
 }

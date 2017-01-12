@@ -15,15 +15,21 @@ class Message
         ], 1296000); // 消息保存15天
     }
 
-    public function getMessage($my_id)
+    public function getMessage($my_id, $is_read = 0)
     {
         $tmp = [];
         $redis = new Redis();
-        $msgs = $redis->getList($my_id);
+        $msgs = $is_read ? $redis->getListRead($my_id) : $redis->getList($my_id);
         foreach ($msgs as $msg) {
             $tmp[] = $redis->get($msg);
         }
         return $tmp;
+    }
+
+    public function getCount($my_id, $is_read = 0)
+    {
+        $redis = new Redis();
+        return count($is_read ? $redis->getListRead($my_id) : $redis->getList($my_id));
     }
 
     public function pullMessage($my_id)

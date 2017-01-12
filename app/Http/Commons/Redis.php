@@ -43,6 +43,11 @@ class Redis
         return $this->redis->keys($key . '-*');
     }
 
+    public function getListRead($key)
+    {
+        return $this->redis->keys('read/' . $key . '-*');
+    }
+
     /**
      *
      *

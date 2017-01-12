@@ -51,6 +51,12 @@ abstract class Controller extends BaseController
         $this->user_id = $user_id ? : Auth::user()->id;
     }
 
+    /**
+     *
+     *
+     * @return Fleet
+     * @author Zhou Yu
+     */
     public function getFleet()
     {
         if (! $this->fleet) {

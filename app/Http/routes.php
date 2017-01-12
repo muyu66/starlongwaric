@@ -29,3 +29,5 @@ Route::controller('staff', 'StaffController');
 
 Route::controller('event', 'EventController');
 Route::resource('event_standards', 'EventStandardController');
+
+Route::controller('friend', 'FriendController');

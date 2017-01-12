@@ -38,6 +38,7 @@ function g_yields($count)
     }
     return g_get_generator($count);
 }
+
 function g_get_generator($count)
 {
     for ($i = 0; $i <= $count; $i++) {
@@ -61,6 +62,18 @@ function g_add_or_update($arrays, $key, $value)
     } else {
         foreach ($arrays as $k => $v) {
             $arrays[$k] = $value;
+        }
+    }
+    return $arrays;
+}
+
+function g_array_add($arrays, $value)
+{
+    if (! $arrays) {
+        $arrays = [$value];
+    } else {
+        if (! in_array($value, $arrays)) {
+            $arrays[] = $value;
         }
     }
     return $arrays;

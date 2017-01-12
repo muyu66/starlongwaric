@@ -32,5 +32,8 @@ class Kernel extends ConsoleKernel
 
         $schedule->command("event:generate")
             ->cron('*/1 * * * * *');
+
+        $schedule->command("event:commander")
+            ->cron('0 */1 * * * *');
     }
 }

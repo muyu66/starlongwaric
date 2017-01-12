@@ -4,6 +4,7 @@ namespace App\Http\Components;
 
 use App\Http\Controllers\FightController;
 use App\Http\Controllers\StaffController;
+use App\Models\Fleet;
 
 class Event
 {
@@ -52,9 +53,11 @@ class Event
     {
         $params = $this->model->standard->params;
 
+        $fleet_id = $this->params['fleet_id'];
+
         if ($params['count'] === 1 && $this->choose === 1) {
             $ctl = new FightController();
-            $ctl->postEnemy();
+            $ctl->fight(Fleet::alive()->findOrFail($fleet_id));
         }
     }
 
@@ -63,6 +66,7 @@ class Event
         $params = $this->model->standard->params;
 
         $fleet_id = $this->params['fleet_id'];
+
         $ctl = new StaffController();
         $ctl->createStaff($fleet_id, 0, $params['level']);
     }

@@ -15,14 +15,12 @@ class Commander extends Command
 
     public function handle()
     {
-        //todo
         $models = Event::commander()->get();
 
         $ctl = new EventController();
 
         foreach ($models as $model) {
-            Controller::setFleetId($model->fleet_id);
-            $ctl->postResolve(new Request(), $model->id, rand(0, 1));
+            $ctl->postResolve(new Request(), $model->id, rand(0, 1), $model->fleet_id);
         }
     }
 }

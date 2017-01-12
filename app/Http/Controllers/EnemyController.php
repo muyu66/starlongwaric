@@ -16,30 +16,27 @@ class EnemyController extends Controller
         return Enemy::where('id', $id)->first();
     }
 
-    public function getRandoms()
+    public function randoms($my_power)
     {
-        $ctl = new FleetController();
-        $my = $ctl->show();
-
         /**
          * 循环搜寻匹配战斗力的敌人
          */
         $min = 0.5;
         $max = 1.5;
-        $result = Enemy::whereBetween('power', [$my->power * $min, $my->power * $max])
+        $result = Enemy::whereBetween('power', [$my_power * $min, $my_power * $max])
             ->get();
         while (! count($result)) {
             $min = $min - 0.1;
             $max = $max + 0.1;
-            $result = Enemy::whereBetween('power', [$my->power * $min, $my->power * $max])
+            $result = Enemy::whereBetween('power', [$my_power * $min, $my_power * $max])
                 ->get();
         }
 
         return $result;
     }
 
-    public function getRandom()
+    public function random($my_power)
     {
-        return $this->getRandoms()->random();
+        return $this->randoms($my_power)->random();
     }
 }

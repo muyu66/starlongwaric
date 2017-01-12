@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\EnemyController;
+
 class EnemyTest extends TestCase
 {
     public function testIndex()
@@ -16,17 +18,18 @@ class EnemyTest extends TestCase
         $this->assertResponseOk();
     }
 
-    public function testGetRandoms()
+    public function testRandoms()
     {
-        $this->get_with_login('enemies/randoms');
-        $this->seeJson();
-        $this->assertResponseOk();
+        $ctl = new EnemyController();
+        $result = $ctl->randoms(6000)->toArray();
+        $this->assertTrue(is_array($result[0]));
     }
 
-    public function testGetRandom()
+    public function testRandom()
     {
-        $this->get_with_login('enemies/random');
-        $this->seeJson();
-        $this->assertResponseOk();
+        $ctl = new EnemyController();
+        $result = $ctl->random(6000)->toArray();
+        $this->assertTrue(is_array($result));
+        $this->assertTrue(is_null($result[0]));
     }
 }

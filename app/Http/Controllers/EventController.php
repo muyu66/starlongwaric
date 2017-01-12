@@ -40,17 +40,18 @@ class EventController extends Controller
             ->get();
     }
 
-    public function postResolve(Request $request, $p_id = 0, $p_choose = 0)
+    public function postResolve(Request $request, $p_id = 0, $p_choose = 0, $fleet_id = 0)
     {
         $event_id = $request->input('id') ? : $p_id;
         $choose = $request->input('choose') ? : $p_choose;
+        $fleet_id = $fleet_id ? : $this->getFleetId();
 
-        $model = Event::belong($this->getFleetId())
+        $model = Event::belong($fleet_id)
             ->where('status', 0)
             ->with('standard')
             ->findOrFail($event_id);
 
-        $params['fleet_id'] = $this->getFleetId();
+        $params['fleet_id'] = $fleet_id;
 
         $ctl = new EventFunc($model, $choose, $params);
         $ctl->run();

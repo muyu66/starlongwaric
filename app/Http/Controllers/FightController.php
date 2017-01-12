@@ -8,19 +8,16 @@ use Exception;
 class FightController extends Controller
 {
     /**
-     * @description 战斗主函数
+     * 战斗主函数
+     *
+     * @param Model $my
      * @author Zhou Yu
      */
-    public function postEnemy()
+    public function fight(Model $my)
     {
-        $my = new FleetController();
-        $enemy = new EnemyController();
-
-        // 得到我的数据
-        $my = $my->show();
-
         // 得到敌人数据，随机遇敌
-        $enemy = $enemy->getRandom();
+        $enemy = new EnemyController();
+        $enemy = $enemy->random($my->power);
 
         // 得到战斗结果
         $result_int = $this->calc($my, $enemy);

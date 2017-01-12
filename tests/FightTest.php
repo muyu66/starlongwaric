@@ -15,7 +15,7 @@ class FightTest extends TestCase
         $my = new FleetController();
         $enemy = new EnemyController();
         $this->my = $my->show();
-        $this->enemy = $enemy->getRandom();
+        $this->enemy = $enemy->random($this->my->power);
     }
 
     public function testCalc()
@@ -38,10 +38,12 @@ class FightTest extends TestCase
         $this->assertArrayHasKey('gold', $result);
     }
 
-    public function testPostEnemy()
+    public function testFight()
     {
-        $this->post_with_login('fight/enemy');
-        $this->assertResponseOk();
+        $this->login();
+        $fleet = new FleetController();
+        $ctl = new FightController();
+        $ctl->fight($fleet->show());
         $this->seeInDatabase('fight_logs', ['id' => 1]);
     }
 }

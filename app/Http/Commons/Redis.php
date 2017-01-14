@@ -7,7 +7,7 @@ use Predis\Client;
 
 class Redis
 {
-    public $redis;
+    private $redis;
 
     public function __construct()
     {

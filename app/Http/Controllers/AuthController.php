@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\CustomException;
+use App\Http\Commons\Redis;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Muyu\Controllers\Captcha;
@@ -77,8 +78,9 @@ class AuthController extends Controller
 
     public function getCaptcha()
     {
+        $redis = new Redis();
         $captcha = new Captcha();
-        $captcha->useMemcache(Cache::getMemcached());
+        $captcha->useRedis($redis->getConnection());
         return $captcha;
     }
 

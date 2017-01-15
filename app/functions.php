@@ -78,3 +78,13 @@ function g_array_add($arrays, $value)
     }
     return $arrays;
 }
+
+function g_array_del($arrays, $value)
+{
+    $key = array_search($value, $arrays);
+    if ($key !== false) {
+        unset($arrays[$key]);
+        return array_values($arrays);
+    }
+    return $arrays;
+}

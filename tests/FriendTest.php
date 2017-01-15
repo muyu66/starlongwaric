@@ -10,6 +10,12 @@ class FriendTest extends TestCase
         $this->assertResponseOk();
     }
 
+    public function testPostDelete()
+    {
+        $this->post_with_login('friend/delete', ['id' => 1]);
+        $this->assertResponseOk();
+    }
+
     public function testAgree()
     {
         $ctl = new FriendController();

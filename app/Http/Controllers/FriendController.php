@@ -33,6 +33,23 @@ class FriendController extends Controller
     }
 
     /**
+     * Delete friend ship
+     *
+     * @param Request $request
+     * @throws \Exception
+     * @author Zhou Yu
+     */
+    public function postDelete(Request $request)
+    {
+        $friend_id = $request->input('id');
+        $model = Friend::firstOrNew([
+            'fleet_id' => $this->getFleetId(),
+        ]);
+        $model->friends = g_array_del($model->friends, $friend_id);
+        $model->save();
+    }
+
+    /**
      * 对方同意好友添加
      *
      * @param $my_id

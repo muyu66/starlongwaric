@@ -6,6 +6,7 @@ class TestController extends Controller
 {
     public function getTest()
     {
-        dump('ads');
+//        $this->getFleetId();
+//        return $this->getOnlineStatus();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Components\Message;
+use App\Models\Fleet;
 use App\Models\Friend;
 use Illuminate\Http\Request;
 
@@ -10,12 +11,17 @@ class FriendController extends Controller
 {
     public function getIndex()
     {
-        return Friend::belong($this->getFleetId())->first();
-    }
-
-    public function index($fleet_id)
-    {
-        return Friend::belong($fleet_id)->first();
+        $friends = Friend::belong($this->getFleetId())->first();
+        $tmps = $friends->friends;
+        foreach ($tmps as &$friend) {
+            $friend = [
+                'id' => $friend,
+                'name' => Fleet::getName($friend),
+                'online' => $this->getOnlineStatus($friend),
+            ];
+        }
+        $friends->friends = $tmps;
+        return $friends;
     }
 
     public function postIndex(Request $request)

@@ -11,4 +11,9 @@ class Fleet extends Base
     {
         return static::where('alive', 1);
     }
+
+    public static function getName($fleet_id)
+    {
+        return Fleet::findOrFail($fleet_id)->name;
+    }
 }

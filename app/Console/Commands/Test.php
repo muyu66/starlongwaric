@@ -25,6 +25,6 @@ class Test extends Command
 //        dump($a);
         $c = new Message();
         $c->pushMessageFunc(1, 2, 1);
-        $c->pushMessage(1, 2, 'hallp');
+//        $c->pushMessage(1, 2, 'hallp');
     }
 }

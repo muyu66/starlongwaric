@@ -88,3 +88,33 @@ function g_array_del($arrays, $value)
     }
     return $arrays;
 }
+
+/**
+ * 将时间转换成时间短句
+ * 比如，11分钟 2小时 3天
+ *
+ * @param $timestamp
+ * @return array
+ */
+function g_get_online_status($timestamp)
+{
+    list($day, $hour, $min) = explode('::', gmstrftime("%j::%H::%M", $timestamp));
+
+    if ($day != '001') {
+        if ((int)$day > 30) {
+            return ['is_online' => 0, 'time' => '超过1个月'];
+        }
+        return ['is_online' => 0, 'time' => (int)$day - 1 . '天'];
+    } else {
+        if ($hour != '00') {
+            return ['is_online' => 0, 'time' => (int)$hour . '小时'];
+        } else {
+            if ($min != '00') {
+                if ((int)$min >= 5) {
+                    return ['is_online' => 0, 'time' => (int)$min . '分钟'];
+                }
+            }
+            return ['is_online' => 1, 'time' => '0'];
+        }
+    }
+}

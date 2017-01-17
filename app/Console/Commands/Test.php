@@ -17,14 +17,14 @@ class Test extends Command
 
     public function handle()
     {
-        $a = ['a' => '1', 'b' => '2'];
-        $a = g_array_del($a, '2');
-        dump($a);
-        $a = g_array_del($a, '2');
-
-        dump($a);
-//        $c = new Message();
-//        $c->pushMessageFunc(1, 2, 1);
-//        $c->pushMessage(1, 2, 'hallp');
+//        $a = ['a' => '1', 'b' => '2'];
+//        $a = g_array_del($a, '2');
+//        dump($a);
+//        $a = g_array_del($a, '2');
+//
+//        dump($a);
+        $c = new Message();
+        $c->pushMessageFunc(1, 2, 1);
+        $c->pushMessage(1, 2, 'hallp');
     }
 }

@@ -42,21 +42,17 @@ class FriendController extends Controller
     public function postDelete(Request $request)
     {
         $friend_id = $request->input('id');
-        $model = Friend::firstOrNew([
-            'fleet_id' => $this->getFleetId(),
-        ]);
-        $model->friends = g_array_del($model->friends, $friend_id);
-        $model->save();
+        $this->del($this->getFleetId(), $friend_id);
     }
 
     /**
-     * 对方同意好友添加
+     * hao you hu jia
      *
      * @param $my_id
      * @param $friend_id
      * @author Zhou Yu
      */
-    public function agree($my_id, $friend_id)
+    public function add($my_id, $friend_id)
     {
         $model = Friend::firstOrNew([
             'fleet_id' => $my_id,
@@ -68,6 +64,21 @@ class FriendController extends Controller
             'fleet_id' => $friend_id,
         ]);
         $model->friends = g_array_add($model->friends, $my_id);
+        $model->save();
+    }
+
+    public function del($my_id, $friend_id)
+    {
+        $model = Friend::firstOrNew([
+            'fleet_id' => $my_id,
+        ]);
+        $model->friends = g_array_del($model->friends, $friend_id);
+        $model->save();
+
+        $model = Friend::firstOrNew([
+            'fleet_id' => $friend_id,
+        ]);
+        $model->friends = g_array_del($model->friends, $my_id);
         $model->save();
     }
 }

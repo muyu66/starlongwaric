@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Exceptions\CustomException;
 use App\Http\Commons\Redis;
 use App\Models\User;
@@ -34,10 +35,9 @@ class AuthController extends Controller
     public function postLogin()
     {
         if (self::$open_code && ! $this->getCodeQuery()) {
-            throw new CustomException(401, '验证码错误');
+            throw new ApiException(40102);
         }
-
-        return ['status' => '1'];
+        return '';
     }
 
     public function getUser()

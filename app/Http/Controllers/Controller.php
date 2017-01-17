@@ -26,14 +26,6 @@ abstract class Controller extends BaseController
         $this->middleware('basic.auth', ['except' => $this->except]);
     }
 
-    public function getUser()
-    {
-        if (! $this->user) {
-            $this->setUser();
-        }
-        return $this->user;
-    }
-
     public function setUser($user = null)
     {
         $this->user = $user ? : Auth::user();

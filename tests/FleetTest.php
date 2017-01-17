@@ -60,7 +60,7 @@ class FleetTest extends TestCase
     public function testCreateFleetPower()
     {
         $ctl = new FleetController();
-        $model = $ctl->createFleetPower($this->fleet);
+        $model = $ctl->updateFleetPower($this->fleet);
         $this->assertTrue($model->id == '3' && $model->power > 0);
     }
 

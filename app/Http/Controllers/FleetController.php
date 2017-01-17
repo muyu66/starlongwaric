@@ -32,7 +32,8 @@ class FleetController extends Controller
      */
     public function show()
     {
-        return Fleet::alive()->where('user_id', $this->getUserId())->first();
+        $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
+        return $this->updateFleetPower($model);
     }
 
     public function valid(Array $array)
@@ -55,7 +56,7 @@ class FleetController extends Controller
         $fleet = $this->createFleet($name);
         $this->createFleetBody($fleet->id);
         $this->createFleetTech($fleet->id);
-        $this->createFleetPower($fleet);
+        $this->updateFleetPower($fleet);
         $this->createFleetStaff($fleet->id);
     }
 
@@ -107,7 +108,7 @@ class FleetController extends Controller
      * @return Fleet
      * @author Zhou Yu
      */
-    public function createFleetPower(Fleet $fleet)
+    public function updateFleetPower(Fleet $fleet)
     {
         $power = new FleetPowerController();
         $fleet->power = $power->power();

@@ -4,14 +4,14 @@ namespace App\Exceptions;
 
 use Exception;
 
-class  CustomException extends Exception
+class CustomException extends Exception
 {
     public function __construct($code, $msg = '')
     {
         parent::__construct($this->dispatch($code, $msg), $code);
     }
 
-    public function dispatch($code, $msg)
+    protected function dispatch($code, $msg)
     {
         switch ($code) {
             case  401:

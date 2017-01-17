@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Auth;
+//use Cache;
 
 abstract class Controller extends BaseController
 {
@@ -76,6 +77,7 @@ abstract class Controller extends BaseController
         if (! $this->fleet_id) {
             $this->setFleetId();
         }
+//        $this->setOnlineStatus($this->fleet_id);
         return $this->fleet_id;
     }
 
@@ -84,4 +86,17 @@ abstract class Controller extends BaseController
         $this->fleet_id = $fleet_id ? :
             Fleet::alive()->where('user_id', $this->getUserId())->firstOrFail()->id;
     }
+
+//    public function getOnlineStatus($fleet_id)
+//    {
+//        return 'sadsdaads';
+//        $time = Cache::get('online/' . $fleet_id);
+//        return $time.'sada';
+//    }
+//
+//    public function setOnlineStatus($fleet_id)
+//    {
+//        // 5分钟内有访问，则算在线
+//        Cache::put('online/' . $fleet_id, time(), 5);
+//    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Models\Config;
 use App\Models\Fleet;
 use App\Models\FleetBody;
@@ -48,9 +49,7 @@ class FleetController extends Controller
             'name' => 'required',
         ]);
 
-        if ($validator->fails()) {
-            throw new Exception($validator->messages(), 422);
-        }
+        $this->validCore($validator);
     }
 
     public function store(Request $request, $name = null)
@@ -59,11 +58,24 @@ class FleetController extends Controller
 
         $this->valid(['name' => $name]);
 
+        /**
+         * 验证是否有已存在的舰队，有则禁止继续
+         */
+        $this->checkFleetAlive();
+
         $fleet = $this->createFleet($name);
         $this->createFleetBody($fleet->id);
         $this->createFleetTech($fleet->id);
         $this->updateFleetPower($fleet);
         $this->createFleetStaff($fleet->id);
+    }
+
+    private function checkFleetAlive()
+    {
+        $alive = Fleet::alive()->where('user_id', $this->getUserId())->count();
+        if ($alive) {
+            throw new ApiException(40501);
+        }
     }
 
     private function createFleet($name)

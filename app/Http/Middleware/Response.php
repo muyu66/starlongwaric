@@ -10,7 +10,7 @@ class Response
     {
         $response = $next($request);
         if (!$response->getContent() && $request->wantsJson()) {
-            return \Response::json(['status' => '1']);
+            return \Response::json(['code' => '200']);
         }
         return $response;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ApiException;
 use App\Models\Fleet;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -9,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Auth;
 use Cache;
+use Illuminate\Validation\Validator;
 
 abstract class Controller extends BaseController
 {
@@ -82,14 +84,33 @@ abstract class Controller extends BaseController
             Fleet::alive()->where('user_id', $this->getUserId())->firstOrFail()->id;
     }
 
+    public function checkFleet()
+    {
+        $fleet = Fleet::alive()->where('user_id', $this->getUserId())->first();
+        if (! $fleet) {
+            return false;
+        }
+        return true;
+    }
+
     public function getOnlineStatus($fleet_id)
     {
-        $time = Cache::get('online/' . $fleet_id);
-        return g_get_online_status(time() - $time);
+        // 空id 不保存
+        if ($fleet_id) {
+            $time = Cache::get('online/' . $fleet_id);
+            g_get_online_status(time() - $time);
+        }
     }
 
     public function setOnlineStatus()
     {
         Cache::forever('online/' . $this->getFleetId(), time());
+    }
+
+    public function validCore(Validator $validator)
+    {
+        if ($validator->fails()) {
+            throw new ApiException(422, $validator->messages()->first());
+        }
     }
 }

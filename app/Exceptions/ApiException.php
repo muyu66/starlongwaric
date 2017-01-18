@@ -11,20 +11,29 @@ use Exception;
  */
 class ApiException extends Exception
 {
-    public function __construct($code)
+    public function __construct($code, $custom_msg = '')
     {
-        parent::__construct($this->getMsg($code), $code);
+        parent::__construct($this->getMsg($code, $custom_msg), $code);
     }
 
-    protected function getMsg($code)
+    protected function getMsg($code, $custom_msg)
     {
         switch ($code) {
             case  40101:
-                return '认证错误';
+                $msg = '认证错误';
+                break;
             case  40102:
-                return '验证码错误';
+                $msg = '验证码错误';
+                break;
+            case  40401:
+                $msg = '需要创建新的舰队';
+                break;
+            case  40501:
+                $msg = '已存在有效的舰队，不能再新建';
+                break;
             default:
-                return '未定义错误';
+                $msg = '未定义错误';
         }
+        return $custom_msg ? : $msg;
     }
 }

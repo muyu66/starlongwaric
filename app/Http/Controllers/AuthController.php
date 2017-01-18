@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
-use App\Exceptions\CustomException;
 use App\Http\Commons\Redis;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,8 +10,6 @@ use Muyu\Controllers\Captcha;
 use Muyu\Controllers\Template;
 use Validator;
 use Auth;
-use Exception;
-use Cache;
 
 class AuthController extends Controller
 {
@@ -27,9 +24,7 @@ class AuthController extends Controller
             'password' => 'required|min:6',
         ]);
 
-        if ($validator->fails()) {
-            throw new Exception($validator->messages(), 422);
-        }
+        $this->validCore($validator);
     }
 
     public function postLogin()
@@ -37,7 +32,10 @@ class AuthController extends Controller
         if (self::$open_code && ! $this->getCodeQuery()) {
             throw new ApiException(40102);
         }
-        return '';
+
+        if (! $this->checkFleet()) {
+            throw new ApiException(40401);
+        }
     }
 
     public function getUser()
@@ -45,17 +43,25 @@ class AuthController extends Controller
         return Auth::user();
     }
 
+    /**
+     * 注册接口
+     *
+     * @param Request $request
+     * @request email
+     * @request password
+     * @throws ApiException
+     */
     public function postRegister(Request $request)
     {
         if (self::$open_code && ! $this->getCodeQuery()) {
-            throw new CustomException(401, '验证码错误');
+            throw new ApiException(40102);
         }
 
         $array = $request->all();
 
         $this->check($array);
 
-        return $this->create($array);
+        $this->create($array);
     }
 
     public function create(array $data)

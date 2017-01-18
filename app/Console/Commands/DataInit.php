@@ -6,6 +6,9 @@ use App\Models\Config;
 use App\Models\EventStandard;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
+use App\Models\Galaxy;
+use App\Models\Planet;
+use App\Models\Quadrant;
 use App\Models\Staff;
 use App\Models\Story;
 use Illuminate\Console\Command;
@@ -31,6 +34,10 @@ class DataInit extends Command
 
         $this->initNormalEvent();
 
+        $this->initGalaxy();
+        $this->initQuadrant();
+        $this->initPlanet();
+
         $this->fleetBodyWidget();
 
         $this->fleetTechTech();
@@ -55,6 +62,41 @@ class DataInit extends Command
                 'key' => $key,
             ]);
             $model->value = $value;
+            $model->save();
+        }
+    }
+
+    private function initGalaxy()
+    {
+        foreach (g_load_import('planet', __FUNCTION__) as $key => $value) {
+            $model = Galaxy::firstOrNew([
+                'coordinate' => $value['coordinate'],
+            ]);
+            $model->name = $value['name'];
+            $model->save();
+        }
+    }
+
+    private function initQuadrant()
+    {
+        foreach (g_load_import('planet', __FUNCTION__) as $key => $value) {
+            $model = Quadrant::firstOrNew([
+                'coordinate' => $value['coordinate'],
+            ]);
+            $model->name = $value['name'];
+            $model->galaxy_id = $value['galaxy_id'];
+            $model->save();
+        }
+    }
+
+    private function initPlanet()
+    {
+        foreach (g_load_import('planet', __FUNCTION__) as $key => $value) {
+            $model = Planet::firstOrNew([
+                'coordinate' => $value['coordinate'],
+            ]);
+            $model->name = $value['name'];
+            $model->quadrant_id = $value['quadrant_id'];
             $model->save();
         }
     }

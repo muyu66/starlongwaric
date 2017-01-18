@@ -19,7 +19,7 @@ class CreateFleetsTable extends Migration
             $table->string('name');
             $table->integer('staff');
             $table->integer('union_id');
-            $table->integer('plenet_id');
+            $table->integer('planet_id');
 
             $table->boolean('alive');
 

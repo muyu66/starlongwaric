@@ -8,6 +8,7 @@ use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
+use App\Models\Planet;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 use Validator;
@@ -37,6 +38,7 @@ class FleetController extends Controller
         $model = $this->updateFleetPower($model);
         $model = $this->updateStaffCount($model);
         $model = $this->convertRank($model);
+        $model = $this->convertPlanet($model);
         return $model;
     }
 
@@ -72,7 +74,7 @@ class FleetController extends Controller
         $fleet->name = $name;
         $fleet->staff = 2;
         $fleet->union_id = 0;
-        $fleet->plenet_id = 0;
+        $fleet->planet_id = 1;
         $fleet->gold = 100;
         $fleet->fuel = 10;
         $fleet->alive = 1;
@@ -143,6 +145,13 @@ class FleetController extends Controller
     public function convertRank(Fleet $fleet)
     {
         $fleet->rank = Config::getDb('rank')[$fleet->rank_id];
+        return $fleet;
+    }
+
+    public function convertPlanet(Fleet $fleet)
+    {
+        $fleet->planet = Planet::getName($fleet->planet_id);
+        $fleet->planet_full = Planet::getPostion($fleet->planet_id);
         return $fleet;
     }
 }

@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEnemiesTable extends Migration
+class CreateGalaxiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,16 +12,12 @@ class CreateEnemiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('enemies', function (Blueprint $table) {
+        Schema::create('galaxies', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('rank_id');
+
             $table->string('name');
-            $table->integer('staff');
-            $table->integer('union_id');
-            $table->integer('planet_id');
-            $table->integer('gold');
-            $table->integer('fuel');
-            $table->integer('power');
+            $table->json('coordinate');
+
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateEnemiesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('enemies');
+        Schema::drop('galaxies');
     }
 }

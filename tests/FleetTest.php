@@ -20,8 +20,13 @@ class FleetTest extends TestCase
 
     public function testShow()
     {
-        $this->get_with_login('fleets/31');
-        $this->seeJsonContains(['name' => '胡汉三']);
+        $this->get_with_login('fleets/31'); // 任意数字都可访问到
+        $this->seeJsonContains([
+            'name' => '胡汉三',
+            'power' => 7900,
+            'staff' => 2,
+            'planet' => '地球',
+        ]);
     }
 
     public function testValid()

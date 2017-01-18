@@ -5,7 +5,8 @@ namespace App\Models;
 class Fleet extends Base
 {
     protected $table = 'fleets';
-    protected $hidden = ['created_at', 'updated_at', 'rank_id', 'user_id'];
+
+    protected $hidden = ['created_at', 'updated_at', 'rank_id', 'user_id', 'planet_id'];
 
     public static function alive()
     {

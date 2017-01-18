@@ -7,6 +7,7 @@ use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
+use App\Models\Staff;
 use Illuminate\Http\Request;
 use Validator;
 use Exception;
@@ -27,13 +28,14 @@ class FleetController extends Controller
     /**
      * 仅返回当前存活的舰队
      *
-     * @return Fleet
-     * @author Zhou Yu
+     * @return Fleet|\Illuminate\Database\Eloquent\Model|null|static
      */
     public function show()
     {
         $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
-        return $this->updateFleetPower($model);
+        $model = $this->updateFleetPower($model);
+        $model = $this->updateStaffCount($model);
+        return $model;
     }
 
     public function valid(Array $array)
@@ -102,6 +104,19 @@ class FleetController extends Controller
     }
 
     /**
+     * 随机创建初始船员
+     *
+     * @param $fleet_id
+     * @author Zhou Yu
+     */
+    public function createFleetStaff($fleet_id)
+    {
+        $ctl = new StaffController();
+        $ctl->createStaff($fleet_id, 1);
+        $ctl->createStaff($fleet_id);
+    }
+
+    /**
      * 刷新战斗力
      *
      * @param Fleet $fleet
@@ -116,16 +131,10 @@ class FleetController extends Controller
         return $fleet;
     }
 
-    /**
-     * 随机创建初始船员
-     *
-     * @param $fleet_id
-     * @author Zhou Yu
-     */
-    public function createFleetStaff($fleet_id)
+    public function updateStaffCount(Fleet $fleet)
     {
-        $ctl = new StaffController();
-        $ctl->createStaff($fleet_id, 1);
-        $ctl->createStaff($fleet_id);
+        $fleet->staff = Staff::getCount($this->getFleetId());
+        $fleet->save();
+        return $fleet;
     }
 }

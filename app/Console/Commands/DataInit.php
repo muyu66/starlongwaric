@@ -24,11 +24,15 @@ class DataInit extends Command
     private function all()
     {
         $this->initConfig();
+
         $this->initStory();
+
         $this->initHero();
+
         $this->initNormalEvent();
 
         $this->fleetBodyWidget();
+
         $this->fleetTechTech();
     }
 
@@ -46,7 +50,7 @@ class DataInit extends Command
 
     private function initConfig()
     {
-        foreach (g_load_import('data', __FUNCTION__) as $key => $value) {
+        foreach (g_load_import('config', __FUNCTION__) as $key => $value) {
             $model = Config::firstOrNew([
                 'key' => $key,
             ]);

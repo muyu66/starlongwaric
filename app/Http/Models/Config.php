@@ -6,6 +6,9 @@ class Config extends Base
 {
     protected $table = 'configs';
     protected $fillable = ['key'];
+    protected $casts = [
+        'value' => 'Array',
+    ];
 
     public static function getDb($key)
     {

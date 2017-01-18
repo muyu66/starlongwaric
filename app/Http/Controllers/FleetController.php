@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Config;
 use App\Models\Fleet;
 use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
@@ -35,6 +36,7 @@ class FleetController extends Controller
         $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
         $model = $this->updateFleetPower($model);
         $model = $this->updateStaffCount($model);
+        $model = $this->convertRank($model);
         return $model;
     }
 
@@ -135,6 +137,12 @@ class FleetController extends Controller
     {
         $fleet->staff = Staff::getCount($this->getFleetId());
         $fleet->save();
+        return $fleet;
+    }
+
+    public function convertRank(Fleet $fleet)
+    {
+        $fleet->rank = Config::getDb('rank')[$fleet->rank_id];
         return $fleet;
     }
 }

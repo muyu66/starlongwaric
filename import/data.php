@@ -1,12 +1,6 @@
 <?php
 
 return [
-    // 配置区
-    'initConfig' => [
-        'tech_limit' => 10,
-    ],
-
-    // 数据区
     'fleetBodyWidget' => [
         [
             'name' => '舰体',

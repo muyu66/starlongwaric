@@ -11,6 +11,7 @@ use App\Models\Planet;
 use App\Models\Quadrant;
 use App\Models\Staff;
 use App\Models\Story;
+use App\Models\Union;
 use Illuminate\Console\Command;
 
 class DataInit extends Command
@@ -37,6 +38,8 @@ class DataInit extends Command
         $this->initGalaxy();
         $this->initQuadrant();
         $this->initPlanet();
+
+        $this->initUnion();
 
         $this->fleetBodyWidget();
 
@@ -97,6 +100,19 @@ class DataInit extends Command
             ]);
             $model->name = $value['name'];
             $model->quadrant_id = $value['quadrant_id'];
+            $model->save();
+        }
+    }
+
+    private function initUnion()
+    {
+        foreach (g_load_import('union', __FUNCTION__) as $key => $value) {
+            $model = Union::firstOrNew([
+                'name' => $value['name'],
+            ]);
+            $model->desc = $value['desc'];
+            $model->occupied_planet = $value['occupied_planet'];
+            $model->diplomacy = $value['diplomacy'];
             $model->save();
         }
     }

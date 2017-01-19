@@ -79,6 +79,9 @@ class AuthController extends Controller
             'generate' => 'http://www.slw.app/auth/code-generate',
             'valid' => 'http://www.slw.app/auth/code-valid',
             'query' => 'http://www.slw.app/auth/code-query',
+            'name' => 'Muyu',
+            'sign' => 'Inc',
+            'message' => '吾，非机器人也',
         ]);
     }
 

@@ -40,6 +40,7 @@ class FleetController extends Controller
         $model = $this->updateStaffCount($model);
         $model = $this->convertRank($model);
         $model = $this->convertPlanet($model);
+        $model = $this->convertUnion($model);
         return $model;
     }
 
@@ -85,7 +86,7 @@ class FleetController extends Controller
         $fleet->rank_id = 0;
         $fleet->name = $name;
         $fleet->staff = 2;
-        $fleet->union_id = 0;
+        $fleet->union_id = 1;
         $fleet->planet_id = 1;
         $fleet->gold = 100;
         $fleet->fuel = 10;
@@ -164,6 +165,13 @@ class FleetController extends Controller
     {
         $fleet->planet = Planet::getName($fleet->planet_id);
         $fleet->planet_full = Planet::getPostion($fleet->planet_id);
+        return $fleet;
+    }
+
+    public function convertUnion(Fleet $fleet)
+    {
+        $ctl = new UnionController();
+        $fleet->union = $ctl->show($fleet->union_id)->name;
         return $fleet;
     }
 }

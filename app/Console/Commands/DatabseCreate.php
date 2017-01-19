@@ -15,6 +15,13 @@ class DatabseCreate extends Command
 
     public function handle()
     {
+        exec(
+            implode("\n", [
+                'cd ' . base_path(),
+                'php artisan optimize',
+            ])
+        );
+
         // 创建数据库
         Artisan::call('migrate');
 

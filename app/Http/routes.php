@@ -39,3 +39,5 @@ Route::controller('test', 'TestController');
 Route::resource('galaxies', 'GalaxyController');
 Route::resource('quadrants', 'QuadrantController');
 Route::resource('planets', 'PlanetController');
+
+Route::resource('unions', 'UnionController');

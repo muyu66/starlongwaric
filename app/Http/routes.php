@@ -14,7 +14,7 @@ Route::resource('fleet_bodies', 'FleetBodyController');
 Route::post('fleet_teches/all', 'FleetTechController@postAll');
 Route::resource('fleet_teches', 'FleetTechController');
 
-Route::post('fleet_configs/play_time', 'FleetConfigController@postPlayTime');
+Route::post('fleet_configs/commander_style', 'FleetConfigController@postCommanderStyle');
 Route::resource('fleet_configs', 'FleetConfigController');
 
 Route::resource('fleets', 'FleetController');

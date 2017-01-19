@@ -28,6 +28,9 @@ class ApiException extends Exception
             case  40401:
                 $msg = '需要创建新的舰队';
                 break;
+            case  40402:
+                $msg = '没有此配置的数据';
+                break;
             case  40501:
                 $msg = '已存在有效的舰队，不能再新建';
                 break;

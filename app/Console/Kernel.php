@@ -34,6 +34,6 @@ class Kernel extends ConsoleKernel
             ->cron('*/1 * * * * *');
 
         $schedule->command("event:commander")
-            ->cron('0 */1 * * * *');
+            ->cron('0 */2 * * * *');
     }
 }

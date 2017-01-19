@@ -5,7 +5,7 @@ class FleetConfigTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->testPostPlayTime();
+        $this->testPostCommanderStyle();
     }
 
     public function testIndex()
@@ -16,14 +16,14 @@ class FleetConfigTest extends TestCase
 
     public function testShow()
     {
-        $this->get_with_login('fleet_configs/play_time');
-        $this->seeJsonContains(['play_time' => 14]);
+        $this->get_with_login('fleet_configs/commander_style');
+        $this->seeJsonContains(['commander_style' => 1]);
     }
 
-    public function testPostPlayTime()
+    public function testPostCommanderStyle()
     {
-        $this->post_with_login('fleet_configs/play_time', ['minute' => 14]);
-        $this->seeJsonContains(["play_time" => 14]);
+        $this->post_with_login('fleet_configs/commander_style', ['style' => 1]);
+        $this->seeJsonContains(['commander_style' => 1]);
         $this->seeInDatabase('fleet_configs', ['fleet_id' => parent::UNIT_ID]);
     }
 }

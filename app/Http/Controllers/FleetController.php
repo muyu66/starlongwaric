@@ -9,6 +9,7 @@ use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -26,19 +27,29 @@ class FleetController extends Controller
     }
 
     /**
-     * 仅返回当前存活的舰队
+     * 仅返回当前存活的舰队, 附带修正值
      *
      * @return Fleet|\Illuminate\Database\Eloquent\Model|null|static
      */
     public function show()
     {
-        $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
+        $model = $this->getShow();
         $model = $this->updateFleetPower($model);
         $model = $this->updateStaffCount($model);
         $model = $this->convertRank($model);
         $model = $this->convertPlanet($model);
         $model = $this->convertUnion($model);
         return $model;
+    }
+
+    /**
+     * 仅返回当前存活的舰队
+     *
+     * @return Fleet
+     */
+    public function getShow()
+    {
+        return Fleet::alive()->where('user_id', $this->getUserId())->first();
     }
 
     public function valid(Array $array)

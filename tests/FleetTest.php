@@ -80,6 +80,6 @@ class FleetTest extends TestCase
     public function testStore()
     {
         $this->post_with_login('fleets', ['name' => 'Cindy']);
-        $this->seeInDatabase('fleets', ['id' => 4, 'name' => 'Cindy']);
+        $this->seeJsonContains(['code' => 40501]);
     }
 }

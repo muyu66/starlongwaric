@@ -14,7 +14,7 @@ class FightTest extends TestCase
         parent::setUp();
         $my = new FleetController();
         $enemy = new EnemyController();
-        $this->my = $my->show();
+        $this->my = $my->getShow();
         $this->enemy = $enemy->random($this->my->power);
     }
 
@@ -41,9 +41,8 @@ class FightTest extends TestCase
     public function testFight()
     {
         $this->login();
-        $fleet = new FleetController();
         $ctl = new FightController();
-        $ctl->fight($fleet->show());
+        $ctl->fight($this->my);
         $this->seeInDatabase('fight_logs', ['id' => 1]);
     }
 }

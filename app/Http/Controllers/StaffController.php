@@ -10,7 +10,11 @@ class StaffController extends Controller
 {
     public function getMy()
     {
-        return Staff::where('boss_id', $this->getFleetId())->get();
+        $models = Staff::where('boss_id', $this->getFleetId())->get();
+        foreach ($models as $model) {
+            $model->job_name = Staff::convertJob($model->job);
+        }
+        return $models;
     }
 
     public function getMarket()

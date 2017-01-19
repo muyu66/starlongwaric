@@ -22,6 +22,9 @@ class FightController extends Controller
         // 得到战斗结果
         $result_int = $this->calc($my, $enemy);
 
+        // 战斗损失, 维修值扣除
+        $this->calcBody($result_int, $my->id);
+
         // 得到战利品数据
         $booty = $this->booty($result_int, $my, $enemy);
 
@@ -84,5 +87,31 @@ class FightController extends Controller
     public function calc(Model $my, Model $enemy)
     {
         return $my->power <=> $enemy->power;
+    }
+
+    public function calcBody($result_int, $my_id)
+    {
+        $ctl = new FleetBodyController();
+        $bodies = $ctl->index($my_id);
+
+        switch ($result_int) {
+            case -1:
+                foreach ($bodies as $body) {
+                    $ctl->randomDamage($body, rand(4, 12));
+                }
+                break;
+            case 0:
+                foreach ($bodies as $body) {
+                    $ctl->randomDamage($body, rand(2, 8));
+                }
+                break;
+            case 1:
+                foreach ($bodies as $body) {
+                    $ctl->randomDamage($body, rand(0, 4));
+                }
+                break;
+            default:
+                throw new Exception('战斗结果异常');
+        }
     }
 }

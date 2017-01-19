@@ -8,7 +8,7 @@ class FightLog extends Base
     protected $casts = [
         'booty' => 'Array',
     ];
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at'];
 
     public function enemy()
     {

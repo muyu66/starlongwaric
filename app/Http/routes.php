@@ -41,3 +41,5 @@ Route::resource('quadrants', 'QuadrantController');
 Route::resource('planets', 'PlanetController');
 
 Route::resource('unions', 'UnionController');
+
+Route::resource('military_ranks', 'MilitaryRankController');

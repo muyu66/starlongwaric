@@ -6,9 +6,16 @@ class Event extends Base
 {
     protected $table = 'events';
 
+    protected $hidden = ['created_at', 'standard_id', 'commander'];
+
     public function standard()
     {
         return $this->hasOne(EventStandard::class, 'id', 'standard_id');
+    }
+
+    public function staff()
+    {
+        return $this->hasOne(Staff::class, 'id', 'commander');
     }
 
     /**

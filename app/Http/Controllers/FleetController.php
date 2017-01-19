@@ -80,7 +80,6 @@ class FleetController extends Controller
     {
         $fleet = new Fleet();
         $fleet->user_id = $this->getUserId();
-        $fleet->rank_id = 0;
         $fleet->name = $name;
         $fleet->staff = 2;
         $fleet->union_id = 1;
@@ -89,6 +88,7 @@ class FleetController extends Controller
         $fleet->fuel = 10;
         $fleet->alive = 1;
         $fleet->power = 0;
+        $fleet->contribution = 0;
         $fleet->save();
         return $fleet;
     }
@@ -155,7 +155,8 @@ class FleetController extends Controller
 
     public function convertRank(Fleet $fleet)
     {
-        $fleet->rank = Config::getDb('rank')[$fleet->rank_id];
+        $ctl = new MilitaryRankController();
+        $fleet->rank = $ctl->getRank($fleet->contribution);
         return $fleet;
     }
 

@@ -19,3 +19,6 @@
 
 ### 协议
 Starlongwaric is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+
+### 即将上线
+- 指挥官能力

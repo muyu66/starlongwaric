@@ -7,6 +7,7 @@ use App\Models\EventStandard;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTechTech;
 use App\Models\Galaxy;
+use App\Models\MilitaryRank;
 use App\Models\Planet;
 use App\Models\Quadrant;
 use App\Models\Staff;
@@ -35,11 +36,22 @@ class DataInit extends Command
 
         $this->initNormalEvent();
 
+        /**
+         * 初始化星球
+         */
         $this->initGalaxy();
         $this->initQuadrant();
         $this->initPlanet();
 
+        /**
+         * 初始化联盟
+         */
         $this->initUnion();
+
+        /**
+         * 初始化军衔
+         */
+        $this->initMilitaryRank();
 
         $this->fleetBodyWidget();
 
@@ -113,6 +125,17 @@ class DataInit extends Command
             $model->desc = $value['desc'];
             $model->occupied_planet = $value['occupied_planet'];
             $model->diplomacy = $value['diplomacy'];
+            $model->save();
+        }
+    }
+
+    private function initMilitaryRank()
+    {
+        foreach (g_load_import('military_rank', __FUNCTION__) as $key => $value) {
+            $model = MilitaryRank::firstOrNew([
+                'name' => $value['name'],
+            ]);
+            $model->need_contribution = $value['need_contribution'];
             $model->save();
         }
     }

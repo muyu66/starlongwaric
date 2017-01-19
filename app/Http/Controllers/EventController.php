@@ -20,7 +20,7 @@ class EventController extends Controller
     {
         return Event::belong($this->getFleetId())
             ->where('status', 0)
-            ->with('standard')
+            ->with(['standard', 'staff'])
             ->orderByRaw('`status` asc, `updated_at` desc')
             ->get();
     }
@@ -35,7 +35,7 @@ class EventController extends Controller
     {
         return Event::belong($this->getFleetId())
             ->where('status', 1)
-            ->with('standard')
+            ->with(['standard', 'staff'])
             ->orderByRaw('`status` asc, `updated_at` desc')
             ->get();
     }
@@ -48,7 +48,7 @@ class EventController extends Controller
 
         $model = Event::belong($fleet_id)
             ->where('status', 0)
-            ->with('standard')
+            ->with(['standard', 'staff'])
             ->findOrFail($event_id);
 
         $params['fleet_id'] = $fleet_id;

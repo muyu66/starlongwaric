@@ -8,9 +8,9 @@ use Illuminate\Http\Request;
 
 class FleetBodyController extends Controller
 {
-    public function index()
+    public function index($id = 0)
     {
-        return FleetBody::belong($this->getFleetId())->with('widget')->get();
+        return FleetBody::belong($id ? : $this->getFleetId())->with('widget')->get();
     }
 
     /**
@@ -108,5 +108,17 @@ class FleetBodyController extends Controller
             $result[] = $this->store(new Request(), $model->id);
         }
         return $result;
+    }
+
+    /**
+     * 根据级别, 随机减少维修值
+     *
+     * @param FleetBody $model
+     * @param $value
+     */
+    public function randomDamage(FleetBody $model, $value)
+    {
+        $model->health = $model->health - $value >= 0 ? $model->health - $value : 0;
+        $model->save();
     }
 }

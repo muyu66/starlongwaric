@@ -15,7 +15,6 @@ class CreateFleetsTable extends Migration
         Schema::create('fleets', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
-            $table->integer('rank_id');
             $table->string('name');
             $table->integer('staff');
             $table->integer('union_id');
@@ -23,6 +22,7 @@ class CreateFleetsTable extends Migration
 
             $table->boolean('alive');
 
+            $table->integer('contribution');
             $table->integer('gold');
             $table->integer('fuel');
             $table->integer('power');

@@ -19,7 +19,7 @@ class Planet extends Base
         return static::findOrFail($id)->name;
     }
 
-    public static function getPostion($id)
+    public static function getFullName($id)
     {
         $planet = static::findOrFail($id);
         $quadrant = Quadrant::findOrFail($planet->quadrant_id);

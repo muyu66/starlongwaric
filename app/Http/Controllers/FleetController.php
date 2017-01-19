@@ -9,11 +9,8 @@ use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
-use App\Models\Planet;
-use App\Models\Staff;
 use Illuminate\Http\Request;
 use Validator;
-use Exception;
 
 class FleetController extends Controller
 {
@@ -150,7 +147,8 @@ class FleetController extends Controller
 
     public function updateStaffCount(Fleet $fleet)
     {
-        $fleet->staff = Staff::getCount($this->getFleetId());
+        $ctl = new StaffController();
+        $fleet->staff = $ctl->getCount($this->getFleetId());
         $fleet->save();
         return $fleet;
     }
@@ -163,8 +161,9 @@ class FleetController extends Controller
 
     public function convertPlanet(Fleet $fleet)
     {
-        $fleet->planet = Planet::getName($fleet->planet_id);
-        $fleet->planet_full = Planet::getPostion($fleet->planet_id);
+        $ctl = new PlanetController();
+        $fleet->planet = $ctl->getName($fleet->planet_id);
+        $fleet->planet_full = $ctl->getFullName($fleet->planet_id);
         return $fleet;
     }
 

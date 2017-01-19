@@ -130,4 +130,9 @@ class StaffController extends Controller
 
         return $model;
     }
+
+    public function getCount($id)
+    {
+        return Staff::where('boss_id', $id)->count();
+    }
 }

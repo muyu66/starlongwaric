@@ -4,8 +4,9 @@ namespace App\Listeners;
 
 use App\Events\TaskEvent;
 use App\Http\Components\Events\Event;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TaskEventListener
+class TaskEventListener implements ShouldQueue
 {
     /**
      * @var Event

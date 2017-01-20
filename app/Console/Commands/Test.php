@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Events\TaskEvent;
 use App\Http\Components\Message;
 use App\Http\Controllers\FleetController;
+use App\Models\Event;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Artisan;
@@ -17,14 +19,17 @@ class Test extends Command
 
     public function handle()
     {
-//        $a = ['a' => '1', 'b' => '2'];
-//        $a = g_array_del($a, '2');
-//        dump($a);
-//        $a = g_array_del($a, '2');
-//
-//        dump($a);
-        $c = new Message();
-        $c->pushMessageFunc(1, 2, 1);
+        $model = Event::belong(2)
+            ->where('status', 0)
+            ->with(['standard', 'staff'])
+            ->findOrFail(550);
+        $params['fleet_id'] = 2;
+
+        \Event::fire(new TaskEvent($model, 1, $params));
+
+
+//        $c = new Message();
+//        $c->pushMessageFunc(1, 2, 1);
 //        $c->pushMessage(1, 2, 'hallp');
     }
 }

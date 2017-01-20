@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\TaskEvent;
+use App\Listeners\TaskEventListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -15,8 +17,8 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\TaskEvent' => [
-            'App\Listeners\TaskEventListener',
+        TaskEvent::class => [
+            TaskEventListener::class,
         ],
     ];
 
@@ -29,7 +31,5 @@ class EventServiceProvider extends ServiceProvider
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);
-
-        //
     }
 }

@@ -3,9 +3,12 @@
 namespace App\Events;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Queue\SerializesModels;
 
 class TaskEvent extends Event
 {
+    use SerializesModels;
+
     public $instance;
 
     /**
@@ -27,5 +30,10 @@ class TaskEvent extends Event
         $this->instance = $event;
         $this->choose = $choose;
         $this->params = $params;
+    }
+
+    public function broadcastOn()
+    {
+        return [];
     }
 }

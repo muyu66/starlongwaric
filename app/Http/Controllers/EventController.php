@@ -56,9 +56,9 @@ class EventController extends Controller
 
         FacadeEvent::fire(new TaskEvent($model, $choose, $params));
 
-        $model->commander = $p_id ? $model->commander : 0;
-        $model->status = 1;
-        $model->save();
+//        $model->commander = $p_id ? $model->commander : 0;
+//        $model->status = 1;
+//        $model->save();
     }
 
     /**

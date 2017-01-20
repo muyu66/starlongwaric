@@ -1,6 +1,6 @@
 ## 星际的远征
 ![](https://img.shields.io/badge/stable-building-blue.svg)
-![](https://img.shields.io/badge/rolling-2.0.0%20Alpha1-blue.svg)
+![](https://img.shields.io/badge/rolling-2.0.0%20Alpha3-blue.svg)
 ![](https://img.shields.io/badge/mainline-real%20time-blue.svg)
 ![](https://img.shields.io/badge/license-MIT-brightgreen.svg)
 

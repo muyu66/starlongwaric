@@ -20,7 +20,7 @@ class EventController extends Controller
     public function getUnFinish()
     {
         return Event::belong($this->getFleetId())
-            ->where('status', 0)
+            ->whereIn('status', [-1, 0])
             ->with(['standard', 'staff'])
             ->orderByRaw('`status` asc, `updated_at` desc')
             ->get();
@@ -52,13 +52,12 @@ class EventController extends Controller
             ->with(['standard', 'staff'])
             ->findOrFail($event_id);
         $model->commander = $p_id ? $model->commander : 0;
+        $model->status = -1;
+        $model->save();
 
         $params['fleet_id'] = $fleet_id;
 
         FacadeEvent::fire(new TaskEvent($model, $choose, $params));
-
-        $model->status = 1;
-        $model->save();
     }
 
     /**

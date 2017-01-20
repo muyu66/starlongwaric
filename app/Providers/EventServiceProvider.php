@@ -20,6 +20,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         TaskEvent::class => [
             TaskEventListener::class,
+            TaskCompleteEventListener::class,
         ],
     ];
 

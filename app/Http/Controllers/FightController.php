@@ -97,17 +97,17 @@ class FightController extends Controller
         switch ($result_int) {
             case -1:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(4, 12));
+                    $ctl->randomDamage($body, rand(4, 8));
                 }
                 break;
             case 0:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(2, 8));
+                    $ctl->randomDamage($body, rand(2, 4));
                 }
                 break;
             case 1:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(0, 4));
+                    $ctl->randomDamage($body, rand(0, 2));
                 }
                 break;
             default:

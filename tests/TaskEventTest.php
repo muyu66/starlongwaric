@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Components\Event as EventFunc;
+use App\Http\Components\Events\Event1;
+use App\Http\Components\Events\Event2;
 use App\Models\Event;
 use App\Http\Controllers\EventController;
 
@@ -31,8 +32,8 @@ class EventFuncTest extends TestCase
 
         $params['fleet_id'] = self::UNIT_FLEET_ID;
 
-        $ctl = new EventFunc($model, $choose, $params);
-        $ctl->event1();
+        $ctl = new Event1($model, $choose, $params);
+        $ctl->handle();
 
         $this->seeInDatabase('fight_logs', ['id' => $event_id, 'my_id' => self::UNIT_FLEET_ID]);
     }
@@ -49,8 +50,8 @@ class EventFuncTest extends TestCase
 
         $params['fleet_id'] = self::UNIT_FLEET_ID;
 
-        $ctl = new EventFunc($model, $choose, $params);
-        $ctl->event2();
+        $ctl = new Event2($model, $choose, $params);
+        $ctl->handle();
 
         $this->seeInDatabase('staff', ['id' => $event_id]);
     }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TaskEvent;
 use App\Models\Event;
 use App\Models\EventStandard;
 use App\Models\Fleet;
 use Illuminate\Http\Request;
-use App\Http\Components\Event as EventFunc;
+use Event as FacadeEvent;
 
 class EventController extends Controller
 {
@@ -53,8 +54,7 @@ class EventController extends Controller
 
         $params['fleet_id'] = $fleet_id;
 
-        $ctl = new EventFunc($model, $choose, $params);
-        $ctl->run();
+        FacadeEvent::fire(new TaskEvent($model, $choose, $params));
 
         $model->commander = $p_id ? $model->commander : 0;
         $model->status = 1;

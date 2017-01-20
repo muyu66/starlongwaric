@@ -52,9 +52,14 @@
             "php artisan optimize"
         ],
         "ide": [
-            "php artisan optimize",
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta"
+        ],
+        "fix": [
+            "php artisan optimize",
+            "composer dumpautoload",
+            "php artisan clear-compiled",
+            "composer install"
         ]
     },
     "config": {

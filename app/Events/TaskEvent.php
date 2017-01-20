@@ -31,9 +31,4 @@ class TaskEvent extends Event
         $this->choose = $choose;
         $this->params = $params;
     }
-
-    public function broadcastOn()
-    {
-        return [];
-    }
 }

@@ -81,7 +81,7 @@ class AuthController extends Controller
             'query' => 'http://www.slw.app/auth/code-query',
             'name' => 'Muyu',
             'sign' => 'Inc',
-            'message' => '吾，非机器人也',
+            'message' => 'Captain, 欢迎登舰',
         ]);
     }
 

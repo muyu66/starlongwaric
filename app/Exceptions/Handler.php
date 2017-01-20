@@ -4,11 +4,12 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Response;
+use Response as RootResponse;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use DB;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -31,7 +32,7 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             if (! g_is_debug()) {
-                throw new Exception('没有此权限');
+                return new Response([], 200);
             } else {
                 $sql_log = last(DB::getQueryLog());
 
@@ -52,14 +53,14 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof CustomException && $request->wantsJson()) {
-            return Response::json([
+            return RootResponse::json([
                 'code' => $e->getCode(),
                 'msg' => $e->getMessage(),
             ], $e->getCode());
         }
 
         if ($e instanceof ApiException) {
-            return Response::json([
+            return RootResponse::json([
                 'code' => $e->getCode(),
                 'msg' => $e->getMessage(),
             ], 200);

@@ -1,11 +1,11 @@
 <?php
 
-function g_getDate()
+function g_get_star_date()
 {
     $base = 1482246351;
     $now = (time() - $base) * 100 + $base;
     $carbon = \Carbon\Carbon::createFromTimestamp($now);
-    return $carbon->addYears(88);
+    return $carbon->addYears(88)->toDateTimeString();
 }
 
 function g_load_import($name, $method)

@@ -11,17 +11,21 @@ class MilitaryRankController extends Controller
         return MilitaryRank::get();
     }
 
-    public function getRank($power)
+    /**
+     * 根据战斗贡献换算出军衔
+     *
+     * @param $contribution
+     * @return mixed
+     */
+    public function getRank($contribution)
     {
         $models = $this->index();
         foreach ($models as $model) {
-            if ($model === end($models)) {
-                return $model->name;
-            }
-            if ($power > $model->need_contribution) {
+            if ($contribution > $model->need_contribution) {
                 continue;
             }
             return $model->name;
         }
+        return end($models->toArray())['name'];
     }
 }

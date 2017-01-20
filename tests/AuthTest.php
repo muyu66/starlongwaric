@@ -26,7 +26,7 @@ class AuthTest extends TestCase
     {
         AuthController::$open_code = 0; // 关闭验证码
         $this->post_with_login('auth/login');
-        $this->seeJsonContains(['code' => '200']);
+        $this->seeJsonContains(['code' => 200]);
         $this->assertResponseOk();
 
         // 因为 Captcha 不支持数组引擎, 所以没法单元测试

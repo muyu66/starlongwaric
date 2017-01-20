@@ -5,7 +5,7 @@ namespace App\Exceptions;
 use Exception;
 
 /**
- * 已知异常类，统一返回200错误，附带 Status Code
+ * 已知异常类，统一返回 200 响应，附带 Status Code (纯数字)
  *
  * @package App\Exceptions
  */

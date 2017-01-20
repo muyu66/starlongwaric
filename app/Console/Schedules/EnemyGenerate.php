@@ -23,11 +23,11 @@ class EnemyGenerate extends Command
             $model->rank_id = rand(1, 10);
             $model->name = $faker->name;
             $model->staff = rand(1, 10);
-            $model->union_id = 0;
-            $model->planet_id = 0;
-            $model->gold = rand(10, 400);
+            $model->union_id = 1;
+            $model->planet_id = 1;
+            $model->gold = rand(10, 500);
             $model->fuel = rand(10, 100);
-            $model->power = rand(1000, 10000);
+            $model->power = $model->gold * 20;
             $model->save();
         }
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Enemy;
+use App\Models\Fleet;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
 
@@ -24,6 +26,9 @@ class FightController extends Controller
 
         // 战斗损失, 维修值扣除
         $this->calcBody($result_int, $my->id);
+
+        // 如果战斗胜利, 则增加战功
+        $this->calcContribution($result_int, $my->id, $enemy->id);
 
         // 得到战利品数据
         $booty = $this->booty($result_int, $my, $enemy);
@@ -112,6 +117,25 @@ class FightController extends Controller
                 break;
             default:
                 throw new Exception('战斗结果异常');
+        }
+    }
+
+    /**
+     * 战胜敌人, 则获取敌人全部的战勋
+     *
+     * @param $result_int
+     * @param $my_id
+     * @param $enemy_id
+     */
+    public function calcContribution($result_int, $my_id, $enemy_id)
+    {
+        switch ($result_int) {
+            case 1:
+                $my = Fleet::findOrFail($my_id);
+                $enemy = Enemy::findOrFail($enemy_id);
+                $my->contribution += $enemy->contribution ? : 1;
+                $my->save();
+                break;
         }
     }
 }

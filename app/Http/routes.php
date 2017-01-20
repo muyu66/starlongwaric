@@ -1,5 +1,9 @@
 <?php
 
+Route::get('time', function () {
+    return ['code' => 200, 'time' => g_get_star_date()];
+});
+
 Route::controller('auth', 'AuthController');
 
 Route::get('enemies/randoms', 'EnemyController@getRandoms');

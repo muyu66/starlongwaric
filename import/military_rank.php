@@ -4,7 +4,7 @@ return [
     'initMilitaryRank' => [
         [
             'name' => '下士',
-            'need_contribution' => '0',
+            'need_contribution' => '10',
         ],
         [
             'name' => '中士',

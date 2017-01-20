@@ -11,7 +11,7 @@ class FriendController extends Controller
 {
     public function getIndex()
     {
-        $friends = Friend::belong($this->getFleetId())->first();
+        $friends = Friend::belong($this->getFleetId())->firstOrFail();
         $tmps = $friends->friends;
         foreach ($tmps as &$friend) {
             $friend = [

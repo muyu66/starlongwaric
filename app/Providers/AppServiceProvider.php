@@ -14,16 +14,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
         if (g_is_debug()) {
             DB::connection()->enableQueryLog();
         }
@@ -39,5 +29,15 @@ class AppServiceProvider extends ServiceProvider
                 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
                 break;
         }
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+
     }
 }

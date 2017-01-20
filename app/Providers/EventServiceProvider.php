@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Events\TaskEvent;
+use App\Listeners\TaskCompleteEventListener;
 use App\Listeners\TaskEventListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;

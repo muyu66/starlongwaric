@@ -51,12 +51,12 @@ class EventController extends Controller
             ->where('status', 0)
             ->with(['standard', 'staff'])
             ->findOrFail($event_id);
+        $model->commander = $p_id ? $model->commander : 0;
 
         $params['fleet_id'] = $fleet_id;
 
         FacadeEvent::fire(new TaskEvent($model, $choose, $params));
 
-        $model->commander = $p_id ? $model->commander : 0;
         $model->status = 1;
         $model->save();
     }

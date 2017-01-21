@@ -1,5 +1,9 @@
 <?php
 
+Route::get('/', function () {
+    return ['code' => 200, 'msg' => 'welcome'];
+});
+
 Route::get('time', function () {
     return ['code' => 200, 'time' => g_get_star_date()];
 });

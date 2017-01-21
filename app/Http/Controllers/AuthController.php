@@ -76,9 +76,6 @@ class AuthController extends Controller
     {
         $ctl = new Template();
         return $ctl->view('code', [
-            'generate' => 'http://www.slw.app/auth/code-generate',
-            'valid' => 'http://www.slw.app/auth/code-valid',
-            'query' => 'http://www.slw.app/auth/code-query',
             'name' => 'Muyu',
             'sign' => 'Inc',
             'message' => 'Captain, 欢迎登舰',

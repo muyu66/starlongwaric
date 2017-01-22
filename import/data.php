@@ -5,13 +5,13 @@ return [
         [
             'name' => '舰体',
             'desc' => '舰体',
-            'per_fee' => 6,
+            'per_fee' => 2,
             'per_power' => 10,
         ],
         [
             'name' => '侧翼',
             'desc' => '侧翼',
-            'per_fee' => 8,
+            'per_fee' => 3,
             'per_power' => 15,
         ],
         [
@@ -23,7 +23,7 @@ return [
         [
             'name' => '动力室',
             'desc' => '动力室',
-            'per_fee' => 2,
+            'per_fee' => 1,
             'per_power' => 6,
         ],
         [
@@ -35,13 +35,13 @@ return [
         [
             'name' => '能量板',
             'desc' => '能量板',
-            'per_fee' => 16,
+            'per_fee' => 4,
             'per_power' => 22,
         ],
         [
             'name' => '传送室',
             'desc' => '传送室',
-            'per_fee' => 4,
+            'per_fee' => 2,
             'per_power' => 11,
         ],
     ],

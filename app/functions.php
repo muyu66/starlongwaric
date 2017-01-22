@@ -118,3 +118,13 @@ function g_get_online_status($timestamp)
         }
     }
 }
+
+/**
+ * 统一分页数
+ *
+ * @return int
+ */
+function g_get_paginate_count()
+{
+    return 10;
+}

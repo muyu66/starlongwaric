@@ -18,6 +18,8 @@ class CreateFleetBodiesTable extends Migration
             $table->integer('widget_id');
             $table->integer('health');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

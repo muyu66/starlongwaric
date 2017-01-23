@@ -19,6 +19,8 @@ class CreateMilitaryRanksTable extends Migration
             $table->integer('need_contribution');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

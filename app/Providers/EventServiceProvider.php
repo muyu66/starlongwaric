@@ -2,13 +2,12 @@
 
 namespace App\Providers;
 
-use App\Events\FleetCreateEvent;
 use App\Events\TaskEvent;
-use App\Listeners\FleetBodyCreateListener;
-use App\Listeners\FleetCreateListener;
-use App\Listeners\FleetPowerUpdateListener;
-use App\Listeners\FleetStaffCreateListener;
-use App\Listeners\FleetTechCreateListener;
+use App\Listeners\FleetBodyListener;
+use App\Listeners\FleetListener;
+use App\Listeners\FleetPowerListener;
+use App\Listeners\FleetStaffListener;
+use App\Listeners\FleetTechListener;
 use App\Listeners\TaskCompleteListener;
 use App\Listeners\TaskListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
@@ -23,13 +22,14 @@ class EventServiceProvider extends ServiceProvider
             TaskListener::class,
             TaskCompleteListener::class,
         ],
-        FleetCreateEvent::class => [
-            FleetCreateListener::class,
-            FleetBodyCreateListener::class,
-            FleetTechCreateListener::class,
-            FleetPowerUpdateListener::class,
-            FleetStaffCreateListener::class,
-        ],
+    ];
+
+    protected $subscribe = [
+        FleetListener::class,
+        FleetBodyListener::class,
+        FleetTechListener::class,
+        FleetPowerListener::class,
+        FleetStaffListener::class,
     ];
 
     public function boot(DispatcherContract $events)

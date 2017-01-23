@@ -31,6 +31,8 @@ class CreateStaffTable extends Migration
             $table->integer('loyalty');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

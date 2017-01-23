@@ -24,6 +24,8 @@ class CreateFightReportsTable extends Migration
             $table->integer('linkage')->comment('联动作战');
             $table->integer('power');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

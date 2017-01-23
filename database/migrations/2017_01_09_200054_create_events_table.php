@@ -21,6 +21,8 @@ class CreateEventsTable extends Migration
             $table->integer('commander');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

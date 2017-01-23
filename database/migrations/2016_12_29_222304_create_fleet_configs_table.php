@@ -17,6 +17,8 @@ class CreateFleetConfigsTable extends Migration
             $table->integer('fleet_id');
             $table->json('configs');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

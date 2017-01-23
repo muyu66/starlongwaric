@@ -19,6 +19,8 @@ class CreateGalaxiesTable extends Migration
             $table->json('coordinate');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

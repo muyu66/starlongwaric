@@ -3,9 +3,14 @@
 namespace App\Models;
 
 use Eloquent;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Base extends Eloquent
 {
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
+
     public static function getWith($with, $fleet_id)
     {
         return static::where('fleet_id', $fleet_id)->with($with)->get();

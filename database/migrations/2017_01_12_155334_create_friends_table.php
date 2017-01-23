@@ -19,6 +19,8 @@ class CreateFriendsTable extends Migration
             $table->json('friends');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -13,6 +13,8 @@ class CreateStoriesTable extends Migration
             $table->text('content');
             $table->integer('timeline');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

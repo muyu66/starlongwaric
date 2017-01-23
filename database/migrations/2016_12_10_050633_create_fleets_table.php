@@ -28,6 +28,8 @@ class CreateFleetsTable extends Migration
             $table->integer('power');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

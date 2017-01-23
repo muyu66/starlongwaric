@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FleetDeleteEvent;
 use App\Models\Enemy;
 use App\Models\Fleet;
 use Illuminate\Database\Eloquent\Model;
 use Exception;
+use Event;
 
 class FightController extends Controller
 {
@@ -38,6 +40,24 @@ class FightController extends Controller
         $ctl->record($my, $enemy, $result_int, $booty);
 
         // 检查维修值, 如果都为0, 则舰队报废
+        $this->checkAlive($my->id);
+    }
+
+    public function checkAlive($my_id)
+    {
+        $ctl = new FleetBodyController();
+        $bodies = $ctl->index($my_id);
+
+        /**
+         * 如果维修值有一项不为0, 则不算阵亡
+         */
+        foreach ($bodies as $body) {
+            if ($body->health > 0) {
+                return true;
+            }
+        }
+        Event::fire(new FleetDeleteEvent($my_id));
+        return true;
     }
 
     /**

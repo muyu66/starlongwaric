@@ -18,6 +18,8 @@ class CreateFleetTechesTable extends Migration
             $table->integer('tech_id');
             $table->integer('level');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

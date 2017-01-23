@@ -19,6 +19,8 @@ class CreateFleetTechTechesTable extends Migration
             $table->integer('per_fee');
             $table->integer('per_power');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

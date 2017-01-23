@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Events\FleetCreateEvent;
+use App\Events\FleetDeleteEvent;
 use App\Models\Fleet;
 use Illuminate\Console\Command;
 
@@ -13,7 +14,9 @@ class Test extends Command
 
     public function handle()
     {
-        \Event::fire(new FleetCreateEvent(Fleet::create(), '肯泰罗44', 2));
+//        \Event::fire(new FleetCreateEvent(Fleet::create(), '肯泰罗4444', 2));
+//        $a = Fleet::find(12);
+//        \Event::fire(new FleetDeleteEvent($a->id));
 
 
 //        $model = Event::belong(2)

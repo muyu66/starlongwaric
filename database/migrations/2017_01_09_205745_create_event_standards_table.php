@@ -21,6 +21,8 @@ class CreateEventStandardsTable extends Migration
             $table->json('params');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -23,6 +23,8 @@ class CreateEnemiesTable extends Migration
             $table->integer('fuel');
             $table->integer('power');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

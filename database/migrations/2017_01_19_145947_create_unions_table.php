@@ -21,6 +21,8 @@ class CreateUnionsTable extends Migration
             $table->json('diplomacy');
 
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

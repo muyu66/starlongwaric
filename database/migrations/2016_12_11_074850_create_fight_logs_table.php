@@ -21,6 +21,8 @@ class CreateFightLogsTable extends Migration
             $table->boolean('result')->comment('-1战败,0平局,1胜利');
             $table->json('booty');
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\ApiException;
+use Response;
 use Auth;
 use Closure;
 
@@ -12,7 +12,7 @@ class BasicAuth
     {
         if (Auth::onceBasic()) {
             // 验证失败则
-            throw new ApiException(40101);
+            return Response::json(['code' => 40101, 'msg' => '认证失败',], 200);
         } else {
             return $next($request);
         }

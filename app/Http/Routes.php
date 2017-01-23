@@ -25,7 +25,6 @@ Route::resource('fleet_teches', 'FleetTechController');
 Route::post('fleet_configs/commander_style', 'FleetConfigController@postCommanderStyle');
 Route::resource('fleet_configs', 'FleetConfigController');
 
-Route::resource('fleets', 'FleetController');
 
 Route::resource('stories', 'StoryController');
 
@@ -51,3 +50,8 @@ Route::resource('planets', 'PlanetController');
 Route::resource('unions', 'UnionController');
 
 Route::resource('military_ranks', 'MilitaryRankController');
+
+
+
+
+Route::resource('fleets', 'FleetController');

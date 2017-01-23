@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\FleetCreateEvent;
-use App\Models\Fleet;
-
 class TestController extends Controller
 {
+    protected $except = ['getTest'];
+
     public function getTest()
     {
-
+        $this->getLoc()->aaaa();
     }
 }

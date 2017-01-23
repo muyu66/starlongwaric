@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Events\FleetCreateEvent;
 use App\Exceptions\ApiException;
-use App\Models\Config;
+use App\Http\Logicals\FleetLogical;
 use App\Models\Fleet;
 use App\Models\FleetBody;
 use App\Models\FleetBodyWidget;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
 use Event;
@@ -25,7 +24,7 @@ class FleetController extends Controller
      */
     public function index()
     {
-        return Fleet::where('user_id', $this->getUserId())->get();
+        return Fleet::where('user_id', $this->getUserId())->withTrashed()->get();
     }
 
     /**
@@ -35,23 +34,15 @@ class FleetController extends Controller
      */
     public function show()
     {
-        $model = $this->getShow();
-        $model = $this->updateFleetPower($model);
+        $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
+
+        $model = $this->getLoc()->updateFleetPower($model);
+
         $model = $this->updateStaffCount($model);
         $model = $this->convertRank($model);
         $model = $this->convertPlanet($model);
         $model = $this->convertUnion($model);
         return $model;
-    }
-
-    /**
-     * 仅返回当前存活的舰队
-     *
-     * @return Fleet
-     */
-    public function getShow()
-    {
-        return Fleet::alive()->where('user_id', $this->getUserId())->first();
     }
 
     public function valid(Array $array)

@@ -2,9 +2,15 @@
 
 namespace App\Providers;
 
+use App\Events\FleetCreateEvent;
 use App\Events\TaskEvent;
-use App\Listeners\TaskCompleteEventListener;
-use App\Listeners\TaskEventListener;
+use App\Listeners\FleetBodyCreateListener;
+use App\Listeners\FleetCreateListener;
+use App\Listeners\FleetPowerUpdateListener;
+use App\Listeners\FleetStaffCreateListener;
+use App\Listeners\FleetTechCreateListener;
+use App\Listeners\TaskCompleteListener;
+use App\Listeners\TaskListener;
 use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -12,24 +18,20 @@ class EventServiceProvider extends ServiceProvider
 {
     protected $defer = false;
 
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
     protected $listen = [
         TaskEvent::class => [
-            TaskEventListener::class,
-            TaskCompleteEventListener::class,
+            TaskListener::class,
+            TaskCompleteListener::class,
+        ],
+        FleetCreateEvent::class => [
+            FleetCreateListener::class,
+            FleetBodyCreateListener::class,
+            FleetTechCreateListener::class,
+            FleetPowerUpdateListener::class,
+            FleetStaffCreateListener::class,
         ],
     ];
 
-    /**
-     * Register any other events for your application.
-     *
-     * @param  \Illuminate\Contracts\Events\Dispatcher $events
-     * @return void
-     */
     public function boot(DispatcherContract $events)
     {
         parent::boot($events);

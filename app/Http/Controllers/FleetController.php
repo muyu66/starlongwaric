@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\FleetCreateEvent;
 use App\Exceptions\ApiException;
 use App\Models\Config;
 use App\Models\Fleet;
@@ -12,6 +13,7 @@ use App\Models\FleetTechTech;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Validator;
+use Event;
 
 class FleetController extends Controller
 {
@@ -72,11 +74,7 @@ class FleetController extends Controller
          */
         $this->checkFleetAlive();
 
-        $fleet = $this->createFleet($name);
-        $this->createFleetBody($fleet->id);
-        $this->createFleetTech($fleet->id);
-        $this->updateFleetPower($fleet);
-        $this->createFleetStaff($fleet->id);
+        Event::fire(new FleetCreateEvent(Fleet::create(), $name, $this->getUserId()));
     }
 
     private function checkFleetAlive()

@@ -56,9 +56,9 @@
             "php artisan ide-helper:meta"
         ],
         "fix": [
+            "php artisan clear-compiled",
             "php artisan optimize",
             "composer dumpautoload",
-            "php artisan clear-compiled",
             "composer install"
         ]
     },

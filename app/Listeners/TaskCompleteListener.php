@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Events\TaskEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TaskCompleteEventListener implements ShouldQueue
+class TaskCompleteListener implements ShouldQueue
 {
     public function handle(TaskEvent $event)
     {

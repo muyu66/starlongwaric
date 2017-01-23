@@ -6,7 +6,7 @@ use App\Events\TaskEvent;
 use App\Http\Components\Events\Event;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class TaskEventListener implements ShouldQueue
+class TaskListener implements ShouldQueue
 {
     /**
      * @var Event

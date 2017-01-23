@@ -19,6 +19,18 @@ class FleetPowerController extends Controller
         ]);
     }
 
+    public function power2($fleet_id)
+    {
+        return array_sum([
+            $this->calc(
+                FleetBody::getWith(FleetBody::STANDARD, $fleet_id), FleetBody::class
+            ),
+            $this->calc(
+                FleetTech::getWith(FleetTech::STANDARD, $fleet_id), FleetTech::class
+            ),
+        ]);
+    }
+
     /**
      * @description 计算战斗力
      * @param $models

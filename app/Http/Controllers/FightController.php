@@ -36,6 +36,8 @@ class FightController extends Controller
         // 汇总记录数据
         $ctl = new FightLogController();
         $ctl->record($my, $enemy, $result_int, $booty);
+
+        // 检查维修值, 如果都为0, 则舰队报废
     }
 
     /**

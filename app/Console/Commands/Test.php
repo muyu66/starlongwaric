@@ -2,15 +2,9 @@
 
 namespace App\Console\Commands;
 
-use App\Events\TaskEvent;
-use App\Http\Components\Message;
-use App\Http\Controllers\FleetController;
-use App\Models\Event;
-use Carbon\Carbon;
+use App\Events\FleetCreateEvent;
+use App\Models\Fleet;
 use Illuminate\Console\Command;
-use Artisan;
-use Illuminate\Http\Request;
-use Auth;
 
 class Test extends Command
 {
@@ -19,13 +13,16 @@ class Test extends Command
 
     public function handle()
     {
-        $model = Event::belong(2)
-            ->where('status', 0)
-            ->with(['standard', 'staff'])
-            ->findOrFail(550);
-        $params['fleet_id'] = 2;
+        \Event::fire(new FleetCreateEvent(Fleet::create(), '肯泰罗44', 2));
 
-        \Event::fire(new TaskEvent($model, 1, $params));
+
+//        $model = Event::belong(2)
+//            ->where('status', 0)
+//            ->with(['standard', 'staff'])
+//            ->findOrFail(550);
+//        $params['fleet_id'] = 2;
+//
+//        \Event::fire(new TaskEvent($model, 1, $params));
 
 
 //        $c = new Message();

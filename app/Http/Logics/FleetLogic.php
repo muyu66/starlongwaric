@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Logicals;
+namespace App\Http\Logics;
 
 use App\Http\Controllers\FleetPowerController;
 use App\Models\Fleet;
 
-class FleetLogical extends Logical
+class FleetLogic extends Logic
 {
     public function updateFleetPower(Fleet $fleet)
     {

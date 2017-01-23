@@ -6,6 +6,7 @@ use App\Events\FleetCreateEvent;
 use App\Events\FleetDeleteEvent;
 use App\Models\Fleet;
 use Illuminate\Console\Command;
+use Predis\Client;
 
 class Test extends Command
 {

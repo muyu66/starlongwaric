@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use DB;
+use Orm\Controllers\Connections\Connection;
 
 class AppServiceProvider extends ServiceProvider
 {

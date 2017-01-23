@@ -8,6 +8,6 @@ class TestController extends Controller
 
     public function getTest()
     {
-        $this->getLoc()->aaaa();
+//        $this->getLoc()->aaaa();
     }
 }

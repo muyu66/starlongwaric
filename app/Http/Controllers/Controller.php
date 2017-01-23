@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
-use App\Http\Logicals\FleetLogical;
-use App\Http\Logicals\Logical;
+use App\Http\Logics\AuthLogic;
+use App\Http\Logics\FleetLogic;
+use App\Http\Logics\Logic;
 use App\Models\Fleet;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -26,7 +27,7 @@ abstract class Controller extends BaseController
     public $fleet_id;
 
     /**
-     * @var Logical
+     * @var Logic
      */
     private $loc;
 
@@ -37,14 +38,14 @@ abstract class Controller extends BaseController
         /**
          * 分发 Logical
          */
-        $loc = str_replace('Controller', 'Logical', static::class);
+        $loc = str_replace('Controller', 'Logic', static::class);
         $this->loc = new $loc;
     }
 
     /**
      * 返回分发的 Logical
      *
-     * @return Logical|mixed|FleetLogical
+     * @return Logic|FleetLogic|AuthLogic|mixed
      * @author Zhou Yu
      */
     public function getLoc()

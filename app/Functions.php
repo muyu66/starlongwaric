@@ -128,3 +128,8 @@ function g_get_paginate_count()
 {
     return 10;
 }
+
+function g_get_ip()
+{
+    return \Request::server('HTTP_X_FORWARDED_FOR') ? : \Request::getClientIp();
+}

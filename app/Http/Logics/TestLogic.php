@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Logicals;
+namespace App\Http\Logics;
 
-class TestLogical extends Logical
+class TestLogic extends Logic
 {
     public function aaaa()
     {

@@ -34,7 +34,7 @@ class FleetBodyTest extends TestCase
         $gold_is_empty = 0;
 
         $ctl = new FleetBodyController();
-        $ctl->fix($fleet_body, $fleet, $fleet_body_widget, $amount, $gold_is_empty);
+        $ctl->loc()->fix($fleet_body, $fleet, $fleet_body_widget, $amount, $gold_is_empty);
 
         $this->assertTrue($fleet_body->health <= 100);
         $this->assertTrue($amount * $fleet_body_widget->per_fee + $fleet->gold === 1000);

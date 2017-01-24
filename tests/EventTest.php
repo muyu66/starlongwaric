@@ -15,7 +15,7 @@ class EventTest extends TestCase
     public function testGenerate()
     {
         $ctl = new EventController();
-        $model = $ctl->generate(self::UNIT_FLEET_ID);
+        $model = $ctl->loc()->generate(self::UNIT_FLEET_ID);
         $this->seeInDatabase('events', ['id' => $model->id]);
         return $model;
     }

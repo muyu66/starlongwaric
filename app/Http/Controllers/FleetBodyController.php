@@ -58,7 +58,7 @@ class FleetBodyController extends Controller
              * 动态更改了以下的变量
              * $fleet_body, $fleet, $amount, $gold_is_empty
              */
-            $this->fix($fleet_body, $fleet, $fleet_body_widget, $amount, $gold_is_empty);
+            $this->loc()->fix($fleet_body, $fleet, $fleet_body_widget, $amount, $gold_is_empty);
 
             $fleet->save();
 
@@ -69,28 +69,6 @@ class FleetBodyController extends Controller
                 'gold' => $amount * $fleet_body_widget->per_fee,
                 'gold_is_empty' => $gold_is_empty,
             ];
-        }
-    }
-
-    /**
-     * @description 单件修复算法
-     * @param $fleet_body
-     * @param $fleet
-     * @param $fleet_body_widget
-     * @param $amount
-     * @param $gold_is_empty
-     * @author Zhou Yu
-     */
-    public function fix(&$fleet_body, &$fleet, $fleet_body_widget, &$amount, &$gold_is_empty)
-    {
-        foreach (g_yields(100 - $fleet_body->health) as $i) {
-            if ($fleet->gold <= $fleet_body_widget->per_fee) {
-                $gold_is_empty = 1;
-                continue 1;
-            }
-            $fleet->gold -= $fleet_body_widget->per_fee;
-            $fleet_body->health += 1;
-            $amount++;
         }
     }
 
@@ -108,17 +86,5 @@ class FleetBodyController extends Controller
             $result[] = $this->store(new Request(), $model->id);
         }
         return $result;
-    }
-
-    /**
-     * 根据级别, 随机减少维修值
-     *
-     * @param FleetBody $model
-     * @param $value
-     */
-    public function randomDamage(FleetBody $model, $value)
-    {
-        $model->health = $model->health - $value >= 0 ? $model->health - $value : 0;
-        $model->save();
     }
 }

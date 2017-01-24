@@ -36,7 +36,7 @@ class FleetController extends Controller
     {
         $model = Fleet::alive()->where('user_id', $this->getUserId())->first();
 
-        $model = $this->getLoc()->updateFleetPower($model);
+        $model = $this->loc()->updateFleetPower($model);
 
         $model = $this->updateStaffCount($model);
         $model = $this->convertRank($model);

@@ -28,7 +28,7 @@ class FleetPowerListener implements ShouldQueue
         $fleet = $instance->fleet;
 
         $power = new FleetPowerController();
-        $fleet->power = $power->power2($fleet->id);
+        $fleet->power = $power->loc()->power($fleet->id);
         $fleet->save();
     }
 

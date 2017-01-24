@@ -16,8 +16,8 @@ class EventFuncTest extends TestCase
     public function testGenerate()
     {
         $ctl = new EventController();
-        $ctl->generate(self::UNIT_FLEET_ID, 1);
-        $ctl->generate(self::UNIT_FLEET_ID, 2);
+        $ctl->loc()->generate(self::UNIT_FLEET_ID, 1);
+        $ctl->loc()->generate(self::UNIT_FLEET_ID, 2);
     }
 
     public function testEvent1()

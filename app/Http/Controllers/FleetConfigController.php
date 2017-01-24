@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Exceptions\ApiException;
 use App\Models\FleetConfig;
 use Illuminate\Http\Request;
-use Validator;
 
 class FleetConfigController extends Controller
 {
@@ -28,7 +27,7 @@ class FleetConfigController extends Controller
 
     public function postCommanderStyle(Request $request)
     {
-        $this->check($request->all());
+        $this->loc()->check($request->all());
 
         $style = $request->input('style');
 
@@ -41,14 +40,5 @@ class FleetConfigController extends Controller
         $model->save();
 
         return $model;
-    }
-
-    private function check(Array $array)
-    {
-        $validator = Validator::make($array, [
-            'style' => 'required|in:1,2',
-        ]);
-
-        $this->validCore($validator);
     }
 }

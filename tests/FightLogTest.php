@@ -24,7 +24,7 @@ class FightLogTest extends TestCase
         $result = 1;
         $booty = ['gold' => 100, 'fule' => 40];
         $ctl = new FightLogController();
-        $ctl->record($my, $enemy, $result, $booty);
+        $ctl->loc()->create($my, $enemy, $result, $booty);
         $this->seeInDatabase('fight_logs', ['id' => 1, 'my_id' => 2]);
 
         /**
@@ -39,7 +39,7 @@ class FightLogTest extends TestCase
         $result = 0;
         $booty = ['gold' => 100, 'fule' => 40];
         $ctl = new FightLogController();
-        $ctl->record($my, $enemy, $result, $booty);
+        $ctl->loc()->create($my, $enemy, $result, $booty);
         $this->seeInDatabase('fight_logs', ['id' => 2, 'enemy_id' => 2]);
     }
 

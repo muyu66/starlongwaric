@@ -21,7 +21,7 @@ class FightController extends Controller
     {
         // 得到敌人数据，随机遇敌
         $enemy = new EnemyController();
-        $enemy = $enemy->random($my->power);
+        $enemy = $enemy->loc()->getRandom($my->power);
 
         // 得到战斗结果
         $result_int = $this->calc($my, $enemy);
@@ -37,7 +37,7 @@ class FightController extends Controller
 
         // 汇总记录数据
         $ctl = new FightLogController();
-        $ctl->record($my, $enemy, $result_int, $booty);
+        $ctl->loc()->create($my, $enemy, $result_int, $booty);
 
         // 检查维修值, 如果都为0, 则舰队报废
         $this->checkAlive($my->id);
@@ -124,17 +124,17 @@ class FightController extends Controller
         switch ($result_int) {
             case -1:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(4, 8));
+                    $ctl->loc()->randomDamage($body, rand(4, 8));
                 }
                 break;
             case 0:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(2, 4));
+                    $ctl->loc()->randomDamage($body, rand(2, 4));
                 }
                 break;
             case 1:
                 foreach ($bodies as $body) {
-                    $ctl->randomDamage($body, rand(0, 2));
+                    $ctl->loc()->randomDamage($body, rand(0, 2));
                 }
                 break;
             default:

@@ -15,7 +15,7 @@ class FightTest extends TestCase
         $my = new FleetController();
         $enemy = new EnemyController();
         $this->my = $my->getShow();
-        $this->enemy = $enemy->random($this->my->power);
+        $this->enemy = $enemy->loc()->getRandom($this->my->power);
     }
 
     public function testCalc()

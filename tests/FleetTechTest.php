@@ -36,7 +36,7 @@ class FleetTechTest extends TestCase
         $level_is_max = 0;
 
         $ctl = new FleetTechController();
-        $ctl->update(
+        $ctl->loc()->update(
             $fleet_tech, $fleet, $fleet_tech_tech, $amount, $gold_is_empty, $level_is_max, $num
         );
 

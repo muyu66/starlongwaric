@@ -16,16 +16,10 @@ class MilitaryRankController extends Controller
      *
      * @param $contribution
      * @return mixed
+     * @author Zhou Yu
      */
     public function getRank($contribution)
     {
-        $models = $this->index();
-        foreach ($models as $model) {
-            if ($contribution > $model->need_contribution) {
-                continue;
-            }
-            return $model->name;
-        }
-        return end($models->toArray())['name'];
+        return $this->loc()->getRank($this->index(), $contribution);
     }
 }

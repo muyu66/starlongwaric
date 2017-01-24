@@ -17,7 +17,7 @@ class EventGenerate extends Command
 
         $ctl = new EventController();
         foreach (g_yields(rand($amount, $amount * 2)) as $i) {
-            $ctl->generate();
+            $ctl->loc()->generate();
         }
     }
 }

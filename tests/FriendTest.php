@@ -13,7 +13,7 @@ class FriendTest extends TestCase
     public function testPostDelete()
     {
         $ctl = new FriendController();
-        $ctl->add(2, 1);
+        $ctl->loc()->add(2, 1);
         $this->post_with_login('friend/delete', ['id' => 1]);
         $this->seeInDatabase('friends', ['fleet_id' => 2, 'friends' => '[]']);
         $this->seeInDatabase('friends', ['fleet_id' => 1, 'friends' => '[]']);
@@ -23,7 +23,7 @@ class FriendTest extends TestCase
     public function testAdd()
     {
         $ctl = new FriendController();
-        $ctl->add(2, 1);
+        $ctl->loc()->add(2, 1);
         $this->seeInDatabase('friends', ['fleet_id' => 2, 'id' => 1]);
         $this->seeInDatabase('friends', ['fleet_id' => 1, 'id' => 2]);
     }

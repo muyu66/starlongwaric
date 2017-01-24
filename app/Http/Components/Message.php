@@ -63,7 +63,7 @@ class Message
         switch ($func_id) {
             case 1:
                 $ctl = new FriendController();
-                $ctl->add($my_id, $friend_id);
+                $ctl->loc()->add($my_id, $friend_id);
                 break;
             default:
                 throw new \Exception('没有此功能消息');

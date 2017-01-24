@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
 use App\Http\Logics\AuthLogic;
+use App\Http\Logics\EnemyLogic;
+use App\Http\Logics\EventLogic;
+use App\Http\Logics\FightLogLogic;
+use App\Http\Logics\FleetBodyLogic;
+use App\Http\Logics\FleetConfigLogic;
 use App\Http\Logics\FleetLogic;
+use App\Http\Logics\FleetPowerLogic;
+use App\Http\Logics\FleetTechLogic;
+use App\Http\Logics\FriendLogic;
 use App\Http\Logics\Logic;
+use App\Http\Logics\MilitaryRankLogic;
 use App\Models\Fleet;
+use App\Models\FleetConfig;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -45,10 +55,10 @@ abstract class Controller extends BaseController
     /**
      * 返回分发的 Logical
      *
-     * @return Logic|FleetLogic|AuthLogic|mixed
+     * @return MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
      * @author Zhou Yu
      */
-    public function getLoc()
+    public function loc()
     {
         return $this->loc;
     }
@@ -130,12 +140,5 @@ abstract class Controller extends BaseController
     public function setOnlineStatus()
     {
         Cache::forever('online/' . $this->getFleetId(), time());
-    }
-
-    public function validCore(Validator $validator)
-    {
-        if ($validator->fails()) {
-            throw new ApiException(422, $validator->messages()->first());
-        }
     }
 }

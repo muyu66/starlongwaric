@@ -9,11 +9,9 @@ class Redis
 {
     private $redis;
 
-    public function __construct()
+    public function __construct($config)
     {
-        $redis = new Client();
-        $redis->auth(config('database.redis.default.password'));
-        $redis->select(config('database.redis.default.database'));
+        $redis = new Client($config);
         $this->redis = $redis;
     }
 

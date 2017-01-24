@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\ApiException;
 use App\Http\Logics\AuthLogic;
 use App\Http\Logics\EnemyLogic;
 use App\Http\Logics\EventLogic;
@@ -15,15 +14,15 @@ use App\Http\Logics\FleetTechLogic;
 use App\Http\Logics\FriendLogic;
 use App\Http\Logics\Logic;
 use App\Http\Logics\MilitaryRankLogic;
+use App\Http\Logics\PlanetLogic;
+use App\Models\Base;
 use App\Models\Fleet;
-use App\Models\FleetConfig;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Auth;
 use Cache;
-use Illuminate\Validation\Validator;
 
 abstract class Controller extends BaseController
 {
@@ -31,10 +30,10 @@ abstract class Controller extends BaseController
 
     protected $except;
 
-    public $user;
-    public $user_id;
-    public $fleet;
-    public $fleet_id;
+    private $user;
+    private $user_id;
+    private $fleet;
+    private $fleet_id;
 
     /**
      * @var Logic
@@ -49,13 +48,15 @@ abstract class Controller extends BaseController
          * 分发 Logical
          */
         $loc = str_replace('Controller', 'Logic', static::class);
-        $this->loc = new $loc;
+        if (class_exists($loc)) {
+            $this->loc = new $loc;
+        }
     }
 
     /**
      * 返回分发的 Logical
      *
-     * @return MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
+     * @return PlanetLogic|MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
      * @author Zhou Yu
      */
     public function loc()
@@ -140,5 +141,26 @@ abstract class Controller extends BaseController
     public function setOnlineStatus()
     {
         Cache::forever('online/' . $this->getFleetId(), time());
+    }
+
+    protected function showMe(&$id)
+    {
+        if ($id === 'me') {
+            $id = $this->getFleetId();
+        }
+    }
+
+    /**
+     *
+     *
+     * @param $ids
+     * @param Base $model_class
+     * @author Zhou Yu
+     */
+    protected function storeAll(&$ids, $model_class)
+    {
+        if ($ids === 'all') {
+            $ids = $model_class::belong($this->getFleetId())->get()->pluck('id');
+        }
     }
 }

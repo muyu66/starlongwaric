@@ -6,6 +6,20 @@ use App\Models\Enemy;
 
 class EnemyLogic extends Logic
 {
+    public function create($name)
+    {
+        $model = new Enemy();
+        $model->rank_id = rand(1, 5);
+        $model->name = $name;
+        $model->staff = rand(1, 8);
+        $model->union_id = 1;
+        $model->planet_id = 1;
+        $model->gold = rand(10, 500);
+        $model->fuel = rand(10, 100);
+        $model->power = $model->gold * 20;
+        $model->save();
+    }
+
     public function getRandoms($my_power)
     {
         /**

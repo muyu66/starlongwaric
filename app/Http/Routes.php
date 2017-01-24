@@ -12,7 +12,6 @@ Route::controller('auth', 'AuthController');
 
 Route::get('enemies/randoms', 'EnemyController@getRandoms');
 Route::get('enemies/random', 'EnemyController@getRandom');
-Route::resource('enemies', 'EnemyController');
 
 Route::controller('fight', 'FightController');
 
@@ -55,3 +54,5 @@ Route::resource('military_ranks', 'MilitaryRankController');
 
 
 Route::resource('fleets', 'FleetController');
+Route::resource('fleets.bodies', 'FleetBodyController');
+Route::resource('enemies', 'EnemyController');

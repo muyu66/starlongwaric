@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\FleetController;
+use App\Http\Logics\FleetBodyLogic;
+use App\Http\Logics\FleetTechLogic;
 use App\Models\Fleet;
 use App\Models\FleetBody;
 use App\Models\FleetTech;
@@ -15,14 +17,16 @@ class DataFix extends Command
 
     public function handle()
     {
-        $ctl = new FleetController();
+        $fleet_body = new FleetBodyLogic();
+        $fleet_tech = new FleetTechLogic();
+
         $fleet_ids = Fleet::get(['id'])->pluck('id');
         foreach ($fleet_ids as $fleet_id) {
             if (! FleetBody::where('fleet_id', $fleet_id)->count()) {
-                $ctl->createFleetBody($fleet_id);
+                $fleet_body->createCopy($fleet_id);
             }
             if (! FleetTech::where('fleet_id', $fleet_id)->count()) {
-                $ctl->createFleetTech($fleet_id);
+                $fleet_tech->createCopy($fleet_id);
             }
         }
     }

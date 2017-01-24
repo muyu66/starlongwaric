@@ -3,6 +3,8 @@
 namespace App\Http\Logics;
 
 use App\Models\Config;
+use App\Models\FleetTech;
+use App\Models\FleetTechTech;
 
 class FleetTechLogic extends Logic
 {
@@ -33,6 +35,18 @@ class FleetTechLogic extends Logic
             $fleet->gold -= $fleet_tech_tech->per_fee;
             $fleet_tech->level += 1;
             $amount++;
+        }
+    }
+
+    public function createCopy($fleet_id)
+    {
+        $copies = FleetTechTech::get();
+        foreach ($copies as $copy) {
+            $body = new FleetTech();
+            $body->fleet_id = $fleet_id;
+            $body->tech_id = $copy->id;
+            $body->level = 0;
+            $body->save();
         }
     }
 }

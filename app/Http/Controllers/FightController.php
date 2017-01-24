@@ -46,7 +46,7 @@ class FightController extends Controller
     public function checkAlive($my_id)
     {
         $ctl = new FleetBodyController();
-        $bodies = $ctl->index($my_id);
+        $bodies = $ctl->loc()->index($my_id);
 
         /**
          * 如果维修值有一项不为0, 则不算阵亡
@@ -119,7 +119,7 @@ class FightController extends Controller
     public function calcBody($result_int, $my_id)
     {
         $ctl = new FleetBodyController();
-        $bodies = $ctl->index($my_id);
+        $bodies = $ctl->loc()->index($my_id);
 
         switch ($result_int) {
             case -1:

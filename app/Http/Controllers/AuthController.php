@@ -6,7 +6,6 @@ use App\Exceptions\ApiException;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Muyu\Controllers\Template;
-use Validator;
 use Auth;
 
 class AuthController extends Controller
@@ -14,16 +13,6 @@ class AuthController extends Controller
     protected $except = ['postRegister', 'getCode', 'getCodeGenerate', 'getCodeValid', 'getCodeQuery'];
 
     public static $open_code = 1;
-
-    private function check(Array $array)
-    {
-        $validator = Validator::make($array, [
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6',
-        ]);
-
-        $this->validCore($validator);
-    }
 
     public function postLogin()
     {
@@ -59,7 +48,7 @@ class AuthController extends Controller
 
         $array = $request->all();
 
-        $this->check($array);
+        $this->loc()->check($array);
 
         $this->create($array);
     }

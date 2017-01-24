@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command("enemy:generate")
-            ->cron('*/10 * * * * *');
+            ->cron('*/20 * * * * *');
 
         $schedule->command("staff:generate")
             ->cron('*/10 * * * * *');

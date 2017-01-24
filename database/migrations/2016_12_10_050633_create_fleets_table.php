@@ -20,8 +20,6 @@ class CreateFleetsTable extends Migration
             $table->integer('union_id');
             $table->integer('planet_id');
 
-            $table->boolean('alive');
-
             $table->integer('contribution');
             $table->integer('gold');
             $table->integer('fuel');

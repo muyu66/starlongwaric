@@ -58,12 +58,12 @@ class DatabseCreate extends Command
 
         // 创建舰队
         Auth::loginUsingId(1);
-        $f = new FleetController();
-        $f->store(new Request(), '王老五');
+        $ctl = new FleetController();
+        $ctl->loc()->create(1, '王老五');
 
         Auth::loginUsingId(2);
-        $f = new FleetController();
-        $f->store(new Request(), '胡汉三');
+        $ctl = new FleetController();
+        $ctl->loc()->create(2, '胡汉三');
 
         // 填充它的数据
         Artisan::call('data:fix');

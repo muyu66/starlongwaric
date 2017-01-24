@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\FleetCreateEvent;
 use App\Events\FleetDeleteEvent;
+use App\Http\Logics\FleetBodyLogic;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Events\Dispatcher;
 use App\Models\FleetBody;
@@ -28,14 +29,8 @@ class FleetBodyListener implements ShouldQueue
     {
         $fleet = $instance->fleet;
 
-        $copies = FleetBodyWidget::get();
-        foreach ($copies as $copy) {
-            $body = new FleetBody();
-            $body->fleet_id = $fleet->id;
-            $body->widget_id = $copy->id;
-            $body->health = 100;
-            $body->save();
-        }
+        $fleet_body = new FleetBodyLogic();
+        $fleet_body->createCopy($fleet->id);
     }
 
     public function onDelete(FleetDeleteEvent $instance)

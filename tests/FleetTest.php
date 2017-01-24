@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\FleetController;
+use App\Http\Logics\FleetBodyLogic;
+use App\Http\Logics\FleetTechLogic;
+use App\Http\Logics\StaffLogic;
 
 class FleetTest extends TestCase
 {
@@ -32,14 +35,14 @@ class FleetTest extends TestCase
     public function testValid()
     {
         $ctl = new FleetController();
-        $result = $ctl->valid(['name' => '张哈哈']);
+        $result = $ctl->loc()->check(['name' => '张哈哈']);
         $this->assertEquals(null, $result);
 
         /**
          * 错误的输入则
          */
         $this->assertException(function () use ($ctl) {
-            return $ctl->valid(['name' => '']);
+            return $ctl->loc()->check(['name' => '']);
         }, 422);
     }
 
@@ -50,29 +53,30 @@ class FleetTest extends TestCase
 
     public function testCreateFleetBody()
     {
-        $ctl = new FleetController();
-        $ctl->createFleetBody($this->fleet->id);
+        $fleet_body = new FleetBodyLogic();
+        $fleet_body->createCopy($this->fleet->id);
         $this->seeInDatabase('fleet_bodies', ['fleet_id' => '3']);
     }
 
     public function testCreateFleetTech()
     {
-        $ctl = new FleetController();
-        $ctl->createFleetTech($this->fleet->id);
+        $fleet_tech = new FleetTechLogic();
+        $fleet_tech->createCopy($this->fleet->id);
         $this->seeInDatabase('fleet_teches', ['fleet_id' => '3']);
     }
 
     public function testCreateFleetPower()
     {
         $ctl = new FleetController();
-        $model = $ctl->updateFleetPower($this->fleet);
+        $model = $ctl->loc()->updateFleetPower($this->fleet);
         $this->assertTrue($model->id == '3' && $model->power > 0);
     }
 
     public function testCreateFleetStaff()
     {
-        $ctl = new FleetController();
-        $ctl->createFleetStaff($this->fleet->id);
+        $loc = new StaffLogic();
+        $loc->create($this->fleet->id, 1);
+        $loc->create($this->fleet->id);
         $this->seeInDatabase('staff', ['id' => 5, 'is_commander' => '1']);
         $this->seeInDatabase('staff', ['id' => 6, 'is_commander' => '0']);
     }

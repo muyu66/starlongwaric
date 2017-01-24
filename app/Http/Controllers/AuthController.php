@@ -8,7 +8,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Muyu\Controllers\Captcha;
 use Muyu\Controllers\Template;
-use Orm\Controllers\Connections\Connection;
 use Validator;
 use Auth;
 
@@ -39,18 +38,6 @@ class AuthController extends Controller
         }
 
         $this->getLoc()->logLogin($this->getUserId(), g_get_ip());
-
-
-
-//        $host = '127.0.0.1';
-//        $port = '6379';
-//        $database = '4';
-//        $password = 'muyuzhouyu1M';
-//        $redis = new Client(compact('host', 'port', 'database', 'password'));
-//
-//        $redis->flushdb();
-//
-//        Connection::create($redis);
     }
 
     public function getUser()

@@ -3,7 +3,7 @@
 namespace App\Console\Schedules;
 
 use App\Http\Logics\FleetEventLogic;
-use App\Models\Event;
+use App\Models\FleetEvent;
 use Illuminate\Console\Command;
 
 class Commander extends Command
@@ -13,7 +13,7 @@ class Commander extends Command
 
     public function handle()
     {
-        $models = Event::commander()->get();
+        $models = FleetEvent::commander()->get();
 
         $loc = new FleetEventLogic();
 

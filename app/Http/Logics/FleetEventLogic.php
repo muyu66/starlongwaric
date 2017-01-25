@@ -4,11 +4,10 @@ namespace App\Http\Logics;
 
 use App\Events\TaskEvent;
 use App\Http\Controllers\StaffController;
-use App\Models\Event;
+use App\Models\FleetEvent;
 use App\Models\EventStandard;
 use App\Models\Fleet;
 use Event as FacadeEvent;
-use Illuminate\Database\Eloquent\Model;
 
 class FleetEventLogic extends Logic
 {
@@ -17,7 +16,7 @@ class FleetEventLogic extends Logic
      *
      * @param int $player_fleet_id 指定玩家，而不随机
      * @param int $event_id 指定事件，而不随机
-     * @return Event
+     * @return FleetEvent
      * @author Zhou Yu
      */
     public function generate($player_fleet_id = 0, $event_id = 0)
@@ -30,7 +29,7 @@ class FleetEventLogic extends Logic
 
         $ctl = new StaffController();
 
-        $model = new Event();
+        $model = new FleetEvent();
         $model->fleet_id = $player_fleet_id ? : $fleet_id;
         $model->standard_id = $event_id ? : rand(1, $event_max_count);
         $model->status = 0;
@@ -40,7 +39,7 @@ class FleetEventLogic extends Logic
         return $model;
     }
 
-    public function resolve(Event $model, $commander_id = 0, $choose, $fleet_id)
+    public function resolve(FleetEvent $model, $commander_id = 0, $choose, $fleet_id)
     {
         $model->commander = $commander_id;
         $model->status = -1;

@@ -2,7 +2,7 @@
 
 use App\Http\Components\Events\Event1;
 use App\Http\Components\Events\Event2;
-use App\Models\Event;
+use App\Models\FleetEvent;
 use App\Http\Logics\FleetEventLogic;
 
 class EventFuncTest extends TestCase
@@ -25,7 +25,7 @@ class EventFuncTest extends TestCase
         $event_id = 1;
         $choose = 1;
 
-        $model = Event::belong(self::UNIT_FLEET_ID)
+        $model = FleetEvent::belong(self::UNIT_FLEET_ID)
             ->where('status', 0)
             ->with('standard')
             ->findOrFail($event_id);
@@ -43,7 +43,7 @@ class EventFuncTest extends TestCase
         $event_id = 2;
         $choose = 1;
 
-        $model = Event::belong(self::UNIT_FLEET_ID)
+        $model = FleetEvent::belong(self::UNIT_FLEET_ID)
             ->where('status', 0)
             ->with('standard')
             ->findOrFail($event_id);

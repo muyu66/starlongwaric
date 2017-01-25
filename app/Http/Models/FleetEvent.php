@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-class Event extends Base
+class FleetEvent extends Base
 {
-    protected $table = 'events';
+    protected $table = 'fleet_events';
 
     protected $hidden = ['created_at', 'standard_id', 'commander'];
 

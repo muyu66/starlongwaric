@@ -12,7 +12,7 @@ class CreateEventsTable extends Migration
      */
     public function up()
     {
-        Schema::create('events', function (Blueprint $table) {
+        Schema::create('fleet_events', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('fleet_id');
@@ -21,6 +21,8 @@ class CreateEventsTable extends Migration
             $table->integer('commander');
 
             $table->timestamps();
+
+            $table->index(['fleet_id', 'status']);
 
             $table->softDeletes();
         });

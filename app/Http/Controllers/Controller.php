@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Logics\AuthLogic;
 use App\Http\Logics\EnemyLogic;
 use App\Http\Logics\EventLogic;
+use App\Http\Logics\FightLogic;
 use App\Http\Logics\FightLogLogic;
 use App\Http\Logics\FleetBodyLogic;
 use App\Http\Logics\FleetConfigLogic;
@@ -57,7 +58,7 @@ abstract class Controller extends BaseController
     /**
      * 返回分发的 Logical
      *
-     * @return FleetEventLogic|PlanetLogic|MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
+     * @return FightLogic|FleetEventLogic|PlanetLogic|MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
      * @author Zhou Yu
      */
     public function loc()

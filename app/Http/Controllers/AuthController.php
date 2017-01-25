@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ApiException;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Muyu\Controllers\Template;
 use Auth;
@@ -50,15 +49,7 @@ class AuthController extends Controller
 
         $this->loc()->check($array);
 
-        $this->create($array);
-    }
-
-    public function create(array $data)
-    {
-        return User::create([
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $this->loc()->create($array);
     }
 
     public function getCode()

@@ -2,12 +2,15 @@
 
 namespace App\Http\Logics;
 
+use App\Events\TaskEvent;
 use App\Http\Controllers\StaffController;
 use App\Models\Event;
 use App\Models\EventStandard;
 use App\Models\Fleet;
+use Event as FacadeEvent;
+use Illuminate\Database\Eloquent\Model;
 
-class EventLogic extends Logic
+class FleetEventLogic extends Logic
 {
     /**
      * 随机生成随机玩家的事件
@@ -35,5 +38,16 @@ class EventLogic extends Logic
         $model->save();
 
         return $model;
+    }
+
+    public function resolve(Event $model, $commander_id = 0, $choose, $fleet_id)
+    {
+        $model->commander = $commander_id;
+        $model->status = -1;
+        $model->save();
+
+        $params['fleet_id'] = $fleet_id;
+
+        FacadeEvent::fire(new TaskEvent($model, $choose, $params));
     }
 }

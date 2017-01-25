@@ -2,11 +2,9 @@
 
 namespace App\Console\Schedules;
 
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\EventController;
+use App\Http\Logics\FleetEventLogic;
 use App\Models\Event;
 use Illuminate\Console\Command;
-use Illuminate\Http\Request;
 
 class Commander extends Command
 {
@@ -17,10 +15,10 @@ class Commander extends Command
     {
         $models = Event::commander()->get();
 
-        $ctl = new EventController();
+        $loc = new FleetEventLogic();
 
         foreach ($models as $model) {
-            $ctl->postResolve(new Request(), $model->id, rand(0, 1), $model->fleet_id);
+            $loc->resolve($model, $model->commander, rand(0, 1), $model->fleet_id);
         }
     }
 }

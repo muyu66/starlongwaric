@@ -8,6 +8,7 @@ use App\Http\Logics\EventLogic;
 use App\Http\Logics\FightLogLogic;
 use App\Http\Logics\FleetBodyLogic;
 use App\Http\Logics\FleetConfigLogic;
+use App\Http\Logics\FleetEventLogic;
 use App\Http\Logics\FleetLogic;
 use App\Http\Logics\FleetPowerLogic;
 use App\Http\Logics\FleetTechLogic;
@@ -56,12 +57,23 @@ abstract class Controller extends BaseController
     /**
      * 返回分发的 Logical
      *
-     * @return PlanetLogic|MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
+     * @return FleetEventLogic|PlanetLogic|MilitaryRankLogic|FriendLogic|FleetTechLogic|FleetPowerLogic|FleetConfigLogic|FleetBodyLogic|FightLogLogic|EventLogic|EnemyLogic|FleetLogic|AuthLogic|Logic
      * @author Zhou Yu
      */
     public function loc()
     {
         return $this->loc;
+    }
+
+    /**
+     * 获取类名 例如 AuthController
+     *
+     * @return mixed
+     * @author Zhou Yu
+     */
+    public static function class()
+    {
+        return g_get_class_name(static::class);
     }
 
     public function setUser($user = null)

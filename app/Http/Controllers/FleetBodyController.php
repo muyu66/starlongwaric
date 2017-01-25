@@ -21,7 +21,6 @@ class FleetBodyController extends Controller implements RestFulChildInterface
     {
         // 组件 ID
         $ids = $request->input('id');
-
         $this->storeAll($ids, FleetBody::class);
 
         $this->loc()->store($this->getFleet(), $ids);

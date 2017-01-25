@@ -3,6 +3,7 @@
 namespace App\Http\Logics;
 
 use App\Models\Config;
+use App\Models\Fleet;
 use App\Models\FleetTech;
 use App\Models\FleetTechTech;
 
@@ -48,5 +49,52 @@ class FleetTechLogic extends Logic
             $body->level = 0;
             $body->save();
         }
+    }
+
+    public function store(Fleet $fleet, $ids, $num = 1)
+    {
+        if (is_string($ids)) {
+            $ids = [$ids];
+        }
+
+        $results = [];
+
+        foreach ($ids as $id) {
+            // 获取现数据
+            $fleet_tech = FleetTech::belong($fleet->id)->findOrFail($id);
+
+            // 获取源数据
+            $fleet_tech_tech = FleetTechTech::where('id', $fleet_tech->tech_id)->firstOrFail();
+
+            if ($fleet_tech->level == Config::getDb('tech_limit')) {
+                $results[] = ['id' => $id, 'update' => 0, 'gold' => 0];
+            } else {
+                // 维修过的健康度数量
+                $amount = 0;
+
+                // 标记 - 玩家是否资金耗尽
+                $gold_is_empty = 0;
+
+                // 标记 - 科技等级是否达到上限
+                $level_is_max = 0;
+
+                $this->update(
+                    $fleet_tech, $fleet, $fleet_tech_tech, $amount,
+                    $gold_is_empty, $level_is_max, $num
+                );
+
+                $fleet->save();
+
+                $fleet_tech->save();
+
+                $results[] = [
+                    'id' => $id, 'update' => $amount,
+                    'gold' => $amount * $fleet_tech_tech->per_fee,
+                    'gold_is_empty' => $gold_is_empty,
+                    'level_is_max' => $level_is_max,
+                ];
+            }
+        }
+        return $results;
     }
 }

@@ -3,7 +3,7 @@
 use App\Http\Components\Events\Event1;
 use App\Http\Components\Events\Event2;
 use App\Models\Event;
-use App\Http\Controllers\EventController;
+use App\Http\Logics\FleetEventLogic;
 
 class EventFuncTest extends TestCase
 {
@@ -15,9 +15,9 @@ class EventFuncTest extends TestCase
 
     public function testGenerate()
     {
-        $ctl = new EventController();
-        $ctl->loc()->generate(self::UNIT_FLEET_ID, 1);
-        $ctl->loc()->generate(self::UNIT_FLEET_ID, 2);
+        $loc = new FleetEventLogic();
+        $loc->generate(self::UNIT_FLEET_ID, 1);
+        $loc->generate(self::UNIT_FLEET_ID, 2);
     }
 
     public function testEvent1()

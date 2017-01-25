@@ -2,96 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Config;
 use App\Models\FleetTech;
-use App\Models\FleetTechTech;
 use Illuminate\Http\Request;
 
 class FleetTechController extends Controller
 {
-    public function index()
+    public function index($fleet_id)
     {
-        return FleetTech::belong($this->getFleetId())->with('tech')->get();
+        return FleetTech::belong($fleet_id)->with('tech')->get();
     }
 
-    /**
-     *
-     *
-     * @param $id
-     * @return mixed
-     * @author Zhou Yu
-     */
-    public function show($id)
+    public function show($fleet_id, $id)
     {
-        return FleetTech::belong($this->getFleetId())->where('id', $id)->firstOrFail();
+        return FleetTech::belong($fleet_id)->findOrFail($id);
     }
 
-    /**
-     * @description 单件升级
-     * @param Request $request
-     * @param null $id
-     * @param int $num
-     * @return array
-     * @author Zhou Yu
-     */
-    public function store(Request $request, $id = null, $num = 1)
+    public function store(Request $request)
     {
-        $fleet_tech_id = $request->input('id') ? : $id;
-        $num = $request->input('num') ? : $num;
-
-        // 获取现数据
-        $fleet_tech = $this->show($fleet_tech_id);
-
-        // 获取源数据
-        $fleet_tech_tech = FleetTechTech::where('id', $fleet_tech->tech_id)->firstOrFail();
-
-        $fleet = $this->getFleet();
-
-        if ($fleet_tech->level == Config::getDb('tech_limit')) {
-            return ['id' => $fleet_tech_id, 'update' => 0, 'gold' => 0];
-        } else {
-            // 维修过的健康度数量
-            $amount = 0;
-
-            // 标记 - 玩家是否资金耗尽
-            $gold_is_empty = 0;
-
-            // 标记 - 科技等级是否达到上限
-            $level_is_max = 0;
-
-            $this->loc()->update(
-                $fleet_tech, $fleet, $fleet_tech_tech, $amount,
-                $gold_is_empty, $level_is_max, $num
-            );
-
-            $fleet->save();
-
-            $fleet_tech->save();
-
-            return [
-                'id' => $fleet_tech_id, 'update' => $amount,
-                'gold' => $amount * $fleet_tech_tech->per_fee,
-                'gold_is_empty' => $gold_is_empty,
-                'level_is_max' => $level_is_max,
-            ];
-        }
-    }
-
-    /**
-     * 全部升级
-     *
-     * @param Request $request
-     * @return array
-     * @author Zhou Yu
-     */
-    public function postAll(Request $request)
-    {
+        $ids = $request->input('id');
         $num = $request->input('num');
-        $result = [];
-        $models = FleetTech::belong($this->getFleetId())->get();
-        foreach ($models as $model) {
-            $result[] = $this->store(new Request(), $model->id, $num);
-        }
-        return $result;
+        $this->storeAll($ids, FleetTech::class);
+
+        $this->loc()->store($this->getFleet(), $ids, $num);
     }
 }

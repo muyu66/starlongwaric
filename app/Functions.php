@@ -133,3 +133,9 @@ function g_get_ip()
 {
     return \Request::server('HTTP_X_FORWARDED_FOR') ? : \Request::getClientIp();
 }
+
+function g_get_class_name($full_path)
+{
+    $full_path = explode('\\', $full_path);
+    return array_pop($full_path);
+}

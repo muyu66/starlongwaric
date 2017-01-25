@@ -2,6 +2,7 @@
 
 namespace App\Http\Logics;
 
+use App\Models\User;
 use App\Orms\UserLog;
 use App\Http\Commons\Redis;
 use Muyu\Controllers\Captcha;
@@ -9,6 +10,14 @@ use Validator;
 
 class AuthLogic extends Logic
 {
+    public function create(array $data)
+    {
+        return User::create([
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+        ]);
+    }
+
     public function check(Array $array)
     {
         $validator = Validator::make($array, [

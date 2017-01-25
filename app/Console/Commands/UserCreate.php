@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Logics\AuthLogic;
 use Illuminate\Console\Command;
 
 class UserCreate extends Command
@@ -12,8 +13,8 @@ class UserCreate extends Command
 
     public function handle()
     {
-        $auth = new AuthController();
-        $auth->create([
+        $loc = new AuthLogic();
+        $loc->create([
             'email' => $this->argument('email'),
             'password' => $this->argument('password'),
         ]);

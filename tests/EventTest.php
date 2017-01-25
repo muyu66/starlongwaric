@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EventController;
+use App\Http\Logics\FleetEventLogic;
 
 class EventTest extends TestCase
 {
@@ -14,8 +14,8 @@ class EventTest extends TestCase
 
     public function testGenerate()
     {
-        $ctl = new EventController();
-        $model = $ctl->loc()->generate(self::UNIT_FLEET_ID);
+        $loc = new FleetEventLogic();
+        $model = $loc->generate(self::UNIT_FLEET_ID);
         $this->seeInDatabase('events', ['id' => $model->id]);
         return $model;
     }

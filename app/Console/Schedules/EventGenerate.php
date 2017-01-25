@@ -2,7 +2,7 @@
 
 namespace App\Console\Schedules;
 
-use App\Http\Controllers\EventController;
+use App\Http\Logics\FleetEventLogic;
 use App\Models\Fleet;
 use Illuminate\Console\Command;
 
@@ -15,9 +15,9 @@ class EventGenerate extends Command
     {
         $amount = $this->argument('amount') ? : Fleet::alive()->count();
 
-        $ctl = new EventController();
+        $loc = new FleetEventLogic();
         foreach (g_yields(rand($amount, $amount * 2)) as $i) {
-            $ctl->loc()->generate();
+            $loc->generate();
         }
     }
 }
